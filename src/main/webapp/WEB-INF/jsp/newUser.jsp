@@ -15,7 +15,7 @@
 				},
 				password : {
 					required : true,
-					minlength: 15,
+					minlength: 8,
 					capitals: true,
 				},
 				confirmPassword : {
@@ -43,6 +43,18 @@
 	<div class="row">
 		<div class="col-sm-4"></div>
 		<div class="col-sm-4">
+			<div class="form-group">
+				<label for="firstName">First Name: </label>
+				<input type="text" id="firstName" name="firstName" placeHolder="First Name" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="lastName">Last Name: </label>
+				<input type="text" id="lastName" name="lastName" placeHolder="Last Name" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="email">Email: </label>
+				<input type="text" id="email" name="email" placeHolder="example@email.com" class="form-control" />
+			</div>
 			<div class="form-group">
 				<label for="userName">User Name: </label>
 				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" />

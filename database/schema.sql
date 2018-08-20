@@ -10,6 +10,9 @@ DROP TABLE IF EXISTS app_user;
 CREATE TABLE app_user (
   id SERIAL PRIMARY KEY,
   user_name varchar(32) NOT NULL UNIQUE,
+  email varchar(64) NOT NULL UNIQUE,
+  first_name varchar(64) NOT NULL,
+  last_name varchar(64) NOT NULL,
   password varchar(32) NOT NULL,
   role varchar(32),
   salt varchar(255) NOT NULL

@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.bouncycastle.util.encoders.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -24,13 +25,17 @@ public class JDBCUserDAO implements UserDAO {
 	}
 	
 	@Override
-	public void saveUser(String userName, String password) {
+	public void saveUser(String userName, String password, String email, String firstName, String lastName) {
 		byte[] salt = hashMaster.generateRandomSalt();
 		String hashedPassword = hashMaster.computeHash(password, salt);
 		String saltString = new String(Base64.encode(salt));
 		
-		jdbcTemplate.update("INSERT INTO app_user(user_name, password, salt) VALUES (?, ?, ?)",
-				userName, hashedPassword, saltString);
+		try {
+		jdbcTemplate.update("INSERT INTO app_user(user_name, password, salt, email, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?)",
+				userName, hashedPassword, saltString, email, firstName, lastName);
+		} catch(DataAccessException e) {
+			
+		}
 	}
 
 	@Override
