@@ -18,4 +18,6 @@ CREATE TABLE app_user (
   salt varchar(255) NOT NULL
 );
 
+
+
 COMMIT;
