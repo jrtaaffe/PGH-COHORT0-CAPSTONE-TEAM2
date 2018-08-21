@@ -3,7 +3,11 @@ package com.techelevator.model;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 public class User {
+	@NotBlank(message = "Please enter a username")
 	private String userName;
 	
 	@Size(min=8, message="Password too short, must be at least 8")
@@ -11,12 +15,25 @@ public class User {
 		@Pattern(regexp=".*[a-z].*", message="Must have a lower case"),
 		@Pattern(regexp=".*[A-Z].*", message="Must have a capital")
 	})
+	
+	@NotBlank(message = "Please enter a password")
 	private String password;
+	
 	private String role;
+	
+	@NotBlank(message = "Please confirm your password")
 	private String confirmPassword;
+	
+	@NotBlank(message = "Please enter a valid email address")
+	@Email(message="Please enter a valid email address")
 	private String email;
+	
+	@NotBlank(message = "Please enter your First Name")
 	private String firstName;
+	
+	@NotBlank(message = "Please enter your Last Name")
 	private String lastName;
+	
 	public String getUserName() {
 		return userName;
 	}
