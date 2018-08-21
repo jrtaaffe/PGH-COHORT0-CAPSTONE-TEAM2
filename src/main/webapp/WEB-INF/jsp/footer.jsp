@@ -1,4 +1,5 @@
 		</div>
+		</div>
 		
 		<footer>
 			Copyright 2016 Critter Inc.
