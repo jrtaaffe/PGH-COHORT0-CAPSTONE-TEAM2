@@ -1,5 +1,8 @@
 package com.techelevator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.bouncycastle.util.encoders.Base64;
@@ -75,6 +78,28 @@ public class JDBCUserDAO implements UserDAO {
 		}
 
 		return thisUser;
+	}
+	
+	@Override
+	public List<String> getAllEmails() {
+		List<String> emails = new ArrayList<String>();
+		String sqlEmailQuery = "SELECT email FROM app_user;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlEmailQuery);
+		while(results.next()) {
+			emails.add(results.getString("email"));
+		}
+		return emails;
+	}
+	
+	@Override
+	public List<String> getAllUsernames() {
+		List<String> usernames = new ArrayList<String>();
+		String sqlUsernameQuery = "SELECT user_name FROM app_user;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUsernameQuery);
+		while(results.next()) {
+			usernames.add(results.getString("user_name"));
+		}
+		return usernames;
 	}
 
 }
