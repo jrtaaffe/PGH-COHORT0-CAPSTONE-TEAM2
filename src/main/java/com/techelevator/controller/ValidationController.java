@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.techelevator.model.Email;
 import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
+import com.techelevator.model.Username;
 
 @RestController
 public class ValidationController {
@@ -40,13 +42,13 @@ public class ValidationController {
 	}
 	
 	@RequestMapping(value = "/validateEmail", method = RequestMethod.POST, produces = "application/json")
-	public boolean checkForDuplicateEmail(@RequestBody User newUser) { 
+	public boolean checkForDuplicateEmail(@RequestBody Email newEmail) { 
 		boolean validEmail = true;
 		System.out.println("/validateEmail");
 
 		List<String> emails = userDao.getAllEmails();
 		for(String email : emails) {
-			if(newUser.getEmail() == email) {
+			if(newEmail.getEmail() == email) {
 				validEmail = false;
 			}
 		}
@@ -55,13 +57,11 @@ public class ValidationController {
 	}
 	
 	@RequestMapping(value = "/validateUsername", method = RequestMethod.POST, produces = "application/json")
-
-	public boolean checkForDuplicateUsername(@RequestBody User newUser) { 
-		System.out.println("begin validation of username");
+	public boolean checkForDuplicateUsername(@RequestBody Username newUsername) { 
 		boolean validUsername = true;
 		List<String> usernames = userDao.getAllUsernames();
 		for(String username : usernames) {
-			if(newUser.getUserName() == username) {
+			if(newUsername.getUsername() == username) {
 				validUsername = false;
 			}
 		}
