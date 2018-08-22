@@ -10,9 +10,6 @@
 		$("form").validate({
 			
 			rules : {
-				userName : {
-					required : true
-				},
 				password : {
 					required : true,
 					minlength: 8,
@@ -45,32 +42,86 @@
 		<div class="col-sm-4">
 			<div class="form-group">
 				<label for="firstName">First Name: </label>
-				<input type="text" id="firstName" name="firstName" placeHolder="First Name" class="form-control" />
+				<input type="text" id="firstName" name="firstName" placeHolder="First Name" class="form-control" required/>
 			</div>
 			<div class="form-group">
 				<label for="lastName">Last Name: </label>
-				<input type="text" id="lastName" name="lastName" placeHolder="Last Name" class="form-control" />
+				<input type="text" id="lastName" name="lastName" placeHolder="Last Name" class="form-control" required/>
 			</div>
 			<div class="form-group">
 				<label for="email">Email: </label>
-				<input type="text" id="email" name="email" placeHolder="example@email.com" class="form-control" />
+				<input type="email"  message="test" id="email" name="email" placeHolder="example@email.com" class="form-control" required/>
 			</div>
 			<div class="form-group">
 				<label for="userName">User Name: </label>
-				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" />
+				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" onBlur="fnCheckDups(this)" required/>
 			</div>
 			<div class="form-group">
 				<label for="password">Password: </label>
-				<input type="password" id="password" name="password" placeHolder="Password" class="form-control" />
+				<input type="password" id="password" name="password" placeHolder="Password" class="form-control" required/>
 			</div>
 			<div class="form-group">
 				<label for="confirmPassword">Confirm Password: </label>
-				<input type="password" id="confirmPassword" name="confirmPassword" placeHolder="Re-Type Password" class="form-control" />	
+				<input type="password" id="confirmPassword" name="confirmPassword" placeHolder="Re-Type Password" class="form-control" required/>	
 			</div>
 			<button type="submit" class="btn btn-default">Create User</button>
 		</div>
 		<div class="col-sm-4"></div>
 	</div>
 </form>
+
+	<script>
+$ = jQuery;
+
+$(document).ready(function (){
+    console.log("Document rdy");
+
+$("#form").submit(function( event ) {
+  console.log( "Handler for .submit() called." );
+  event.preventDefault();
+  var data= {
+	  email:$("#name").val(),
+      username:$("#userName").val()
+ 	 };
+  
+  
+  var data2 = JSON.stringify(data);
+    
+  console.log(data2);
+  $.ajax({
+        url: 'validate',
+        type: 'POST',
+        data: data2,
+        dataType: 'json',
+        contentType:'application/json'
+    });
+
+ //add function on success to print message and clear form 
+  
+});
+
+
+});
+function fnCheckDups(theField){
+	  var testdata = "{\"" + theField.name.toLowerCase() + "\":\"" + theField.value + "\"}";	
+	  var data= {
+			  email:$("#name").val(),
+		      username:$("#userName").val()
+		 	 };
+		  
+		  
+		  var data2 = JSON.stringify(data);
+	  var myResults = $.ajax({
+		  type: "POST",
+		  url: "/capstone/validateUsername",
+		  data: data2
+
+		});
+	  debugger;
+
+}
+	</script>
+
+
 		
 <c:import url="/WEB-INF/jsp/footer.jsp" />

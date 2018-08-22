@@ -23,6 +23,7 @@ public class AuthenticationController {
 
 	@RequestMapping(path="/login", method=RequestMethod.GET)
 	public String displayLoginForm() {
+
 		return "login";
 	}
 	
@@ -31,6 +32,8 @@ public class AuthenticationController {
 						@RequestParam String password, 
 						@RequestParam(required=false) String destination,
 						HttpSession session) {
+		System.out.println("begin validation of username");
+
 		if(userDAO.searchForUsernameAndPassword(userName, password)) {
 			session.setAttribute("currentUser", userDAO.getUserByUserName(userName));
 			

@@ -19,6 +19,8 @@ public class ValidationController {
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST, produces = "application/json")
 	public Map<String, Boolean> checkForDuplicates(@RequestBody User newUser) {
+		System.out.println("/validate");
+
 		Map<String, Boolean> valid = new HashMap<String, Boolean>(); // true indicates that there are no dups
 		valid.put("email", true);
 		valid.put("username", true);
@@ -40,7 +42,8 @@ public class ValidationController {
 	@RequestMapping(value = "/validateEmail", method = RequestMethod.POST, produces = "application/json")
 	public boolean checkForDuplicateEmail(@RequestBody User newUser) { 
 		boolean validEmail = true;
-		
+		System.out.println("/validateEmail");
+
 		List<String> emails = userDao.getAllEmails();
 		for(String email : emails) {
 			if(newUser.getEmail() == email) {
@@ -52,15 +55,18 @@ public class ValidationController {
 	}
 	
 	@RequestMapping(value = "/validateUsername", method = RequestMethod.POST, produces = "application/json")
+
 	public boolean checkForDuplicateUsername(@RequestBody User newUser) { 
+		System.out.println("begin validation of username");
 		boolean validUsername = true;
-		
 		List<String> usernames = userDao.getAllUsernames();
 		for(String username : usernames) {
 			if(newUser.getUserName() == username) {
 				validUsername = false;
 			}
 		}
+		System.out.println("Stage 2 of validation of username");
+
 		return validUsername;
 	
 	}

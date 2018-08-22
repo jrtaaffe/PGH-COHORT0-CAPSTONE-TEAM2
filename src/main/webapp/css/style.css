@@ -37,3 +37,7 @@
 	border-radius:20px;
 	border: 2px solid grey;
 }
+.error {
+	    font: normal 12px arial;
+	    color: red;
+}
