@@ -44,9 +44,13 @@ public class UserController {
 			return "redirect:/users/new";
 		}
 		
-		userDAO.saveUser(user.getUserName(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail());
+		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
+		System.out.println(user.getFirstName() + user.getLastName() + user.getEmail() + user.getUserName() + user.getPassword());
 		return "redirect:/login";
 	}
 	
-	
+	//@RequestMapping(path="/login", method=RequestMethod.POST)
+	//public String login() {
+	//	return "homePage";
+	//}
 }
