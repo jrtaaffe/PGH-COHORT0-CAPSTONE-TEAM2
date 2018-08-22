@@ -50,7 +50,7 @@
 			</div>
 			<div class="form-group">
 				<label for="email">Email: </label>
-				<input type="email"  message="test" id="email" name="email" placeHolder="example@email.com" class="form-control" required/>
+				<input type="email"  id="email" name="email" placeHolder="example@email.com" class="form-control" required/>
 			</div>
 			<div class="form-group">
 				<label for="userName">User Name: </label>
@@ -71,45 +71,14 @@
 </form>
 
 	<script>
-$ = jQuery;
 
-$(document).ready(function (){
-    console.log("Document rdy");
-
-$("#form").submit(function( event ) {
-  console.log( "Handler for .submit() called." );
-  event.preventDefault();
-  var data= {
-	  email:$("#name").val(),
-      username:$("#userName").val()
- 	 };
-  
-  
-  var data2 = JSON.stringify(data);
-    
-  console.log(data2);
-  $.ajax({
-        url: 'validate',
-        type: 'POST',
-        data: data2,
-        dataType: 'json',
-        contentType:'application/json'
-    });
-
- //add function on success to print message and clear form 
-  
-});
-
-
-});
 function fnCheckDups(theField){
 	  var testdata = "{\"" + theField.name.toLowerCase() + "\":\"" + theField.value + "\"}";	
 	  var data= {
 		      username:$("#userName").val()
 		 	 };
 		  
-		  
-		  var data2 = JSON.stringify(data);
+	  var data2 = JSON.stringify(data);
 	  var myResults = $.ajax({
 		  type: "POST",
 		  url: "/capstone/validateUsername",
