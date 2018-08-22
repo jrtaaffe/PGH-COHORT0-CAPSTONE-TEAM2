@@ -36,8 +36,11 @@ public class JDBCUserDAO implements UserDAO {
 		try {
 		jdbcTemplate.update("INSERT INTO app_user(first_name, last_name, email, user_name, password, salt) VALUES (?, ?, ?, ?, ?, ?)",
 				firstName, lastName, email, userName, hashedPassword, saltString);
+
 		} catch(DataAccessException e) {
-			
+			System.out.println(3);
+
+			System.out.println(e);
 		}
 	}
 

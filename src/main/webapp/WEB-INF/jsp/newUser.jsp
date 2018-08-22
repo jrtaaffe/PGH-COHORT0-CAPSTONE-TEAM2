@@ -105,7 +105,6 @@ $("#form").submit(function( event ) {
 function fnCheckDups(theField){
 	  var testdata = "{\"" + theField.name.toLowerCase() + "\":\"" + theField.value + "\"}";	
 	  var data= {
-			  email:$("#name").val(),
 		      username:$("#userName").val()
 		 	 };
 		  
@@ -114,10 +113,11 @@ function fnCheckDups(theField){
 	  var myResults = $.ajax({
 		  type: "POST",
 		  url: "/capstone/validateUsername",
-		  data: data2
-
+		  data: data2,
+		  dataType: 'json',
+		  contentType:'application/json'
 		});
-	  debugger;
+//	  debugger;
 
 }
 	</script>
