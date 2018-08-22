@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import com.techelevator.model.Username;
 @RestController
 public class ValidationController {
 	
+	@Autowired
 	private UserDAO userDao;
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST, produces = "application/json")
@@ -57,11 +59,12 @@ public class ValidationController {
 	}
 	
 	@RequestMapping(value = "/validateUsername", method = RequestMethod.POST, produces = "application/json")
-	public boolean checkForDuplicateUsername(@RequestBody Username newUsername) { 
+	public boolean checkForDuplicateUsername(@RequestBody Username username) { 
+		System.out.println("Stage 1 of validation of username");
 		boolean validUsername = true;
-		List<String> usernames = userDao.getAllUsernames();
-		for(String username : usernames) {
-			if(newUsername.getUsername() == username) {
+		List<String> newUsernames = userDao.getAllUsernames();
+		for(String newUsername : newUsernames) {
+			if(username.equals(newUsername)) {
 				validUsername = false;
 			}
 		}
