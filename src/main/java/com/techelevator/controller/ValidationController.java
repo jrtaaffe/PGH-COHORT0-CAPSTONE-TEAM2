@@ -18,8 +18,12 @@ import com.techelevator.model.Username;
 @RestController
 public class ValidationController {
 	
-	@Autowired
 	private UserDAO userDao;
+	
+	@Autowired
+	public ValidationController(UserDAO UserDAO) {
+		this.userDao = UserDAO;
+	}
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.POST, produces = "application/json")
 	public Map<String, Boolean> checkForDuplicates(@RequestBody User newUser) {
@@ -71,6 +75,7 @@ public class ValidationController {
 		System.out.println("Stage 2 of validation of username");
 
 		return validUsername;
+		
 	
 	}
 }

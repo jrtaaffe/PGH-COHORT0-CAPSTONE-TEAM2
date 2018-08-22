@@ -117,7 +117,7 @@ function fnCheckDups(theField){
 		  dataType: 'json',
 		  contentType:'application/json'
 		});
-	  debugger;
+//	  debugger;
 
 }
 	</script>

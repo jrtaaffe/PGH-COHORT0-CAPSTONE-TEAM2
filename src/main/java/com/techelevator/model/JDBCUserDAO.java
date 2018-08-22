@@ -34,10 +34,15 @@ public class JDBCUserDAO implements UserDAO {
 		String saltString = new String(Base64.encode(salt));
 		
 		try {
+			System.out.println(1);
 		jdbcTemplate.update("INSERT INTO app_user(user_name, password, salt, email, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?)",
 				userName, hashedPassword, saltString, email, firstName, lastName);
+		System.out.println(2);
+
 		} catch(DataAccessException e) {
-			
+			System.out.println(3);
+
+			System.out.println(e);
 		}
 	}
 

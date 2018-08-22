@@ -39,12 +39,14 @@ public class UserController {
 		System.out.println("/users");
 
 		if(result.hasErrors()) {
+			System.out.println("/users2");
 			flash.addFlashAttribute("user", user);
 			flash.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "user", result);
 			return "redirect:/users/new";
 		}
-		
+		System.out.println("/users3");
 		userDAO.saveUser(user.getUserName(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail());
+		System.out.println("/users4");
 		return "redirect:/login";
 	}
 	
