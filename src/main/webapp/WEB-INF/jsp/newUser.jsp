@@ -69,7 +69,7 @@
 		<div class="col-sm-4"></div>
 	</div>
 </form>
-
+${currentUser}
 	<script>
 
 function fnCheckDups(theField){
