@@ -12,4 +12,8 @@ public class Username {
 		this.username = username;
 	}
 	
+	public Username() {
+
+	}
+	
 }
