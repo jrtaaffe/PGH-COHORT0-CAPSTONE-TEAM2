@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,19 +64,22 @@ public class ValidationController {
 	}
 	
 	@RequestMapping(value = "/validateUsername", method = RequestMethod.POST, produces = "application/json")
-	public boolean checkForDuplicateUsername(@RequestBody Username username) { 
+	public boolean checkForDuplicateUsername(@RequestBody Username u) { 
 		System.out.println("Stage 1 of validation of username");
 		boolean validUsername = true;
 		List<String> newUsernames = userDao.getAllUsernames();
 		for(String newUsername : newUsernames) {
-			if(username.equals(newUsername)) {
+			if(u.getUsername().equals(newUsername)) {
 				validUsername = false;
 			}
 		}
 		System.out.println("Stage 2 of validation of username");
 
 		return validUsername;
-		
+	}
 	
+	@RequestMapping(value = "/controllerTest", method = RequestMethod.GET, produces = "application/json")
+	public String testThisController() {
+		return "HEY! IT WORKED!";
 	}
 }
