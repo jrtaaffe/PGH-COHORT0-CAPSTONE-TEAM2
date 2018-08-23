@@ -8,7 +8,7 @@ BEGIN;
 DROP TABLE IF EXISTS app_user, user_game, games, transactions;
 
 CREATE TABLE app_user (
-  user_id SERIAL NOT NULL,
+  --user_id SERIAL NOT NULL,
   user_name varchar(32) NOT NULL UNIQUE,
   email varchar(64) NOT NULL UNIQUE,
   first_name varchar(64) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE app_user (
   role varchar(32),
   salt varchar(255) NOT NULL,
   
-  constraint pk_app_user primary key (user_id)
+  constraint pk_app_user primary key (email)
 );
 
 CREATE TABLE games (
@@ -25,21 +25,21 @@ CREATE TABLE games (
 	name varchar(32) NOT NULL,
 	start_date date NOT NULL,
 	end_date date NOT NULL,
-	admin int NOT NULL,
+	admin varchar(64) NOT NULL,
 	
 	constraint pk_games primary key (game_id),
-	constraint fk_admin foreign key (admin) references app_user (user_id)
+	constraint fk_admin foreign key (admin) references app_user (email)
 );
 
 CREATE TABLE user_game (
 	portfolio_id SERIAL,
-	user_id int,
+	user_email varchar(64),
 	game_id int,
 	wallet_value float,
 	closing_stock_value float,
 	closing_net_worth float,
 	
-	constraint fk_user_id foreign key (user_id) references app_user (user_id),
+	constraint fk_user_id foreign key (user_email) references app_user (email),
 	constraint fk_game_id foreign key (game_id) references games (game_id),
 	constraint pk_user_game primary key (portfolio_id)
 );
