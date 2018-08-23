@@ -70,7 +70,7 @@
 		</div>
 
 		<c:if test="${not empty currentUser}">
-			<p id="currentUser">Current User: ${currentUser}</p>
+			<p id="currentUser">Current User: ${currentUser.getUserName()}</p>
 		</c:if>		
 		<div class="outter_main_container">
 		<div class="inner_main_container">

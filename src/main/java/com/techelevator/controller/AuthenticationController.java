@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
 
 @Controller
@@ -35,14 +36,18 @@ public class AuthenticationController {
 		System.out.println("begin validation of username");
 
 		if(userDAO.searchForUsernameAndPassword(userName, password)) {
+			System.out.println(1);
 			session.setAttribute("currentUser", userDAO.getUserByUserName(userName));
-			
+			User myUser = (User)session.getAttribute("currentUser");			
+			System.out.println(myUser.getUserName());
+			System.out.println(2);
 			if(destination != null && ! destination.isEmpty()) {
 				return "redirect:" + destination;
 			} else {
-				return "redirect:/users/accountHome";//+userName;
+				return "redirect:/users/home";//+userName;
 			}
 		} else {
+			System.out.println("username not found in search");
 			return "redirect:/login";
 		}
 	}

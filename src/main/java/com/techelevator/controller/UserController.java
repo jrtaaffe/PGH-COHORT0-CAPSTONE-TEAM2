@@ -58,7 +58,7 @@ public class UserController {
 	@RequestMapping(path="/users/accountHome", method=RequestMethod.GET)
 	public String accoutHomePage(HttpSession session) {
 		
-		return "homePage";
+		return "home";
 	}
 	
 }
