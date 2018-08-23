@@ -39,6 +39,7 @@ body {
 	border-radius:20px;
 	border: 2px solid grey;
 	max-width: 800px;
+	margin: auto;
 }
 .error {
 	    font: normal 12px arial;

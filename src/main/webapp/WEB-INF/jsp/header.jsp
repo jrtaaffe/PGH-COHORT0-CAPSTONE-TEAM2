@@ -26,7 +26,9 @@
 				
 			});
 			
-			
+			function fnSetTitle(currTitle){
+				document.getElementById("page_title").innerHTML = currTitle;
+			}
 		</script>
 		
 	</head>
@@ -73,4 +75,5 @@
 			<p id="currentUser">Current User: ${currentUser.getUserName()}</p>
 		</c:if>		
 		<div class="outter_main_container">
+		<div id="page_title"></div>
 		<div class="inner_main_container">
