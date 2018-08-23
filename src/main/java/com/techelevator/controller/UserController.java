@@ -55,4 +55,10 @@ public class UserController {
 		return "redirect:/login";
 	}
 	
+	@RequestMapping(path="/users/accountHome", method=RequestMethod.GET)
+	public String accoutHomePage(HttpSession session) {
+		
+		return "homePage";
+	}
+	
 }

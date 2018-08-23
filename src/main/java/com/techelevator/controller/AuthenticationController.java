@@ -40,7 +40,7 @@ public class AuthenticationController {
 			if(destination != null && ! destination.isEmpty()) {
 				return "redirect:" + destination;
 			} else {
-				return "redirect:/users/"+userName;
+				return "redirect:/users/accountHome";//+userName;
 			}
 		} else {
 			return "redirect:/login";
