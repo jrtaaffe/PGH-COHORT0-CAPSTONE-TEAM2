@@ -39,23 +39,17 @@ public class UserController {
 	
 	@RequestMapping(path="/users", method=RequestMethod.POST)
 	public String createUser(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes flash) {
-		System.out.println("/users");
-
 		if(result.hasErrors()) {
-			System.out.println("/users2");
 			flash.addFlashAttribute("user", user);
 			flash.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "user", result);
 			return "redirect:/users/new";
 		}
-
 		
 		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
-		System.out.println(user.getFirstName() + user.getLastName() + user.getEmail() + user.getUserName() + user.getPassword());
-
 		return "redirect:/login";
 	}
 	
-	@RequestMapping(path="/users/accountHome", method=RequestMethod.GET)
+	@RequestMapping(path="/home", method=RequestMethod.GET)
 	public String accoutHomePage(HttpSession session) {
 		
 		return "home";

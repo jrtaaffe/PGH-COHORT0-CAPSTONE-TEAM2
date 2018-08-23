@@ -33,21 +33,15 @@ public class AuthenticationController {
 						@RequestParam String password, 
 						@RequestParam(required=false) String destination,
 						HttpSession session) {
-		System.out.println("begin validation of username");
-
 		if(userDAO.searchForUsernameAndPassword(userName, password)) {
-			System.out.println(1);
 			session.setAttribute("currentUser", userDAO.getUserByUserName(userName));
 			User myUser = (User)session.getAttribute("currentUser");			
-			System.out.println(myUser.getUserName());
-			System.out.println(2);
 			if(destination != null && ! destination.isEmpty()) {
 				return "redirect:" + destination;
 			} else {
 				return "redirect:/users/home";//+userName;
 			}
 		} else {
-			System.out.println("username not found in search");
 			return "redirect:/login";
 		}
 	}
