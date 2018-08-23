@@ -52,8 +52,8 @@ public class UserController {
 		return "redirect:/login";
 	}
 	
-	//@RequestMapping(path="/login", method=RequestMethod.POST)
-	//public String login() {
-	//	return "homePage";
-	//}
+	@RequestMapping(path="/login", method=RequestMethod.POST)
+	public String login() {
+		return "homePage";
+	}
 }
