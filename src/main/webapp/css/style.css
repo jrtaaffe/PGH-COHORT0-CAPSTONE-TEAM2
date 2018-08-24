@@ -34,7 +34,7 @@ body {
 
 .outter_main_container {
 	padding:35px;
-}
+	}
 .inner_main_container {
 	background-color: white;
 	padding:20px;
@@ -61,15 +61,26 @@ hr {
 input {
 	width: 400px;
 }
+.subNavigation{
+	max-width: 800px;
+	margin: auto;
+	border: thin solid blue;
+	height: 45px;
+}
 #page_title{
 	font: bold 22pt Arial;
 	color: white;
 	text-shadow: 1px 1px 2px black, 0 0 25px black, 0 0 5px darkgrey;
 	letter-spacing: 1px;
 	padding:5px;
-	max-width: 800px;
-	margin: auto;
 	text-align: left;
+	float: left;
+}
+.subNavButton{
+	float: right;
+	border: thin solid black;
+	border-radius: 5px;
+	padding: 10px;
 }
 #currentUser {
 	font-size: 14px;

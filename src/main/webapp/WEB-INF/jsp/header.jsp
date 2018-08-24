@@ -37,6 +37,7 @@
 			<c:url var="homePageHref" value="/" />
 			<c:url var="imgSrc" value="/img/logo.png" />
 		</header>
+
 		<div class="header">
 			<img src="/capstone/img/header.png">
 			<div class="nav_row">
@@ -64,9 +65,18 @@
 					</c:choose>
 			</div>
 		</div>
-
 		<c:if test="${not empty currentUser}">
 		</c:if>		
 		<div class="outter_main_container">
-		<div id="page_title"></div>
+
+		<div class="subNavigation">
+		
+		
+<table border="1"><tr>
+<td><div id="page_title"></div></td>
+<td><div class="subNavButton">Create New Game</div></td>
+</tr></table>		
+				
+		
+		</div>
 		<div class="inner_main_container">
