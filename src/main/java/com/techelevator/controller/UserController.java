@@ -1,10 +1,14 @@
 package com.techelevator.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -15,17 +19,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.techelevator.model.GameDAO;
+import com.techelevator.model.Stock;
 import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
+import com.techelevator.model.UserGame;
 
 @Controller
 public class UserController {
 
 	private UserDAO userDAO;
+	
+	private GameDAO gameDAO;
 
 	@Autowired
-	public UserController(UserDAO userDAO) {
+	public UserController(UserDAO userDAO, GameDAO gameDAO) {
 		this.userDAO = userDAO;
+		this.gameDAO = gameDAO;
 	}
 
 	@RequestMapping(path="/users/new", method=RequestMethod.GET)
@@ -50,8 +60,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(path={"/home","/"}, method=RequestMethod.GET)
-	public String accoutHomePage() {
-		
+	public String accoutHomePage(HttpServletRequest request, HttpSession session) {
+		User currentUser = (User) session.getAttribute("currentUser");
+		List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
+		request.setAttribute("games", games);
 		return "home";
 	}
 	
@@ -59,5 +71,13 @@ public class UserController {
 	public String researchPage() {
 		
 		return "research";
+	}
+	
+	@RequestMapping(path="/game", method=RequestMethod.GET)
+	public String gamePage(HttpSession session, HttpServletRequest request) {
+		int portfolioId = (int) request.getAttribute("portfolioId");
+		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
+		request.setAttribute("transactions", transactions);
+		return "userGame";
 	}
 }
