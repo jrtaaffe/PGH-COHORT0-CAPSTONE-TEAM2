@@ -43,14 +43,7 @@
 					<c:url var="homePageHref" value="/" />
 						<div class="nav_button_left"><a href="${homePageHref}">Home</a></div>
 					<c:if test="${not empty currentUser}">
-						<c:url var="dashboardHref" value="/users/${currentUser}" />
-						<div class="nav_button_left"><a href="${dashboardHref}">Private Messages</a></div>
-						<c:url var="newMessageHref" value="/users/${currentUser}/messages/new" />
-						<div class="nav_button_left"><a href="${newMessageHref}">New Message</a></div>
-						<c:url var="sentMessagesHref" value="/users/${currentUser}/messages" />
-						<div class="nav_button_left"><a href="${sentMessagesHref}">Sent Messages</a></div>
-						<c:url var="changePasswordHref" value="/users/${currentUser}/changePassword" />
-						<div class="nav_button_left"><a href="${changePasswordHref}">Change Password</a></div>
+						<div class="nav_button_left"><a href="/capstone/research">Research Stocks</a></div>
 					</c:if>
 
 					<c:choose>
@@ -66,13 +59,13 @@
 							<input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 							</form>
 							<div class="nav_button_right"><a id="logoutLink" href="#">Log Out</a></div>
+							<div class="nav_button_right"><p id="currentUser">LOGGED IN AS: ${currentUser.getFirstName()} ${currentUser.getLastName()}</p></div>
 						</c:otherwise>
 					</c:choose>
 			</div>
 		</div>
 
 		<c:if test="${not empty currentUser}">
-			<p id="currentUser">Current User: ${currentUser.getUserName()}</p>
 		</c:if>		
 		<div class="outter_main_container">
 		<div id="page_title"></div>

@@ -1,6 +1,7 @@
 body {
 	background-color: #f7e7cb;
-	font-style: arial;
+	font-style: helvetica;
+	letter-spacing: 1px;
 }
 .header { 
 	background: black url(/capstone/img/header_bg.png) repeat-x;
@@ -69,4 +70,10 @@ input {
 	max-width: 800px;
 	margin: auto;
 	text-align: left;
+}
+#currentUser {
+	font-size: 14px;
+	font-weight: normal;
+	letter-spacing: 1px;
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif !important;
 }
