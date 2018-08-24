@@ -86,8 +86,11 @@ System.out.println(2);
 	
 	@RequestMapping(path="/account/research", method=RequestMethod.GET)
 	public String researchPage() {
-		
 		return "account/research";
+	}
+	@RequestMapping(path="/account/createNewGame", method=RequestMethod.GET)
+	public String createNewGamePage() {
+		return "account/createGame";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)

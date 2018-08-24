@@ -10,7 +10,7 @@
 	    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.js "></script>
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="/capstone/css/style.css">
+		<link rel="stylesheet" href="/capstone/css/style2.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
 		
 		<script type="text/javascript">
@@ -68,7 +68,7 @@
 		<div class="subNavigation">
 		<table width="100%"><tr>
 			<td><div id="page_title"></div></td>
-			<td><div class="subNavButton">Create New Game</div></td>
+			<td><div class="subNavButton"><a href="createNewGame">Create New Game</a></div><button type="button" class="btn btn-default">Create Game</button></td>
 		</tr></table>		
 		</div>
 
