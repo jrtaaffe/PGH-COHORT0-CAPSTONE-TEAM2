@@ -13,8 +13,8 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-/*
-@WebFilter("/*") //   /user/*
+
+@WebFilter("/account/*") //   /user/*
 public class LoginFilter implements Filter {
 
     @Override
@@ -29,8 +29,11 @@ public class LoginFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("currentUser") == null) {
-        	 request.getRequestDispatcher("login").forward(request, response); // No logged-in user found, so redirect to login page.
+        	System.out.println(4);
+        	 request.getRequestDispatcher("/login").forward(request, response); // No logged-in user found, so redirect to login page.
         } else {
+        	 System.out.println(5);
+
             chain.doFilter(req, res); // Logged-in user found, so just continue request.
         }
     }
@@ -41,4 +44,3 @@ public class LoginFilter implements Filter {
     }
 
 }
-*/

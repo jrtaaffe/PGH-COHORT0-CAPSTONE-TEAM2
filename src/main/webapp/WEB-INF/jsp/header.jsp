@@ -41,10 +41,10 @@
 		<div class="header">
 			<img src="/capstone/img/header.png">
 			<div class="nav_row">
-					<c:url var="homePageHref" value="/" />
+					<c:url var="homePageHref" value="/account/home" />
 						<div class="nav_button_left"><a href="${homePageHref}">Home</a></div>
 					<c:if test="${not empty currentUser}">
-						<div class="nav_button_left"><a href="/capstone/research">Research Stocks</a></div>
+						<div class="nav_button_left"><a href="/capstone/account/research">Research Stocks</a></div>
 					</c:if>
 
 					<c:choose>
@@ -59,7 +59,7 @@
 							<form id="logoutForm" action="${logoutAction}" method="POST">
 							<input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 							</form>
-							<div class="nav_button_right"><a id="logoutLink" href="#">Log Out</a></div>
+							<div class="nav_button_right"><a id="logoutLink" href="/capstone/logout">Log Out</a></div>
 							<div class="nav_button_right"><p id="currentUser">LOGGED IN AS: ${currentUser.getFirstName()} ${currentUser.getLastName()}</p></div>
 						</c:otherwise>
 					</c:choose>

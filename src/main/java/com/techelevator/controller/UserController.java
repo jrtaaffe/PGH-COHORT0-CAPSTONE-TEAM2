@@ -55,36 +55,38 @@ public class UserController {
 			return "redirect:/users/new";
 		}
 		
+		
 		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
 		return "redirect:/login";
 	}
 	
-	@RequestMapping(path={"/home","/"}, method=RequestMethod.GET)
+	@RequestMapping(path={"/account/home"}, method=RequestMethod.GET)
 	public String accoutHomePage(HttpServletRequest request, HttpSession session) {
-
+		System.out.println(1);
 		if(session.getAttribute("currentUser") != null) {
+System.out.println(2);
 			User currentUser = (User) session.getAttribute("currentUser");
 			List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
 			request.setAttribute("games", games);
-			return "home";
+			return "account/home";
 		} else {
+			System.out.println(3);
 			return "newUser";
 		}
-
 	}
 	
-	@RequestMapping(path="/research", method=RequestMethod.GET)
+	@RequestMapping(path="/account/research", method=RequestMethod.GET)
 	public String researchPage() {
 		
-		return "research";
+		return "account/research";
 	}
 	
-	@RequestMapping(path="/game", method=RequestMethod.GET)
+	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
 		int portfolioId = (int) request.getAttribute("portfolioId");
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 		request.setAttribute("transactions", transactions);
-		return "userGame";
+		return "account/userGame";
 	}
 
 }
