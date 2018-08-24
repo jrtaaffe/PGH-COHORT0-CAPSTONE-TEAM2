@@ -38,10 +38,12 @@ public class AuthenticationController {
 			User myUser = (User)session.getAttribute("currentUser");			
 			if(destination != null && ! destination.isEmpty()) {
 				return "redirect:" + destination;
-			} else {
-				return "redirect:/home";//+userName;
 			}
-		} else {
+			else {
+				return "redirect:/home";
+			}
+		}
+		else {
 			return "redirect:/login";
 		}
 	}
