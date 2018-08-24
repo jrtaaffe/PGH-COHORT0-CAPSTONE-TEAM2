@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.techelevator.model.GameDAO;
 import com.techelevator.model.Stock;
+import com.techelevator.model.TempGame;
 import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
 import com.techelevator.model.UserGame;
@@ -57,6 +58,14 @@ public class UserController {
 		
 		
 		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
+		
+		List<TempGame> tempGames = gameDAO.getInvitedGamesByPlayer(user.getEmail());
+		if(!tempGames.isEmpty()) {
+			for(TempGame game: tempGames) {
+				gameDAO.addPlayers(game.getGameId(), game.getEmail());
+			}
+			gameDAO.deleteInvitedPlayers(user.getEmail());
+		}
 		return "redirect:/login";
 	}
 	

@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,13 @@ public class JDBCGameDAO implements GameDAO {
 	
 	private JdbcTemplate jdbcTemplate;
 	
+	private static final long startingMoney = 10000000;
+	
 	@Autowired
 	public JDBCGameDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
+	
 
 	@Override
 	public List<UserGame> getGamesByUser(String email) {
@@ -64,5 +68,54 @@ public class JDBCGameDAO implements GameDAO {
 		myStock.setPurchaseDate(results.getTimestamp("date_time"));
 		return myStock;
 	}
+
+
+	@Override
+	public int createNewGame(String name, Date startDate, Date endDate, String admin) {
+		String sqlInsertGame = "insert into games (name, start_date, end_date, admin) "
+				+ "values (?, ?, ?, ?) returning game_id;";
+		int gameId = jdbcTemplate.update(sqlInsertGame, name, startDate, endDate, admin);
+		return gameId;
+	}
+
+
+	@Override
+	public void addPlayers(int gameId, String email) {
+		String SqlInsertUserGame = "insert into user_game (game_id, user_email, wallet_value) "
+				+ "values (?, ?, ?);";
+		jdbcTemplate.update(SqlInsertUserGame, gameId, email, startingMoney);
+	}
+
+
+	@Override
+	public void addInvitedPlayers(int gameId, String email) {
+		String sqlAddInvitedPlayers = "insert into invited_players (game_id, email) "
+				+ "values (?, ?);";
+		jdbcTemplate.update(sqlAddInvitedPlayers);
+	}
+
+
+	@Override
+	public void deleteInvitedPlayers(String email) {
+		String sqlDeleteTempGames = "delete from invited_players where email = ?";
+		jdbcTemplate.update(sqlDeleteTempGames, email);
+	}
+
+
+	@Override
+	public List<TempGame> getInvitedGamesByPlayer(String email) {
+		List<TempGame> tempGames = new ArrayList<TempGame>();
+		String sqlGetTempGames = "select * from invited_players where email = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetTempGames, email);
+		while(results.next()) {
+			TempGame game = new TempGame();
+			game.setEmail(results.getString("email"));
+			game.setGameId(results.getInt("game_id"));
+			tempGames.add(game);
+		}
+		return tempGames;
+	}
+	
+	
 
 }

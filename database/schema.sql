@@ -5,7 +5,7 @@
 BEGIN;
 
 -- CREATE statements go here
-DROP TABLE IF EXISTS app_user, user_game, games, transactions;
+DROP TABLE IF EXISTS app_user, user_game, games, transactions, invited_players;
 
 CREATE TABLE app_user (
   --user_id SERIAL NOT NULL,
@@ -54,6 +54,13 @@ CREATE TABLE transactions (
 	
 	constraint pk_game_stocks primary key (ticker_symbol),
 	constraint fk_portfolio foreign key (portfolio_id) references user_game (portfolio_id)
+);
+
+CREATE TABLE invited_players (
+	game_id int,
+	email varchar(64),
+	
+	constraint pk_invited_players primary key (game_id, email)
 );
 
 COMMIT;
