@@ -61,10 +61,14 @@ public class UserController {
 	
 	@RequestMapping(path={"/home","/"}, method=RequestMethod.GET)
 	public String accoutHomePage(HttpServletRequest request, HttpSession session) {
-		User currentUser = (User) session.getAttribute("currentUser");
-		List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
-		request.setAttribute("games", games);
-		return "home";
+		if(session.getAttribute("currentUser") != null) {
+			User currentUser = (User) session.getAttribute("currentUser");
+			List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
+			request.setAttribute("games", games);
+			return "home";
+		} else {
+			return "newUser";
+		}
 	}
 	
 	@RequestMapping(path="/research", method=RequestMethod.GET)
