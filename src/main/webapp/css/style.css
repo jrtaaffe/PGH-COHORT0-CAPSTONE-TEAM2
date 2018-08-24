@@ -117,7 +117,21 @@ input {
 	width: 150%;
 	white-space: nowrap;
 }
-
+.section_button{
+	width: 50px !important;
+	border-radius: 5px;
+}
+.add_user{
+	width: 200px !important;
+	border-radius: 5px;
+}
+.add_label{
+	display: relative !important;
+	float: left !important;
+	left: -100px !important;
+	width: 100% !important;
+	margin:0 !important;
+}
 
 
 

@@ -27,8 +27,8 @@
 		<div class="content_col">
 			<div class="content_row">
 				<div class="section_label">Invite Players</div>
-				<span>Email Address:</span><input type="email"  id="email" name="email" placeHolder="example@email.com" class="add_user"/>
-				<input type="button" name="Add" value="add" class="section_button" onlick="fnAddPlayer()">
+				<div class="add_label">Email Address:</div><input type="email"  id="email" name="email" placeHolder="example@email.com" class="add_user"/>
+				<input type="button" name="add" value="Add" class="section_button" onlick="fnAddPlayer()">
 				<input type="hidden"  id="players" name="players" class="form-control" required/>
 			</div>
 			<button type="submit" class="btn btn-default">Create Game</button>
