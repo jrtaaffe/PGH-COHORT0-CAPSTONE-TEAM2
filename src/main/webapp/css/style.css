@@ -105,6 +105,7 @@ input {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+    border: 0;
 }
 .content_row{
     display: block;
@@ -131,7 +132,9 @@ input {
 }
 .add_user{
 	width: 300px !important;
-	border-radius: 5px;
+}
+.add_button{
+	border-radius: 5px !important;
 }
 .add_label{
 	display: relative !important;
@@ -139,10 +142,36 @@ input {
 	left: -100px !important;
 	width: 100% !important;
 	margin:0 !important;
+	font: bold 11pt arial;
+	margin: 5px 0 0 0 !important;
 }
 .add_input input {
 	left: 0;
 	width: 400px;
 }
-
+.submit_button{
+	width:100%;
+	border: 0;
+	text-align: center;
+}
+.section_label{
+	font: bold 14pt arial;
+	width: 100%;
+	text-align: center;
+}
+.admin_name{
+	font-weight: normal !important;
+}
+.remove_button {
+	border-radius: 5px;
+	font: normal 9pt arial;
+	color: grey;
+}
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+  margin: 0 0 0 -20px;
+}
 
