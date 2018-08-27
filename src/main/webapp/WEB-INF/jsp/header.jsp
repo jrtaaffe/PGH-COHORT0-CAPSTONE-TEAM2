@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 
 <!DOCTYPE html>
 <html>
@@ -65,11 +66,20 @@
 						</c:otherwise>
 					</c:choose>
 			</div>
-		</div><c:if test="${not empty currentUser}"></c:if><div class="outter_main_container">
+		</div>
+	<c:set var = "isHomePage" value = "false"/>	
+	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
+	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
+			<c:set var = "isHomePage" value = "true"/>
+	</c:if>
+	
+		<div class="outter_main_container">
 		<div class="subNavigation">
 		<table width="100%"><tr>
 			<td><div id="page_title"></div></td>
-			<td></div><button type="button" class="btn btn-default" href="createGame" action="createGame" method="get">Create Game</button></td>
+			<c:if test="${isHomePage}">
+				<td><button type="button"  method="get" class="btn btn-default" onclick="document.location='createGame'">Create Game</button></td>
+			</c:if>
 		</tr></table>		
 		</div>
 

@@ -25,10 +25,6 @@
 				<label for="end_date">End Date: </label>
 				<input type="date"  id="end_date" name="end_date" class="form-control" required/>
 			</div>
-			<div class="content_row">
-				<label for="admin">Administrator: </label>${currentUser.getFirstName()} ${currentUser.getLastName()} ${currentUser.getEmail()}
-				<input type="hidden" id="admin" name="admin" value="${currentUser.getEmail()}"/>
-			</div>
 		</div>
 		<hr width="100%" noshade>
 		<br><br><div class="section_label">Invite Players</div>
