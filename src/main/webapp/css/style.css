@@ -117,12 +117,20 @@ input {
 	width: 150%;
 	white-space: nowrap;
 }
+.content_row_old table {
+	width: 500px;
+}
 .section_button{
 	width: 50px !important;
 	border-radius: 5px;
 }
+.players {
+	width: 450px;
+	position: relative;
+	left:-150px;
+}
 .add_user{
-	width: 200px !important;
+	width: 300px !important;
 	border-radius: 5px;
 }
 .add_label{
@@ -132,6 +140,9 @@ input {
 	width: 100% !important;
 	margin:0 !important;
 }
-
+.add_input input {
+	left: 0;
+	width: 400px;
+}
 
 
