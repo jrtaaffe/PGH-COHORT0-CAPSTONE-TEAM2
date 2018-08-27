@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -88,9 +89,20 @@ System.out.println(2);
 	public String researchPage() {
 		return "account/research";
 	}
-	@RequestMapping(path="/account/createNewGame", method=RequestMethod.GET)
+	
+	@RequestMapping(path="/account/createGame", method=RequestMethod.GET)
 	public String createNewGamePage() {
 		return "account/createGame";
+	}
+	
+	@RequestMapping(path="/account/createGame", method=RequestMethod.POST)
+	public String saveNewGame(@RequestParam String game_title,
+			@RequestParam Date start_date,
+			@RequestParam Date end_date,
+			@RequestParam String admin) {
+		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
+		gameDAO.addPlayers(gameId, admin);
+		return "redirect:account/home";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)

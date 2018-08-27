@@ -68,7 +68,7 @@
 		<div class="subNavigation">
 		<table width="100%"><tr>
 			<td><div id="page_title"></div></td>
-			<td><div class="subNavButton"><a href="createNewGame">Create New Game</a></div><button type="button" class="btn btn-default">Create Game</button></td>
+			<td><div class="subNavButton"><a href="createGame">Create New Game</a></div><button type="button" class="btn btn-default">Create Game</button></td>
 		</tr></table>		
 		</div>
 
