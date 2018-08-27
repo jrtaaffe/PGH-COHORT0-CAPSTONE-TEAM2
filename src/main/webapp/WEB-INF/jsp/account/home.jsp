@@ -5,9 +5,10 @@
 HOME PAGE
 
 
-${games}
-${currentUser.getEmail()}
-${currentUser.getLastName()}
+<c:forEach items="${games}" var="game">
+	<p>${game.name}</p>
+</c:forEach>
+
 
 <c:import url="/WEB-INF/jsp/footer.jsp" />
 

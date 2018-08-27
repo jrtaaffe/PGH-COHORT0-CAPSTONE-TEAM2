@@ -3,7 +3,7 @@
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("New Game");</script>
 
-<c:url var="formAction" value="/account/createNewGame" />
+<c:url var="formAction" value="/account/createGame" />
 <form method="POST" action="${formAction}" name="new_game_form">
 
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
