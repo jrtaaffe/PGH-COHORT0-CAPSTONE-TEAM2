@@ -3,7 +3,7 @@
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("New Game");</script>
 <c:url var="formAction" value="/account/createNewGame" />
-<form method="POST" action="${formAction}">
+<form method="POST" action="${formAction}" name="new_game_form">
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 		<div class="content_col">
 			<div class="content_row">
@@ -26,13 +26,18 @@
 			<hr width="100%" noshade>
 		<div class="content_col">
 			<div class="content_row">
-				<div class="section_label">Invite Players</div>
-				<div class="add_label">Email Address:</div><input type="email"  id="email" name="email" placeHolder="example@email.com" class="add_user"/>
-				<input type="button" name="add" value="Add" class="section_button" onlick="fnAddPlayer()">
-				<input type="hidden"  id="players" name="players" class="form-control" required/>
+				<table border="0" class="players">
+				<tr>
+					<td colspan="2" align="center" class="section_label">Invite Players&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				</tr>
+					<td class="add_label">Email Address:</td><td class="add_input"><input type="email"  id="invitee_email" name="email" placeHolder="example@email.com" class="add_user"/><button onclick="fnAddEmail()" type="button">Add</button></td>
+				</table>
+				<div id="invitees_div">
+				</div>
 			</div>
 			<button type="submit" class="btn btn-default">Create Game</button>
 		</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input name="invited_players" value="" multiple>
 </form>
 
 
