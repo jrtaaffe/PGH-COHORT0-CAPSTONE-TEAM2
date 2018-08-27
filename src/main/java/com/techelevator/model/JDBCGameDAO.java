@@ -56,7 +56,7 @@ public class JDBCGameDAO implements GameDAO {
 		game.setName(results.getString("name"));
 		game.setStartDate(results.getDate("start_date"));
 		game.setEndDate(results.getDate("end_date"));
-		game.setWalletValue(results.getLong("wallet_id"));
+		game.setWalletValue(results.getFloat("wallet_value"));
 		return game;
 	}
 	
@@ -72,9 +72,11 @@ public class JDBCGameDAO implements GameDAO {
 
 	@Override
 	public int createNewGame(String name, Date startDate, Date endDate, String admin) {
+		int gameId;
 		String sqlInsertGame = "insert into games (name, start_date, end_date, admin) "
 				+ "values (?, ?, ?, ?) returning game_id;";
-		int gameId = jdbcTemplate.update(sqlInsertGame, name, startDate, endDate, admin);
+		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin);
+		gameId = number.intValue();
 		return gameId;
 	}
 

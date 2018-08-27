@@ -2,8 +2,9 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("New Game");</script>
-<c:url var="formAction" value="/account/createNewGame" />
+<c:url var="formAction" value="/account/createGame" />
 <form method="POST" action="${formAction}" name="new_game_form" id="new_game_form">
+
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 		<div class="section_label">Game Details</div>
 		<hr width="100%" noshade>
@@ -13,16 +14,20 @@
 				<input type="hidden" name="admin" value="${currentUser.getEmail()}"/>
 			</div>
 			<div class="content_row">
-				<label for="firstName">Game Title: </label>
+				<label for="game_title">Game Title: </label>
 				<input type="text" id="game_title" name="game_title" placeHolder="Game Title" class="form-control" required/>
 			</div>
 			<div class="content_row">
-				<label for="lastName">Start Date: </label>
+				<label for="start_date">Start Date: </label>
 				<input type="date" id="start_date" name="start_date" class="form-control" required/>
 			</div>
 			<div class="content_row">
 				<label for="end_date">End Date: </label>
 				<input type="date"  id="end_date" name="end_date" class="form-control" required/>
+			</div>
+			<div class="content_row">
+				<label for="admin">Administrator: </label>${currentUser.getFirstName()} ${currentUser.getLastName()} ${currentUser.getEmail()}
+				<input type="hidden" id="admin" name="admin" value="${currentUser.getEmail()}"/>
 			</div>
 		</div>
 		<hr width="100%" noshade>

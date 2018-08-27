@@ -12,7 +12,7 @@ public class UserGame {
 	
 	private Date endDate;
 	
-	private long walletValue;
+	private float walletValue;
 
 	public int getPortfolioId() {
 		return portfolioId;
@@ -46,11 +46,11 @@ public class UserGame {
 		this.endDate = endDate;
 	}
 
-	public long getWalletValue() {
+	public float getWalletValue() {
 		return walletValue;
 	}
 
-	public void setWalletValue(long walletValue) {
+	public void setWalletValue(float walletValue) {
 		this.walletValue = walletValue;
 	}
 	

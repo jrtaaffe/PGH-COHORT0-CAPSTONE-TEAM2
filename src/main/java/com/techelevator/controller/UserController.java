@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,26 +72,33 @@ public class UserController {
 	
 	@RequestMapping(path={"/account/home"}, method=RequestMethod.GET)
 	public String accoutHomePage(HttpServletRequest request, HttpSession session) {
-		System.out.println(1);
-		if(session.getAttribute("currentUser") != null) {
-System.out.println(2);
-			User currentUser = (User) session.getAttribute("currentUser");
-			List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
-			request.setAttribute("games", games);
-			return "account/home";
-		} else {
-			System.out.println(3);
-			return "newUser";
-		}
+		
+		User currentUser = (User) session.getAttribute("currentUser");
+		List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
+		request.setAttribute("games", games);
+		
+		return "account/home";
+	
 	}
 	
 	@RequestMapping(path="/account/research", method=RequestMethod.GET)
 	public String researchPage() {
 		return "account/research";
 	}
-	@RequestMapping(path="/account/createNewGame", method=RequestMethod.GET)
+	
+	@RequestMapping(path="/account/createGame", method=RequestMethod.GET)
 	public String createNewGamePage() {
 		return "account/createGame";
+	}
+	
+	@RequestMapping(path="/account/createGame", method=RequestMethod.POST)
+	public String saveNewGame(@RequestParam String game_title,
+			@RequestParam Date start_date,
+			@RequestParam Date end_date,
+			@RequestParam String admin) {
+		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
+		gameDAO.addPlayers(gameId, admin);
+		return "redirect:home";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
