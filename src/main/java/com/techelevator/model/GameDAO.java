@@ -27,4 +27,6 @@ public interface GameDAO {
 	public void deleteStock(String tickerSymbol);
 	
 	public void updateWalletValue(float walletValue, int portfolioId);
+
+	public int getPortfolioId(String email, int gameId);
 }

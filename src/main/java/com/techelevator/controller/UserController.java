@@ -73,7 +73,6 @@ public class UserController {
 	
 	@RequestMapping(path={"/account/home"}, method=RequestMethod.GET)
 	public String accoutHomePage(HttpServletRequest request, HttpSession session) {
-		
 		User currentUser = (User) session.getAttribute("currentUser");
 		List<UserGame> games = gameDAO.getGamesByUser(currentUser.getEmail());
 		request.setAttribute("games", games);
@@ -87,17 +86,19 @@ public class UserController {
 		return "account/research";
 	}
 	
+
 	@RequestMapping(path="/account/createGame", method=RequestMethod.GET)
 	public String createNewGamePage() {
 		return "account/createGame";
 	}
+	
 	
 	@RequestMapping(path="/account/createGame", method=RequestMethod.POST)
 	public String saveNewGame(@RequestParam String game_title,
 			@RequestParam Date start_date,
 			@RequestParam Date end_date,
 			@RequestParam String admin,
-			@RequestParam String invited_players) {
+			@RequestParam(required=false) String invited_players) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
 		
@@ -115,12 +116,15 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		int portfolioId = (int) request.getAttribute("portfolioId");
+
+		String gameId = request.getParameter("gameId");
+		User user = (User) session.getAttribute("currentUser");
+		String email = user.getEmail();
+		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 		request.setAttribute("transactions", transactions);
 		return "account/userGame";
 	}
 	
 	
-
 }

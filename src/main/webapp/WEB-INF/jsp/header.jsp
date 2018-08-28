@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
 
-			<c:set var = "isHomePage" value = "false"/>	
+	<c:set var = "isHomePage" value = "false"/>	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
 	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
 	
@@ -80,10 +80,10 @@
 	
 		<div class="outter_main_container">
 		<div class="subNavigation">
-		<table width="100%"><tr>
+		<table width="100%" border="0"><tr>
 			<td><div id="page_title"></div></td>
 			<c:if test="${isHomePage}">
-				<td><button type="button"  method="get" class="btn btn-default" onclick="document.location='createGame'">Create Game</button></td>
+				<td align="right"><button type="button"  method="get" class="btn btn-default" onclick="document.location='createGame'">Create Game</button></td>
 			</c:if>
 		</tr></table>		
 		</div>

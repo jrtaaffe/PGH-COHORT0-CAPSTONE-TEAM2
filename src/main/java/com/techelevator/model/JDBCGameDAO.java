@@ -120,7 +120,6 @@ public class JDBCGameDAO implements GameDAO  {
 		return tempGames;
 	}
 
-
 	@Override
 	public void buyInitialStock(int portfolioId, String tickerSymbol, String company, int quantity) {	
 		String buy = "INSERT INTO transactions (portfolio_id, ticker_symbol, company, quantity) "
@@ -152,7 +151,12 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 
 
-
+	public int getPortfolioId(String email, int gameId) {
+		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
+		int portfolioId = results.getInt("portfolio_id");
+		return portfolioId;
+	}
 	
 	
 

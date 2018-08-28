@@ -1,5 +1,8 @@
 package com.techelevator.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.techelevator.model.GameDAO;
+import com.techelevator.model.Stock;
 import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
 
@@ -16,17 +21,22 @@ import com.techelevator.model.UserDAO;
 public class AuthenticationController {
 
 	private UserDAO userDAO;
+	private GameDAO gameDAO;
 
 	@Autowired
-	public AuthenticationController(UserDAO userDAO) {
+	public AuthenticationController(UserDAO userDAO, GameDAO gameDAO) {
 		this.userDAO = userDAO;
-	}
+		this.gameDAO = gameDAO;
+}
+
+
 
 	@RequestMapping(path= {"/login","/"}, method=RequestMethod.GET)
 	public String displayLoginForm() {
 
 		return "login";
 	}
+
 	
 	@RequestMapping(path="/login", method=RequestMethod.POST)
 	public String login(@RequestParam String userName, 
