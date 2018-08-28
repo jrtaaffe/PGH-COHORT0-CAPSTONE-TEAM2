@@ -130,8 +130,8 @@ public class JDBCGameDAO implements GameDAO  {
 
 	
 	public void buyOrSellStock(String tickerSymbol, int quantity, int portfolioId) {
-		String sell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portolio_id = ?;";		
-		jdbcTemplate.update(sell, quantity, tickerSymbol, portfolioId);
+		String buyOrSell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portolio_id = ?;";		
+		jdbcTemplate.update(buyOrSell, quantity, tickerSymbol, portfolioId);
 	}
 
 	
