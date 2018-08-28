@@ -98,20 +98,36 @@ public class UserController {
 			@RequestParam Date start_date,
 			@RequestParam Date end_date,
 			@RequestParam String admin,
-			@RequestParam(required=false) String invited_players) {
+			@RequestParam(required=false) String invited_players,
+			HttpSession session) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
 		
+		User user = (User) session.getAttribute("currentUser");
+		String player = user.getFirstName() + " " + user.getLastName();
+		
 		String [] invitees = invited_players.split(",");
+		List<String> emails = userDAO.getAllEmails();
 		
 		for(int i = 0; i < invitees.length; i++) {
-			gameDAO.addInvitedPlayers(gameId, invitees[i]);
+			boolean isDup = false;
+			for(int j = 0; j < emails.size(); j++) {
+				if(invitees[i].equals(emails.get(j))) {
+					isDup = true;
+				}
+			}
+			if(isDup == false) {
+				gameDAO.addInvitedPlayers(gameId, invitees[i]);
+			} else {
+				gameDAO.addPlayers(gameId, invitees[i]);
+			}
 		}
 		
-		Email email = new Email(invitees);
+		Email email = new Email(invitees, player);
 		email.send();
 		
 		return "redirect:home";
+		
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
