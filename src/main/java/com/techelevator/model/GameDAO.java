@@ -19,4 +19,6 @@ public interface GameDAO {
 	public void deleteInvitedPlayers(String email);
 	
 	public List<TempGame> getInvitedGamesByPlayer(String email);
+	
+	public int getPortfolioId(String email, int gameId);
 }

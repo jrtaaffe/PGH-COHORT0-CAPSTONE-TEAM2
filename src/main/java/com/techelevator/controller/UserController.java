@@ -97,7 +97,7 @@ public class UserController {
 			@RequestParam Date start_date,
 			@RequestParam Date end_date,
 			@RequestParam String admin,
-			@RequestParam String invited_players) {
+			@RequestParam(required=false) String invited_players) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
 		
@@ -115,7 +115,10 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		int portfolioId = (int) request.getAttribute("portfolioId");
+		String gameId = request.getParameter("gameId");
+		User user = (User) session.getAttribute("currentUser");
+		String email = user.getEmail();
+		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 		request.setAttribute("transactions", transactions);
 		return "account/userGame";

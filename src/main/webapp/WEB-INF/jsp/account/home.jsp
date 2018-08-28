@@ -13,7 +13,7 @@
 	</tr>
 	<c:forEach items="${games}" var="game">
 	<tr class="table_row">
-		<td class="table_col1"><a href="${game.gameId}">${game.name}</a></td>
+		<td class="table_col1"><a href="${game.gameId}">${game.name}</a></td> 
 		<td class="table_col2"><fmt:formatDate type = "date" 
          value = "${game.startDate}" /></td>
 		<td class="table_col3"><fmt:formatDate type = "date" 
