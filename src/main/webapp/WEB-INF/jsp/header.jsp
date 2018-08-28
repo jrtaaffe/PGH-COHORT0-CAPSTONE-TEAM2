@@ -1,4 +1,6 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -13,6 +15,14 @@
 	    <script src="/capstone/js/index.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
+
+			<c:set var = "isHomePage" value = "false"/>	
+	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
+	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
+	
+			<c:set var = "isHomePage" value = "true"/>
+
+	</c:if>
 		
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -65,11 +75,16 @@
 						</c:otherwise>
 					</c:choose>
 			</div>
-		</div><c:if test="${not empty currentUser}"></c:if><div class="outter_main_container">
+		</div>
+
+	
+		<div class="outter_main_container">
 		<div class="subNavigation">
 		<table width="100%"><tr>
 			<td><div id="page_title"></div></td>
-			<td><div class="subNavButton"><a href="createGame">Create New Game</a></div><button type="button" class="btn btn-default">Create Game</button></td>
+			<c:if test="${isHomePage}">
+				<td><button type="button"  method="get" class="btn btn-default" onclick="document.location='createGame'">Create Game</button></td>
+			</c:if>
 		</tr></table>		
 		</div>
 
