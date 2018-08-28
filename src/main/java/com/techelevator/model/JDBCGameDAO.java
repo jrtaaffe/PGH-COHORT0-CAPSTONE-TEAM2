@@ -118,6 +118,15 @@ public class JDBCGameDAO implements GameDAO {
 		}
 		return tempGames;
 	}
+
+
+	@Override
+	public int getPortfolioId(String email, int gameId) {
+		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
+		int portfolioId = results.getInt("portfolio_id");
+		return portfolioId;
+	}
 	
 	
 
