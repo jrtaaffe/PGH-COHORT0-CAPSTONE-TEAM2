@@ -1,5 +1,8 @@
 package com.techelevator.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
 
 import org.bouncycastle.util.encoders.Base64;
@@ -25,16 +28,19 @@ public class JDBCUserDAO implements UserDAO {
 	}
 	
 	@Override
-	public void saveUser(String userName, String password, String email, String firstName, String lastName) {
+	public void saveUser(String firstName, String lastName, String email, String userName, String password) {
 		byte[] salt = hashMaster.generateRandomSalt();
 		String hashedPassword = hashMaster.computeHash(password, salt);
 		String saltString = new String(Base64.encode(salt));
 		
 		try {
-		jdbcTemplate.update("INSERT INTO app_user(user_name, password, salt, email, first_name, last_name) VALUES (?, ?, ?, ?, ?, ?)",
-				userName, hashedPassword, saltString, email, firstName, lastName);
+		jdbcTemplate.update("INSERT INTO app_user(first_name, last_name, email, user_name, password, salt) VALUES (?, ?, ?, ?, ?, ?)",
+				firstName, lastName, email, userName, hashedPassword, saltString);
+
 		} catch(DataAccessException e) {
-			
+			System.out.println(3);
+
+			System.out.println(e);
 		}
 	}
 
@@ -72,9 +78,34 @@ public class JDBCUserDAO implements UserDAO {
 			thisUser = new User();
 			thisUser.setUserName(user.getString("user_name"));
 			thisUser.setPassword(user.getString("password"));
+			thisUser.setFirstName(user.getString("first_name"));
+			thisUser.setLastName(user.getString("last_name"));
+			thisUser.setEmail(user.getString("email"));
 		}
 
 		return thisUser;
+	}
+	
+	@Override
+	public List<String> getAllEmails() {
+		List<String> emails = new ArrayList<String>();
+		String sqlEmailQuery = "SELECT email FROM app_user;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlEmailQuery);
+		while(results.next()) {
+			emails.add(results.getString("email"));
+		}
+		return emails;
+	}
+	
+	@Override
+	public List<String> getAllUsernames() {
+		List<String> usernames = new ArrayList<String>();
+		String sqlUsernameQuery = "SELECT user_name FROM app_user;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUsernameQuery);
+		while(results.next()) {
+			usernames.add(results.getString("user_name"));
+		}
+		return usernames;
 	}
 
 }

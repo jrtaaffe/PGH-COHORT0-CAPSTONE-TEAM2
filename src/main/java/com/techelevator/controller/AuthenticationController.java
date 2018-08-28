@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
 
 @Controller
@@ -21,8 +22,9 @@ public class AuthenticationController {
 		this.userDAO = userDAO;
 	}
 
-	@RequestMapping(path="/login", method=RequestMethod.GET)
+	@RequestMapping(path= {"/login","/"}, method=RequestMethod.GET)
 	public String displayLoginForm() {
+
 		return "login";
 	}
 	
@@ -33,18 +35,20 @@ public class AuthenticationController {
 						HttpSession session) {
 		if(userDAO.searchForUsernameAndPassword(userName, password)) {
 			session.setAttribute("currentUser", userDAO.getUserByUserName(userName));
-			
+			User myUser = (User)session.getAttribute("currentUser");			
 			if(destination != null && ! destination.isEmpty()) {
 				return "redirect:" + destination;
-			} else {
-				return "redirect:/users/"+userName;
 			}
-		} else {
+			else {
+				return "redirect:/account/home";
+			}
+		}
+		else {
 			return "redirect:/login";
 		}
 	}
 
-	@RequestMapping(path="/logout", method=RequestMethod.POST)
+	@RequestMapping(path="/logout", method=RequestMethod.GET)
 	public String logout(ModelMap model, HttpSession session) {
 		model.remove("currentUser");
 		session.invalidate();
