@@ -150,7 +150,6 @@ public class JDBCGameDAO implements GameDAO  {
 		jdbcTemplate.update(wallet, walletValue, portfolioId);
 	}
 
-
 	public int getPortfolioId(String email, int gameId) {
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
