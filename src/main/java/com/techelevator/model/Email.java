@@ -8,12 +8,15 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 	
-	private static String USER_NAME = "EquityElevator";  // GMail user name (just the part before "@gmail.com")
+	private static String USER_NAME = "equityelevator";  // GMail user name (just the part before "@gmail.com")
     private static String PASSWORD = "techElevator2"; // GMail password
     private String[] recipient;
+    private static String URL = "equityelevator.duckdns.org";
+    private String player;
     
-    public Email(String[] recipients) {
+    public Email(String[] recipients, String player) {
     		this.recipient = recipients;
+    		this.player = player;
     }
 
     public void send() {
@@ -21,7 +24,9 @@ public class Email {
         String pass = PASSWORD;
         String[] to = recipient; // list of recipient email addresses
         String subject = "Welcome to Equity Elevator";
-        String body = "youve been invited!";
+        String body = "You've been invited to play a Virtual Stock Trading game by " + player + "." 
+        		+ "\n\nPlease click the link below to register with Equity Elevator, and your game will automatically start!\n\n" 
+        		+ URL;
 
         sendFromGMail(from, pass, to, subject, body);
     }

@@ -94,7 +94,7 @@ public class JDBCGameDAO implements GameDAO {
 	public void addInvitedPlayers(int gameId, String email) {
 		String sqlAddInvitedPlayers = "insert into invited_players (game_id, email) "
 				+ "values (?, ?);";
-		jdbcTemplate.update(sqlAddInvitedPlayers);
+		jdbcTemplate.update(sqlAddInvitedPlayers, gameId, email);
 	}
 
 
