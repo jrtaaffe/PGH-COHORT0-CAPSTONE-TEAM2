@@ -29,4 +29,6 @@ public interface GameDAO {
 	public void updateWalletValue(float walletValue, int portfolioId);
 
 	public int getPortfolioId(String email, int gameId);
+
+	public UserGame getGameById(int gameId);
 }
