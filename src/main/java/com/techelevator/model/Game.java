@@ -12,6 +12,16 @@ public class Game {
 	
 	private String adminEmail;
 
+	private int gameId;
+	
+	public int getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(int gameId) {
+		this.gameId = gameId;
+	}
+	
 	public String getName() {
 		return name;
 	}
