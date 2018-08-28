@@ -198,3 +198,24 @@ li {
 	font: bold 12pt arial;
 	color: brown;
 }
+.stock_table{
+	width: 700px;;
+}
+.stock_row{
+}
+add_stock_label{
+	width: 15%;
+}
+.add_stock_cell{
+	width: 15%;
+	text-align: center;
+}
+.add_stock_input{
+	width: 50px !important;
+	left:0 !important;
+}
+.add_stock_button{
+	width: 70%;
+	text-align: left !important;
+	align: left !important;
+}

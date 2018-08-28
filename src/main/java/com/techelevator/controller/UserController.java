@@ -116,15 +116,16 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-
 		String gameId = request.getParameter("gameId");
+		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
+		request.setAttribute("currGame", currGame);
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
-		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
-		request.setAttribute("transactions", transactions);
-		return "account/userGame";
+		if (portfolioId != -1) {
+			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
+			request.setAttribute("transactions", transactions);
+		}
+		return "account/game";
 	}
-	
-	
 }

@@ -38,6 +38,19 @@ public class JDBCGameDAO implements GameDAO {
 		}
 		return myGames;
 	}
+	
+	@Override
+	public UserGame getGameById(int gameId) {
+		UserGame myGame = new UserGame();
+		String sqlGame = "SELECT game_id, name, start_date, end_date "
+				+ "FROM games "
+				+ "WHERE game_id = ?;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGame, gameId);
+		while(results.next()) {
+			myGame = mapRowToGame(results);
+		}
+		return myGame;
+	}
 
 	@Override
 	public Map<Stock, Integer> getTransactionsByUserGame(int portfolioId) {
@@ -58,6 +71,15 @@ public class JDBCGameDAO implements GameDAO {
 		game.setStartDate(results.getDate("start_date"));
 		game.setEndDate(results.getDate("end_date"));
 		game.setWalletValue(results.getFloat("wallet_value"));
+		return game;
+	}
+	
+	private UserGame mapRowToGame(SqlRowSet results) {
+		UserGame game = new UserGame();
+		game.setGameId(results.getInt("game_id"));
+		game.setName(results.getString("name"));
+		game.setStartDate(results.getDate("start_date"));
+		game.setEndDate(results.getDate("end_date"));
 		return game;
 	}
 	
@@ -124,8 +146,13 @@ public class JDBCGameDAO implements GameDAO {
 	public int getPortfolioId(String email, int gameId) {
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
-		int portfolioId = results.getInt("portfolio_id");
-		return portfolioId;
+		if (results.wasNull()) {
+			int portfolioId = results.getInt("portfolio_id");
+			return portfolioId;
+		}
+		else {
+			return -1;
+		}
 	}
 	
 	

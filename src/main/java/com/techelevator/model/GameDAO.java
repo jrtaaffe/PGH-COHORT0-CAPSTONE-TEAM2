@@ -21,4 +21,6 @@ public interface GameDAO {
 	public List<TempGame> getInvitedGamesByPlayer(String email);
 	
 	public int getPortfolioId(String email, int gameId);
+
+	public UserGame getGameById(int gameId);
 }
