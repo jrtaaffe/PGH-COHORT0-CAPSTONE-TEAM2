@@ -97,11 +97,11 @@ public class UserController {
 			@RequestParam Date start_date,
 			@RequestParam Date end_date,
 			@RequestParam String admin,
-			@RequestParam String invitee_email) {
+			@RequestParam String invited_players) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
 		
-		String [] invitees = invitee_email.split(",");
+		String [] invitees = invited_players.split(",");
 		
 		for(int i = 0; i < invitees.length; i++) {
 			gameDAO.addInvitedPlayers(gameId, invitees[i]);
