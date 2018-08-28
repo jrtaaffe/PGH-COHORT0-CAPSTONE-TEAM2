@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JDBCGameDAO implements GameDAO {
+public class JDBCGameDAO implements GameDAO  {
 	
 	private JdbcTemplate jdbcTemplate;
 	
@@ -118,6 +119,40 @@ public class JDBCGameDAO implements GameDAO {
 		}
 		return tempGames;
 	}
+
+
+	@Override
+	public void buyInitialStock(int portfolioId, String tickerSymbol, String company, int quantity) {	
+		String buy = "INSERT INTO transactions (portfolio_id, ticker_symbol, company, quantity) "
+				+ "VALUES (?, ?, ?, ?);";
+		jdbcTemplate.update(buy, portfolioId, tickerSymbol, company, quantity);
+		
+	}
+
+	
+	public void buyOrSellStock(String tickerSymbol, int quantity, int portfolioId) {
+		String sell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portolio_id = ?;";		
+		jdbcTemplate.update(sell, quantity, tickerSymbol, portfolioId);
+	}
+
+	
+	
+	
+	@Override		//to prevent stock with 0 quantity from showing up on User's portfolio. Run when stock is sold.
+	public void deleteStock(String tickerSymbol) { 	
+		String delete = "DELETE FROM transactions WHERE quantity = 0;";
+		jdbcTemplate.update(delete);
+	}
+
+
+	@Override
+	public void updateWalletValue( float walletValue, int portfolioId) {
+		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolioId = ?;";
+		jdbcTemplate.update(wallet, walletValue, portfolioId);
+	}
+
+
+
 	
 	
 

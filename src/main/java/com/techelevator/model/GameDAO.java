@@ -19,4 +19,12 @@ public interface GameDAO {
 	public void deleteInvitedPlayers(String email);
 	
 	public List<TempGame> getInvitedGamesByPlayer(String email);
+	
+	public void buyInitialStock(int portfolioId, String tickerSymbol, String company, int quantity);
+	
+	public void buyOrSellStock(String tickerSymbol, int quantity, int portfolioId);
+	
+	public void deleteStock(String tickerSymbol);
+	
+	public void updateWalletValue(float walletValue, int portfolioId);
 }
