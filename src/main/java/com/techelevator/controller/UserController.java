@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.techelevator.model.Email;
 import com.techelevator.model.GameDAO;
 import com.techelevator.model.Stock;
 import com.techelevator.model.TempGame;
@@ -95,9 +96,20 @@ public class UserController {
 	public String saveNewGame(@RequestParam String game_title,
 			@RequestParam Date start_date,
 			@RequestParam Date end_date,
-			@RequestParam String admin) {
+			@RequestParam String admin,
+			@RequestParam String invited_players) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
+		
+		String [] invitees = invited_players.split(",");
+		
+		for(int i = 0; i < invitees.length; i++) {
+			gameDAO.addInvitedPlayers(gameId, invitees[i]);
+		}
+		
+		Email email = new Email(invitees);
+		email.send();
+		
 		return "redirect:home";
 	}
 	
@@ -108,5 +120,7 @@ public class UserController {
 		request.setAttribute("transactions", transactions);
 		return "account/userGame";
 	}
+	
+	
 
 }

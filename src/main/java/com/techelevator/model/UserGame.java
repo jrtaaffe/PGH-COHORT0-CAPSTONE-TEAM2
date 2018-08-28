@@ -6,6 +6,8 @@ public class UserGame {
 	
 	private int portfolioId;
 	
+	private int gameId;
+	
 	private String name;
 	
 	private Date startDate;
@@ -20,6 +22,14 @@ public class UserGame {
 
 	public void setPortfolioId(int portfolioId) {
 		this.portfolioId = portfolioId;
+	}
+	
+	public int getGameId() {
+		return gameId;
+	}
+	
+	public void setGameId(int gameId) {
+		this.gameId = gameId;
 	}
 
 	public String getName() {
