@@ -176,8 +176,25 @@ li {
 }
 .games_table{
 	padding: 5px;
+	width: 100%;
 }
 .table_row{
-	}
-.table_col{
-	}
+	padding: 5px;
+	border-bottom: thin solid grey;
+}
+.table_col1{
+	padding: 5px;
+	width: 50%;
+}
+.table_col2{
+	padding: 5px;
+	width: 25%;
+}
+.table_col3{
+	padding: 5px;
+	width: 25%;
+}
+.table_header{
+	font: bold 12pt arial;
+	color: brown;
+}

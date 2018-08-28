@@ -6,17 +6,17 @@
 <script>fnSetTitle("Current Games");</script>
 
 <table class="games_table">
-	<tr>
-		<td class="table_col">Title</td>
-		<td class="table_col">Start Date</td>
-		<td class="table_col">End Date</td>
+	<tr class="table_row">
+		<td class="table_header">Title</td>
+		<td class="table_header">Start Date</td>
+		<td class="table_header">End Date</td>
 	</tr>
 	<c:forEach items="${games}" var="game">
-	<tr>
-		<td class="table_col">${game.name}</td>
-		<td class="table_col"><fmt:formatDate type = "date" 
+	<tr class="table_row">
+		<td class="table_col1"><a href="">${game.name}</a></td>
+		<td class="table_col2"><fmt:formatDate type = "date" 
          value = "${game.startDate}" /></td>
-		<td class="table_col"><fmt:formatDate type = "date" 
+		<td class="table_col3"><fmt:formatDate type = "date" 
          value = "${game.endDate}" /></td>
 	</tr>
 	</c:forEach>	
