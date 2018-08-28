@@ -1,5 +1,6 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,6 +15,14 @@
 	    <script src="/capstone/js/index.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
+
+			<c:set var = "isHomePage" value = "false"/>	
+	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
+	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
+	
+			<c:set var = "isHomePage" value = "true"/>
+
+	</c:if>
 		
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -67,11 +76,7 @@
 					</c:choose>
 			</div>
 		</div>
-	<c:set var = "isHomePage" value = "false"/>	
-	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
-	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
-			<c:set var = "isHomePage" value = "true"/>
-	</c:if>
+
 	
 		<div class="outter_main_container">
 		<div class="subNavigation">
