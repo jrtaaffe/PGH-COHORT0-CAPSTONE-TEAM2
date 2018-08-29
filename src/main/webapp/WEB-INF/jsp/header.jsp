@@ -32,15 +32,26 @@
 				var pathname = window.location.pathname;
 				$("nav a[href='"+pathname+"']").parent().addClass("active");
 				
-//				var 
-
-				//transactions_div
-				
+				var symbols= [];
+				var qtys = [];
+				<c:set var = "index" value ="0" />
+				<c:forEach items="${transactions}" var="stockSymbol">
+					symbols[${index}] = "${stockSymbol.getKey()}";
+					qtys[${index}] = "${stockSymbol.getValue()}";
+					<c:set var="index" value="${index + 1}"/>
+				</c:forEach>	
+				myStocksLookup(symbols, qtys);
 			});
 			
 			function fnSetTitle(currTitle){
 				document.getElementById("page_title").innerHTML = currTitle;
 			}
+			async function myStocksLookup (theSymbols, qtys) {
+				var nameLookup = await $.getJSON('https://www.worldtradingdata.com/api/v1/stock?symbol=' + theSymbols + '&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS', function(myData) {
+					fnLoadTransactions(myData.data, qtys);
+				});
+			}
+
 			async function stockLookup (theSymbol) {
 				var nameLookup = await $.getJSON('https://www.worldtradingdata.com/api/v1/stock?symbol=' + theSymbol + '&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS', function(myData) {
 					fnLoadStockLookupInfo(myData.data[0]);

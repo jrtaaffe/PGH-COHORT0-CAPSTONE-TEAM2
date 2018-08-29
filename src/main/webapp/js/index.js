@@ -53,7 +53,7 @@ function fnBuyStock(theAction){
 	f.submit();
 }
 
-function fnLoadTransactions(arr){
+function fnLoadTransactions(arr, qty){
 	var htmlStr = "<table class=\"stocks_table\">" +
 	"<tr class=\"table_row\">" +
 	"<td class=\"stock_header\">Symbol</td>" +
@@ -63,22 +63,26 @@ function fnLoadTransactions(arr){
 	"<td class=\"stock_header\">Daily Hi</td>" +
 	"<td class=\"stock_header\">Daily Lo</td>" +
 	"<td class=\"stock_header\">+/-</td>" +
+	"<td class=\"stock_header\">Qty</td>" +
 	"<td class=\"stock_header\"></td>" +
 	"</tr>";
 	
 	for (x in arr){
 		htmlStr +="<tr class=\"table_row\">" +
-		"<td class=\"table_col\" id=\"symbol\"></td>" +
-		"<td class=\"table_col\" id=\"name\"></td>" +
-		"<td class=\"table_col\" id=\"price\"></td>" +
-		"<td class=\"table_col\" id=\"open\"></td>" +
-		"<td class=\"table_col\" id=\"daily_hi\"></td>" +
-		"<td class=\"table_col\" id=\"daily_lo\"></td>" +
-		"<td class=\"table_col\" id=\"plus_minus\"></td>" +
-		"<td class=\"table_col\" id=\"buy_sell\"></td>" +
+		"<td class=\"table_col\" id=\"symbol\">" + arr[x].symbol + "</td>" +
+		"<td class=\"table_col\" id=\"name\">" + arr[x].name + "</td>" +
+		"<td class=\"table_col\" id=\"price\">" + arr[x].price + "</td>" +
+		"<td class=\"table_col\" id=\"open\">" + arr[x].price_open + "</td>" +
+		"<td class=\"table_col\" id=\"daily_hi\">" + arr[x].day_high + "</td>" +
+		"<td class=\"table_col\" id=\"daily_lo\">" + arr[x].day_low + "</td>" +
+		"<td class=\"table_col\" id=\"plus_minus\">" + arr[x].day_change + "</td>" +
+		"<td class=\"table_col\" id=\"qty\">" + qty[x] + "</td>" +
+		"<td class=\"table_col\" id=\"buy_sell\"> buy | sell </td>" +
 		"</tr>";
 	}
 	htmlStr += "</table>";
+	console.log(htmlStr);
+	$('#transactions_div').html(htmlStr);
 }
 
 
