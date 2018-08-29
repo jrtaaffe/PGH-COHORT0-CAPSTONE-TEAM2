@@ -71,15 +71,20 @@
 <div class="inner_main_container">
 <div id="stocks">
 <br>
-
-
+<div id="transactions_div"></div>
 <!-- ############### TRANSACTIONS TABLE HERE ############ -->
+
+				<c:forEach items="${transactions}" var="stockSymbol">
+				${stockSymbol.}
+				</c:forEach>	
+
 
 </div>
 
 
 <input type="hidden" name="action">
 <input type="hidden" name="portfolioId" value="${portfolioId}">
+<input type="hidden" name="gameId" value="${currGame.gameId}">
 <input type="hidden" name="tickerSymbol">
 <input type="hidden" name="quantity">
 <input type="hidden" name="price">

@@ -33,8 +33,6 @@
 				$("nav a[href='"+pathname+"']").parent().addClass("active");
 				
 //				var 
-				<c:forEach items="${transactions}" var="stockSymbol">
-				</c:forEach>	
 
 				//transactions_div
 				
