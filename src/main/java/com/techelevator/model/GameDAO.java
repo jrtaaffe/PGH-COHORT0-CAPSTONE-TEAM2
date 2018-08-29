@@ -8,7 +8,7 @@ public interface GameDAO {
 	
 	public List<UserGame> getGamesByUser(String email);
 	
-	public Map<Stock, Integer> getTransactionsByUserGame(int portfolioId);
+	public Map<String, Integer> getTransactionsByUserGame(int portfolioId);
 	
 	public int createNewGame(String name, Date startDate, Date endDate, String admin);
 	

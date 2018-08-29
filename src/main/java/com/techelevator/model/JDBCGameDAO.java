@@ -56,14 +56,14 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 
 	@Override
-	public Map<Stock, Integer> getTransactionsByUserGame(int portfolioId) {
-		Map<Stock, Integer> transactions = new HashMap<Stock, Integer>();
+	public Map<String, Integer> getTransactionsByUserGame(int portfolioId) {
+		Map<String, Integer> transactions = new HashMap<String, Integer>();
 		String sqlTransactions = "select * from transactions where portfolio_id = ?"; 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlTransactions, portfolioId);
 		while(results.next()) {
-			transactions.put(mapRowToStock(results), results.getInt("portfolio_id"));
+			transactions.put(results.getString("ticker_symbol"), results.getInt("quantity"));
 		}
-		return null;
+		return transactions;
 	}
 	
 	private UserGame mapRowToUserGame(SqlRowSet results) {
