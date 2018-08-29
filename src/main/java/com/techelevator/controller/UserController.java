@@ -251,6 +251,9 @@ public class UserController {
 		if (portfolioId != -1) {
 			Map<String, Integer> newTransactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", newTransactions);
+			List keys = new ArrayList(transactions.keySet());
+			Collections.sort(keys);
+			request.setAttribute("stock_symbols_sorted", keys);
 		}
 		request.setAttribute("portfolioId", portfolioId);
 		System.out.println("complete");
