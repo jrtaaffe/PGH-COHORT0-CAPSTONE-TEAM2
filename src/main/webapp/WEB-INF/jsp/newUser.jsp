@@ -8,7 +8,9 @@
 			return thing.match(/[A-Z]/);
 		});
 		$("form").validate({
-			
+			onfocus: false,
+			onkeyup: false,
+			onclick:false,
 			rules : {
 				password : {
 					required : true,
