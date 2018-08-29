@@ -133,13 +133,21 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		String gameId = request.getParameter("gameId");
-		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
+		System.out.println(request.getAttribute("gameId"));
+		System.out.println(request.getParameter("gameId"));
+		if(request.getParameter("gameId") != null) {
+			request.setAttribute("gameId", request.getParameter("gameId"));
+		}
+		int gameId = Integer.parseInt((String)request.getAttribute("gameId"));
+		System.out.println("game id");
+		System.out.println(gameId);
+		
+		UserGame currGame = gameDAO.getGameById(gameId);
 		request.setAttribute("currGame", currGame);
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
-		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
-System.out.println("get p id");
+		int portfolioId = gameDAO.getPortfolioId(email, gameId);
+
 		System.out.println(portfolioId);
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", walletValue);
@@ -149,6 +157,7 @@ System.out.println("get p id");
 			request.setAttribute("transactions", transactions);
 		}
 		request.setAttribute("portfolioId", portfolioId);
+		System.out.println("complete");
 		return "account/game";
 	}
 	
@@ -163,13 +172,12 @@ System.out.println("get p id");
 		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
 		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
 		System.out.println(3);
+		request.setAttribute("gameId", request.getParameter("gameId"));
+		System.out.println(request.getParameter("gameId"));
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
 		System.out.println(4);
-		System.out.println(portfolioId);
-		System.out.println(transactions);
-
 		
 		if(action.equals("B")) {		// if they want to buy
 			System.out.println(5);	
