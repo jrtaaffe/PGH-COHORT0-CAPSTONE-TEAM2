@@ -34,4 +34,11 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/webapp/js/stocks.js</name>
+			<type>1</type>
+			<location>/Users/jonathantaaffe/Downloads/stocks.js-master/dist/stocks.js</location>
+		</link>
+	</linkedResources>
 </projectDescription>

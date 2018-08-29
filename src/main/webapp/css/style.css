@@ -219,3 +219,13 @@ add_stock_label{
 	text-align: left !important;
 	align: left !important;
 }
+#symbolLookup{
+	display: none;	
+}
+.stock_header{
+	font: bold 10pt arial;
+	color: brown;
+}
+#qty_field{
+	width:40px !important;
+}

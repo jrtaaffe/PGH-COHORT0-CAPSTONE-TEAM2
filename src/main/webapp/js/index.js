@@ -42,3 +42,17 @@ function fnLoadEmails(){
 	if (arr[0] =="") myList.innerHTML = ""
 	else myList.innerHTML = display_list;
 }
+
+function fnBuyStock(theAction){
+	f = document.forms['update_game_form'];
+	f.action.value = theAction;
+	f.portfolio_id.value = ${portfolioId};
+	f.ticker_symbol.value = $('#symbol').html();
+	f.quantity.value = f.qty_field.value;
+	var price = $('#price').html();
+	f.value_of_stock.value = f.qty_field.value * 100 * price;
+	f.submit();
+}
+
+
+

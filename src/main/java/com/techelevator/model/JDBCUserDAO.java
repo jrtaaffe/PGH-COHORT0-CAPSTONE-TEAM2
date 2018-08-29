@@ -38,7 +38,6 @@ public class JDBCUserDAO implements UserDAO {
 				firstName, lastName, email, userName, hashedPassword, saltString);
 
 		} catch(DataAccessException e) {
-			System.out.println(3);
 
 			System.out.println(e);
 		}

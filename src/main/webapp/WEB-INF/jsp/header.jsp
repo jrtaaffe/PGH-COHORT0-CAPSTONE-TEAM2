@@ -13,9 +13,10 @@
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	    <script src="/capstone/js/index.js"></script>
+	    <script src="/capstone/js/stocks.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
-
+ 	${response.addHeader("Access-Control-Allow-Origin", "*")}
 	<c:set var = "isHomePage" value = "false"/>	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
 	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
@@ -40,6 +41,38 @@
 			function fnSetTitle(currTitle){
 				document.getElementById("page_title").innerHTML = currTitle;
 			}
+			async function stockLookup (theSymbol) {
+				var nameLookup = await $.getJSON('https://www.worldtradingdata.com/api/v1/stock?symbol=' + theSymbol + '&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS', function(myData) {
+					fnLoadStockLookupInfo(myData.data[0]);
+				});
+			}
+			function fnLoadStockLookupInfo(arr){
+				x = document.getElementById("symbolLookup");
+				$('#symbol').html(arr.symbol);
+				$('#name').html(arr.name);
+				$('#price').html(arr.price);
+				$('#open').html(arr.price_open);
+				$('#daily_hi').html(arr.day_high);
+				$('#daily_lo').html(arr.day_low);
+				$('#plus_minus').html(arr.day_change);
+//				$('#yesterday').html(arr.close_yesterday);
+//				$('#last_trade').html(arr.last_trade_time);
+				if(  $("#symbolLookup").is(":visible") == false ) $('#symbolLookup').toggle();
+			}
+//			var stocks = new Stocks('KAQIBLFMPA162371'); // Replace with your own
+			// Let's get the stock data of Tesla Inc for the last 10 minutes
+//			async function request (theSymbol) {
+//			  var result = await stocks.timeSeries({
+//			    symbol: theSymbol,
+//			    interval: 'monthly',
+//				start: new Date('2018-08-01'),
+//				end: new Date('2018-08-28')
+//			  });
+//				document.getElementById("test").innerHTML += JSON.stringify(result);
+//				document.getElementById("test").innerHTML += "<br><br>"+ JSON.stringify(result[0].open);
+//			}
+
+				
 		</script>
 		
 	</head>
@@ -89,6 +122,5 @@
 		</div>
 
 				
-		
 
 		<div class="inner_main_container">

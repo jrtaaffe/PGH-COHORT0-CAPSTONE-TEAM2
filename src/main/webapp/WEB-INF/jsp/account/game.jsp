@@ -5,7 +5,7 @@
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("Game Details");</script>
 ${transactions}
-<c:url var="formAction" value="/account/updategame" />
+<c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
@@ -13,10 +13,11 @@ ${transactions}
 	<tr class="table_row">
 		<td class="table_header">Title</td>
 		<td class="table_header">Start Date</td>
-		<td class="table_header">End Date</td>
+		<td class="table_header">End Date2</td>
 	</tr>
 	<tr class="table_row">
 		<td class="table_col1">${currGame.name}</td>
+
 
 		<td class="table_col2"><fmt:formatDate type = "date" 
          value = "${currGame.startDate}" /></td>
@@ -24,53 +25,87 @@ ${transactions}
          value = "${currGame.endDate}" /></td>
 	</tr>
 </table>
-
 <br>
 <br>
 <table class="stock_table">
 <tr class="stock_row">
 	<td class="add_stock_label">Stock Symbol:</td>
 	<td class="add_stock_cell"><input type="text"  id="stock_symbol" name="stock_symbol" class="add_stock_input"/></td>
-	<td class="add_stock_button">&nbsp;<button onclick="fnAddSymbol()" type="button" class="add_button">Add</button></td>
+	<td class="add_stock_button">&nbsp;<button onclick="stockLookup(document.forms['update_game_form'].stock_symbol.value)" type="button" class="add_button">Lookup</button></td>
 </tr>
 </table>
+<div id="symbolLookup">
+<br>
+<table class="games_table">
+	<tr class="table_row">
+		<td class="stock_header">Symbol</td>
+		<td class="stock_header">Name</td>
+		<td class="stock_header">Price</td>
+		<td class="stock_header">Open</td>
+		<td class="stock_header">Daily Hi</td>
+		<td class="stock_header">Daily Lo</td>
+		<td class="stock_header">+/-</td>
+		<td class="stock_header">Qty</td>		
+	</tr>
+	<tr class="table_row">
+		<td class="table_col" id="symbol"></td>
+		<td class="table_col" id="name"></td>
+		<td class="table_col" id="price"></td>
+		<td class="table_col" id="open"></td>
+		<td class="table_col" id="daily_hi"></td>
+		<td class="table_col" id="daily_lo"></td>
+		<td class="table_col" id="plus_minus"></td>
+		<td class="table_col" id="qty"><input type="text" id="qty_field"><button onclick="fnBuyStock('B')">BUY</button></td>
+	</tr>
+</table>
+
+</div>
+
+
+</div><!-- end of inner container div -->
+</div><!-- end of outter container div -->
 
 
 
+<div class="outter_main_container">
+<div class="inner_main_container">
+<div id="stocks">
+<br>
+<table class="stocks_table">
+	<tr class="table_row">
+		<td class="stock_header">Symbol</td>
+		<td class="stock_header">Name</td>
+		<td class="stock_header">Price</td>
+		<td class="stock_header">Open</td>
+		<td class="stock_header">Daily Hi</td>
+		<td class="stock_header">Daily Lo</td>
+		<td class="stock_header">+/-</td>
+		<td class="stock_header"></td>		
+	</tr>
+	<tr class="table_row">
+		<td class="table_col" id="symbol"></td>
+		<td class="table_col" id="name"></td>
+		<td class="table_col" id="price"></td>
+		<td class="table_col" id="open"></td>
+		<td class="table_col" id="daily_hi"></td>
+		<td class="table_col" id="daily_lo"></td>
+		<td class="table_col" id="plus_minus"></td>
+		<td class="table_col" id="buy_sell"></td>
+	</tr>
+</table>
+
+</div>
+
+
+<input type="hidden" name="action">
+<input type="hidden" name="portfolio_id">
+<input type="hidden" name="ticker_symbol">
+<input type="hidden" name="quantity">
+<input type="hidden" name="value_of_stock">
 
 </form>
 
-<script>
-
-var Api =  function() {    
-    
-    var url = 'https://query.yahooapis.com/v1/public/yql';
-    var query = 'env "store://datatables.org/alltableswithkeys"; select * from yahoo.finance.historicaldata where symbol = "AAPL" and startDate = "2018-08-28" and endDate = "2018-08-28"';
-    var def = new $.Deferred(); 
-
-    this.getData = function() {
-        $.ajax({
-            'url': url,
-            'data': {
-                'q': query,
-                'format': 'json',
-                'jsonCompat': 'new',
-            },
-            'dataType': 'jsonp',
-            'success': function(response) {
-                def.resolve(response);
-            },
-        });
-        return def.promise();
-    };
-}
-console.log(Api);
-
-</script>
-
-
-
-
+<!-- portfolio_id, action, ticker_symbol, quantity, value_of_stock (qty * price * 100) -->
 
 <c:import url="/WEB-INF/jsp/footer.jsp" />
 
