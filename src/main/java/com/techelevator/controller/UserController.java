@@ -162,7 +162,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
-	public String transactionPost(HttpServletRequest request) {
+	public String transactionPost(HttpServletRequest request, HttpSession session) {
 		System.out.println(1);
 		System.out.println(request.getParameter("portfolioId"));
 		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
@@ -172,8 +172,8 @@ public class UserController {
 		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
 		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
 		System.out.println(3);
-		request.setAttribute("gameId", request.getParameter("gameId"));
-		System.out.println(request.getParameter("gameId"));
+		
+		int gameId = Integer.parseInt(request.getParameter("gameId"));
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
@@ -234,6 +234,21 @@ public class UserController {
 			}
 		}
 		
-		return "redirect:game";
+		UserGame currGame = gameDAO.getGameById(gameId);
+		request.setAttribute("currGame", currGame);
+		
+		
+
+		System.out.println(portfolioId);
+		float newWalletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
+		request.setAttribute("walletValue", newWalletValue);
+
+		if (portfolioId != -1) {
+			Map<String, Integer> newTransactions = gameDAO.getTransactionsByUserGame(portfolioId);
+			request.setAttribute("transactions", newTransactions);
+		}
+		request.setAttribute("portfolioId", portfolioId);
+		System.out.println("complete");
+		return "account/game";
 	}
 }
