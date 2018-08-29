@@ -145,7 +145,7 @@ System.out.println("get p id");
 		request.setAttribute("walletValue", walletValue);
 
 		if (portfolioId != -1) {
-			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
+			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
 		}
 		request.setAttribute("portfolioId", portfolioId);
@@ -165,20 +165,21 @@ System.out.println("get p id");
 		System.out.println(3);
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
-		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
 		System.out.println(4);
+		System.out.println(portfolioId);
+		System.out.println(transactions);
 
 		
 		if(action.equals("B")) {		// if they want to buy
-			System.out.println(5);
-
+			System.out.println(5);	
 			boolean exists = false;
 			int newQuantity = 0;
-			if (transactions != null) {
-				for(Entry<Stock, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
+			if (!transactions.isEmpty() && transactions != null) {
+				for(Entry<String, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
 					System.out.println(6);
 
-					if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) {	//if the stock they want to buy matches a stock they own
+					if(tickerSymbol.equals(entry.getKey())) {	//if the stock they want to buy matches a stock they own
 						System.out.println(7);
 
 						exists = true;
@@ -204,8 +205,8 @@ System.out.println("get p id");
 		} else if(action.equals("S")) {		//if they want to sell
 			boolean exists = false;		//do you own this stock?
 			int newQuantity = -1;
-			for(Entry<Stock, Integer> entry : transactions.entrySet()) { //loop over stocks owned
-				if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) { //if they do own the stock they want to buy
+			for(Entry<String, Integer> entry : transactions.entrySet()) { //loop over stocks owned
+				if(tickerSymbol.equals(entry.getKey())) { //if they do own the stock they want to buy
 					exists = true;
 					if(entry.getValue() >= quantity) {		//if they own more or equal to the amount the want to sell
 						newQuantity = entry.getValue() - quantity; //quantity they will own after sale

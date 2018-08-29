@@ -44,6 +44,7 @@ function fnLoadEmails(){
 }
 
 function fnBuyStock(theAction){
+	debugger;
 	f = document.forms['update_game_form'];
 	f.action.value = theAction;
 	f.quantity.value = f.qty_field.value;
