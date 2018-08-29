@@ -158,12 +158,12 @@ public class UserController {
 		String tickerSymbol = (String) request.getAttribute("tickerSymbol");	
 		int quantity = (int) request.getAttribute("quantity");		//quantity to buy or sell
 		float valueOfStock = (float) request.getAttribute("value");		//value of the stocks to buy or sell in pennies
-		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
 		
 		
 		if(action.equals("B")) {		// if they want to buy
+
 			boolean exists = false;
 			int newQuantity = 0;
 			for(Entry<Stock, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
