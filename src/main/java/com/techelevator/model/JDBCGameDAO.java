@@ -175,23 +175,15 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 
 	public int getPortfolioId(String email, int gameId) {
-		System.out.println('a');
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
-		System.out.println('b');
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
-		System.out.println('c');
-		System.out.println(email);
-		System.out.println(gameId);
 		if (!results.wasNull()) {
-			System.out.println('d');
 			results.next();
 			int portfolioId = results.getInt("portfolio_id");
-			System.out.println('e');
 			return portfolioId;
 		}
 		
 		else {
-			System.out.println('f');
 			return -1;
 		}
 	}

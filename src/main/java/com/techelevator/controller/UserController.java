@@ -136,27 +136,18 @@ public class UserController {
 		String gameId = request.getParameter("gameId");
 		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
 		request.setAttribute("currGame", currGame);
-		System.out.println(1);
 		User user = (User) session.getAttribute("currentUser");
-		System.out.println(2);
 		String email = user.getEmail();
-		System.out.println(3);
 		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
-		System.out.println(4);
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
-		System.out.println(5);
 		request.setAttribute("walletValue", walletValue);
-		System.out.println(6);
 
 		if (portfolioId != -1) {
-			System.out.println(7);
 			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
-			System.out.println(8);
 			request.setAttribute("transactions", transactions);
 			request.setAttribute("portfolioId", portfolioId);
 		}
-		System.out.println(9);
 		return "account/game";
 	}
 	
