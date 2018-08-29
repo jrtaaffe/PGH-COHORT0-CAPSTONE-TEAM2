@@ -74,9 +74,7 @@
 <div id="transactions_div"></div>
 <!-- ############### TRANSACTIONS TABLE HERE ############ -->
 
-				<c:forEach items="${transactions}" var="stockSymbol">
-				${stockSymbol.}
-				</c:forEach>	
+
 
 
 </div>
