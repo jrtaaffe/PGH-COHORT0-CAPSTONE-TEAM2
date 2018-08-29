@@ -16,12 +16,12 @@
 	    <script src="/capstone/js/stocks.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
- 	${response.addHeader("Access-Control-Allow-Origin", "*")}
 	<c:set var = "isHomePage" value = "false"/>	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
-	<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
+<c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
 	
 			<c:set var = "isHomePage" value = "true"/>
+			
 
 	</c:if>
 		
