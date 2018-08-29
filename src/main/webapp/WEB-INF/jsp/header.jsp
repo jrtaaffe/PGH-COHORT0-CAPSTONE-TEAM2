@@ -13,7 +13,6 @@
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	    <script src="/capstone/js/index.js"></script>
-	    <script src="/capstone/js/stocks.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
 	<c:set var = "isHomePage" value = "false"/>	
@@ -58,6 +57,9 @@
 //				$('#yesterday').html(arr.close_yesterday);
 //				$('#last_trade').html(arr.last_trade_time);
 				if(  $("#symbolLookup").is(":visible") == false ) $('#symbolLookup').toggle();
+				f = document.forms['update_game_form'];
+				f.tickerSymbol.value = arr.symbol;
+				f.price.value = arr.price;
 			}
 //			var stocks = new Stocks('KAQIBLFMPA162371'); // Replace with your own
 			// Let's get the stock data of Tesla Inc for the last 10 minutes

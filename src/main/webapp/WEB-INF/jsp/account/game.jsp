@@ -98,10 +98,11 @@ ${transactions}
 
 
 <input type="hidden" name="action">
-<input type="hidden" name="portfolio_id" value="${portfolioId}">
-<input type="hidden" name="ticker_symbol">
+<input type="hidden" name="portfolioId" value="${portfolioId}">
+<input type="hidden" name="tickerSymbol">
 <input type="hidden" name="quantity">
-<input type="hidden" name="value_of_stock">
+<input type="hidden" name="price">
+<input type="hidden" name="valueOfStock">
 
 </form>
 

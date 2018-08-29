@@ -89,9 +89,6 @@ public class JDBCGameDAO implements GameDAO  {
 	private Stock mapRowToStock(SqlRowSet results) {
 		Stock myStock = new Stock();
 		myStock.setTickerSymbol(results.getString("ticker_symbol"));
-		myStock.setCompany(results.getString("company"));
-		myStock.setPuchasePrice(results.getLong("price"));
-		myStock.setPurchaseDate(results.getTimestamp("date_time"));
 		return myStock;
 	}
 
@@ -170,7 +167,7 @@ public class JDBCGameDAO implements GameDAO  {
 
 	@Override
 	public void updateWalletValue(float walletValue, int portfolioId) {
-		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolioId = ?;";
+		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolio_id = ?;";
 		jdbcTemplate.update(wallet, walletValue, portfolioId);
 	}
 

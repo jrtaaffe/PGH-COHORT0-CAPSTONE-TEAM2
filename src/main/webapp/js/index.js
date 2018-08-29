@@ -46,10 +46,9 @@ function fnLoadEmails(){
 function fnBuyStock(theAction){
 	f = document.forms['update_game_form'];
 	f.action.value = theAction;
-	f.ticker_symbol.value = $('#symbol').html();
 	f.quantity.value = f.qty_field.value;
-	var price = $('#price').html();
-	f.value_of_stock.value = f.qty_field.value * 100 * price;
+	var price = f.price.value;
+	f.valueOfStock.value = f.qty_field.value * 100 * price;
 	f.submit();
 }
 
