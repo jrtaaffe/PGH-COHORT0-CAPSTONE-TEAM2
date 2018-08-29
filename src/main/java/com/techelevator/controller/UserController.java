@@ -153,11 +153,11 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
 	public String transactionPost(HttpServletRequest request) {
-		int portfolioId = (int) request.getAttribute("portfolioId");   
-		String action = (String) request.getAttribute("action");		// buy or sell
-		String tickerSymbol = (String) request.getAttribute("tickerSymbol");	
-		int quantity = (int) request.getAttribute("quantity");		//quantity to buy or sell
-		float valueOfStock = (float) request.getAttribute("value");		//value of the stocks to buy or sell in pennies
+		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
+		String action = request.getParameter("action");		// buy or sell
+		String tickerSymbol = request.getParameter("tickerSymbol");	
+		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
+		float valueOfStock = Float.parseFloat(request.getParameter("value"));		//value of the stocks to buy or sell in pennies
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
