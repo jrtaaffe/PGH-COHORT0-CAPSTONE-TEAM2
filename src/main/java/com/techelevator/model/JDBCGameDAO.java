@@ -191,13 +191,14 @@ public class JDBCGameDAO implements GameDAO  {
 	public float getWalletValueByPortfolio(int portfolioId) {
 		String sqlGetWallet = "SELECT wallet_value FROM user_game WHERE portfolio_id = ?;";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlGetWallet, portfolioId);
-		
-		float currentWallet = result.getFloat("wallet_value");
-		return currentWallet;
+
+		if(!result.wasNull() && portfolioId != -1) {
+			float currentWallet = result.getFloat("wallet_value");
+			return currentWallet;
+		}
+		else {
+			return 0;
+		}
 	}
-	
-	
-	
-	
 
 }

@@ -143,7 +143,7 @@ public class UserController {
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", walletValue);
-		
+
 		if (portfolioId != -1) {
 			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
@@ -162,6 +162,7 @@ public class UserController {
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+		
 		
 		if(action.equals("B")) {		// if they want to buy
 			boolean exists = false;
