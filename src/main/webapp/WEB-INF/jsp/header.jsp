@@ -35,9 +35,9 @@
 				var symbols= [];
 				var qtys = [];
 				<c:set var = "index" value ="0" />
-				<c:forEach items="${transactions}" var="stockSymbol">
-					symbols[${index}] = "${stockSymbol.getKey()}";
-					qtys[${index}] = "${stockSymbol.getValue()}";
+				<c:forEach items="${stock_symbols_sorted}" var="stockSymbol">
+					symbols[${index}] = "${stockSymbol}";
+					qtys[${index}] = "${transactions.get(stockSymbol)}";
 					<c:set var="index" value="${index + 1}"/>
 				</c:forEach>	
 				myStocksLookup(symbols, qtys);

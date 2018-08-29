@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -155,6 +157,9 @@ public class UserController {
 		if (portfolioId != -1) {
 			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
+			List keys = new ArrayList(transactions.keySet());
+			Collections.sort(keys);
+			request.setAttribute("stock_symbols_sorted", keys);
 		}
 		request.setAttribute("portfolioId", portfolioId);
 		System.out.println("complete");
