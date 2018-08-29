@@ -164,6 +164,7 @@ public class UserController {
 		
 		
 		if(action.equals("B")) {		// if they want to buy
+
 			boolean exists = false;
 			int newQuantity = 0;
 			for(Entry<Stock, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
