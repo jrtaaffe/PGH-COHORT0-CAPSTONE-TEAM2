@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -135,13 +136,74 @@ public class UserController {
 		String gameId = request.getParameter("gameId");
 		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
 		request.setAttribute("currGame", currGame);
+		
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
+		
+		request.setAttribute("walletValue", gameDAO.getWalletValueByPortfolio(portfolioId));
+		
 		if (portfolioId != -1) {
 			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
+			request.setAttribute("portfolioId", portfolioId);
 		}
 		return "account/game";
+	}
+	
+	@RequestMapping(path="/account/game", method=RequestMethod.POST)
+	public String transactionPost(HttpServletRequest request) {
+		int portfolioId = (int) request.getAttribute("portfolioId");   
+		String action = (String) request.getAttribute("action");		// buy or sell
+		String tickerSymbol = (String) request.getAttribute("tickerSymbol");	
+		int quantity = (int) request.getAttribute("quantity");		//quantity to buy or sell
+		float valueOfStock = (float) request.getAttribute("value");		//value of the stocks to buy or sell in pennies
+		
+		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
+		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+		
+		if(action.equals("B")) {		// if they want to buy
+			boolean exists = false;
+			int newQuantity = 0;
+			for(Entry<Stock, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
+				if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) {	//if the stock they want to buy matches a stock they own
+					exists = true;
+					newQuantity = entry.getValue() + quantity;
+				}
+			}
+			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
+				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
+				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value
+			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
+				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
+				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId); //update wallet value
+			} else {
+				request.setAttribute("failure", "You don't have enough money"); // transaction failed, you don't have enough money
+			}
+		} else if(action.equals("S")) {		//if they want to sell
+			boolean exists = false;		//do you own this stock?
+			int newQuantity = -1;
+			for(Entry<Stock, Integer> entry : transactions.entrySet()) { //loop over stocks owned
+				if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) { //if they do own the stock they want to buy
+					exists = true;
+					if(entry.getValue() >= quantity) {		//if they own more or equal to the amount the want to sell
+						newQuantity = entry.getValue() - quantity; //quantity they will own after sale
+					} 
+				}
+			}
+			if(exists && newQuantity > 0) {	//if they own the stock and they will still own shares after the sale
+				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);
+				gameDAO.updateWalletValue((walletValue + valueOfStock), portfolioId);
+			} else if(exists && newQuantity == 0) {		//if they own the stock, but will have none after the sale
+				gameDAO.deleteStock(tickerSymbol, portfolioId);
+				gameDAO.updateWalletValue((walletValue + valueOfStock), portfolioId);
+			} else if(newQuantity < 0) {		// if they do not own enough of the stock they want to sell
+				request.setAttribute("failure", "You do not own enough of that Stock");
+			} else {		//if they do not own the stock at all
+				request.setAttribute("failure", "You do not own that Stock");
+			}
+		}
+		
+		return "redirect:game";
 	}
 }

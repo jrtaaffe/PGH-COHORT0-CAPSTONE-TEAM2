@@ -143,10 +143,10 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 
 	@Override
-	public void buyInitialStock(int portfolioId, String tickerSymbol, String company, int quantity) {	
-		String buy = "INSERT INTO transactions (portfolio_id, ticker_symbol, company, quantity) "
-				+ "VALUES (?, ?, ?, ?);";
-		jdbcTemplate.update(buy, portfolioId, tickerSymbol, company, quantity);
+	public void buyInitialStock(int portfolioId, String tickerSymbol, int quantity) {	
+		String buy = "INSERT INTO transactions (portfolio_id, ticker_symbol, quantity) "
+				+ "VALUES (?, ?, ?);";
+		jdbcTemplate.update(buy, portfolioId, tickerSymbol, quantity);
 		
 	}
 
@@ -160,18 +160,17 @@ public class JDBCGameDAO implements GameDAO  {
 	
 	
 	@Override		//to prevent stock with 0 quantity from showing up on User's portfolio. Run when stock is sold.
-	public void deleteStock(String tickerSymbol) { 	
-		String delete = "DELETE FROM transactions WHERE quantity = 0;";
-		jdbcTemplate.update(delete);
+	public void deleteStock(String tickerSymbol, int portfolioId) { 	
+		String delete = "DELETE FROM transactions WHERE ticker_symbol = ? AND portfolio_id = ?;";
+		jdbcTemplate.update(delete, tickerSymbol, portfolioId);
 	}
 
 
 	@Override
-	public void updateWalletValue( float walletValue, int portfolioId) {
+	public void updateWalletValue(float walletValue, int portfolioId) {
 		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolioId = ?;";
 		jdbcTemplate.update(wallet, walletValue, portfolioId);
 	}
-
 
 	public int getPortfolioId(String email, int gameId) {
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
@@ -183,6 +182,16 @@ public class JDBCGameDAO implements GameDAO  {
 		else {
 			return -1;
 		}
+	}
+
+
+	@Override
+	public float getWalletValueByPortfolio(int portfolioId) {
+		String sqlGetWallet = "SELECT wallet_value FROM user_game WHERE portfolio_id = ?;";
+		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlGetWallet, portfolioId);
+		
+		float currentWallet = result.getFloat("portfolio_id");
+		return currentWallet;
 	}
 	
 	

@@ -14,7 +14,6 @@ CREATE TABLE app_user (
   first_name varchar(64) NOT NULL,
   last_name varchar(64) NOT NULL,
   password varchar(32) NOT NULL,
-  role varchar(32),
   salt varchar(255) NOT NULL,
   
   constraint pk_app_user primary key (email)
@@ -26,6 +25,7 @@ CREATE TABLE games (
 	start_date date NOT NULL,
 	end_date date NOT NULL,
 	admin varchar(64) NOT NULL,
+	status varchar(32) NOT NULL,
 	
 	constraint pk_games primary key (game_id),
 	constraint fk_admin foreign key (admin) references app_user (email)
@@ -36,8 +36,6 @@ CREATE TABLE user_game (
 	user_email varchar(64),
 	game_id int,
 	wallet_value float,
-	closing_stock_value float,
-	closing_net_worth float,
 	
 	constraint fk_user_id foreign key (user_email) references app_user (email),
 	constraint fk_game_id foreign key (game_id) references games (game_id),
@@ -47,12 +45,9 @@ CREATE TABLE user_game (
 CREATE TABLE transactions (
 	ticker_symbol varchar(8),
 	portfolio_id int,
-	company varchar(64),
-	price float,
 	quantity int,
-	date_time timestamp,
 	
-	constraint pk_game_stocks primary key (ticker_symbol),
+	constraint pk_game_stocks primary key (ticker_symbol, portfolio_id),
 	constraint fk_portfolio foreign key (portfolio_id) references user_game (portfolio_id)
 );
 
