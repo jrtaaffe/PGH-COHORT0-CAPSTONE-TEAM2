@@ -56,14 +56,14 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 
 	@Override
-	public Map<Stock, Integer> getTransactionsByUserGame(int portfolioId) {
-		Map<Stock, Integer> transactions = new HashMap<Stock, Integer>();
+	public Map<String, Integer> getTransactionsByUserGame(int portfolioId) {
+		Map<String, Integer> transactions = new HashMap<String, Integer>();
 		String sqlTransactions = "select * from transactions where portfolio_id = ?"; 
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlTransactions, portfolioId);
 		while(results.next()) {
-			transactions.put(mapRowToStock(results), results.getInt("portfolio_id"));
+			transactions.put(results.getString("ticker_symbol"), results.getInt("quantity"));
 		}
-		return null;
+		return transactions;
 	}
 	
 	private UserGame mapRowToUserGame(SqlRowSet results) {
@@ -89,9 +89,6 @@ public class JDBCGameDAO implements GameDAO  {
 	private Stock mapRowToStock(SqlRowSet results) {
 		Stock myStock = new Stock();
 		myStock.setTickerSymbol(results.getString("ticker_symbol"));
-		myStock.setCompany(results.getString("company"));
-		myStock.setPuchasePrice(results.getLong("price"));
-		myStock.setPurchaseDate(results.getTimestamp("date_time"));
 		return myStock;
 	}
 
@@ -154,7 +151,7 @@ public class JDBCGameDAO implements GameDAO  {
 
 	
 	public void buyOrSellStock(String tickerSymbol, int quantity, int portfolioId) {
-		String buyOrSell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portolio_id = ?;";		
+		String buyOrSell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portfolio_id = ?;";		
 		jdbcTemplate.update(buyOrSell, quantity, tickerSymbol, portfolioId);
 	}
 
@@ -170,28 +167,20 @@ public class JDBCGameDAO implements GameDAO  {
 
 	@Override
 	public void updateWalletValue(float walletValue, int portfolioId) {
-		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolioId = ?;";
+		String wallet = "UPDATE user_game SET wallet_value = ? WHERE portfolio_id = ?;";
 		jdbcTemplate.update(wallet, walletValue, portfolioId);
 	}
 
 	public int getPortfolioId(String email, int gameId) {
-		System.out.println('a');
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
-		System.out.println('b');
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
-		System.out.println('c');
-		System.out.println(email);
-		System.out.println(gameId);
 		if (!results.wasNull()) {
-			System.out.println('d');
 			results.next();
 			int portfolioId = results.getInt("portfolio_id");
-			System.out.println('e');
 			return portfolioId;
 		}
 		
 		else {
-			System.out.println('f');
 			return -1;
 		}
 	}

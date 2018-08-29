@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -133,68 +135,91 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		String gameId = request.getParameter("gameId");
-		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
-		request.setAttribute("currGame", currGame);
-		System.out.println(1);
-		User user = (User) session.getAttribute("currentUser");
-		System.out.println(2);
-		String email = user.getEmail();
-		System.out.println(3);
-		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
-		System.out.println(4);
+		System.out.println(request.getAttribute("gameId"));
+		System.out.println(request.getParameter("gameId"));
+		if(request.getParameter("gameId") != null) {
+			request.setAttribute("gameId", request.getParameter("gameId"));
+		}
+		int gameId = Integer.parseInt((String)request.getAttribute("gameId"));
+		System.out.println("game id");
+		System.out.println(gameId);
 		
+		UserGame currGame = gameDAO.getGameById(gameId);
+		request.setAttribute("currGame", currGame);
+		User user = (User) session.getAttribute("currentUser");
+		String email = user.getEmail();
+		int portfolioId = gameDAO.getPortfolioId(email, gameId);
+
+		System.out.println(portfolioId);
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
-		System.out.println(5);
 		request.setAttribute("walletValue", walletValue);
-		System.out.println(6);
 
 		if (portfolioId != -1) {
-			System.out.println(7);
-			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
-			System.out.println(8);
+			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
-			request.setAttribute("portfolioId", portfolioId);
+			List keys = new ArrayList(transactions.keySet());
+			Collections.sort(keys);
+			request.setAttribute("stock_symbols_sorted", keys);
 		}
-		System.out.println(9);
+		request.setAttribute("portfolioId", portfolioId);
+		System.out.println("complete");
 		return "account/game";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
-	public String transactionPost(HttpServletRequest request) {
-		int portfolioId = (int) request.getAttribute("portfolioId");   
-		String action = (String) request.getAttribute("action");		// buy or sell
-		String tickerSymbol = (String) request.getAttribute("tickerSymbol");	
-		int quantity = (int) request.getAttribute("quantity");		//quantity to buy or sell
-		float valueOfStock = (float) request.getAttribute("value");		//value of the stocks to buy or sell in pennies
+	public String transactionPost(HttpServletRequest request, HttpSession session) {
+		System.out.println(1);
+		System.out.println(request.getParameter("portfolioId"));
+		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
+		System.out.println(2);
+		String action = request.getParameter("action");		// buy or sell
+		String tickerSymbol = request.getParameter("tickerSymbol");	
+		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
+		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
+		System.out.println(3);
+		
+		int gameId = Integer.parseInt(request.getParameter("gameId"));
 		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
-		Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
-		
+		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+		System.out.println(4);
 		
 		if(action.equals("B")) {		// if they want to buy
+			System.out.println(5);	
 			boolean exists = false;
 			int newQuantity = 0;
-			for(Entry<Stock, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
-				if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) {	//if the stock they want to buy matches a stock they own
-					exists = true;
-					newQuantity = entry.getValue() + quantity;
+			if (!transactions.isEmpty() && transactions != null) {
+				for(Entry<String, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
+					System.out.println(6);
+
+					if(tickerSymbol.equals(entry.getKey())) {	//if the stock they want to buy matches a stock they own
+						System.out.println(7);
+
+						exists = true;
+						newQuantity = entry.getValue() + quantity;
+					}
 				}
 			}
 			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
+				System.out.println(8);
+
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value
 			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
+				System.out.println(9);
+
 				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId); //update wallet value
 			} else {
+				System.out.println(10);
+
 				request.setAttribute("failure", "You don't have enough money"); // transaction failed, you don't have enough money
 			}
 		} else if(action.equals("S")) {		//if they want to sell
 			boolean exists = false;		//do you own this stock?
 			int newQuantity = -1;
-			for(Entry<Stock, Integer> entry : transactions.entrySet()) { //loop over stocks owned
-				if(tickerSymbol.equals(entry.getKey().getTickerSymbol())) { //if they do own the stock they want to buy
+			for(Entry<String, Integer> entry : transactions.entrySet()) { //loop over stocks owned
+				if(tickerSymbol.equals(entry.getKey())) { //if they do own the stock they want to buy
 					exists = true;
 					if(entry.getValue() >= quantity) {		//if they own more or equal to the amount the want to sell
 						newQuantity = entry.getValue() - quantity; //quantity they will own after sale
@@ -214,6 +239,24 @@ public class UserController {
 			}
 		}
 		
-		return "redirect:game";
+		UserGame currGame = gameDAO.getGameById(gameId);
+		request.setAttribute("currGame", currGame);
+		
+		
+
+		System.out.println(portfolioId);
+		float newWalletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
+		request.setAttribute("walletValue", newWalletValue);
+
+		if (portfolioId != -1) {
+			Map<String, Integer> newTransactions = gameDAO.getTransactionsByUserGame(portfolioId);
+			request.setAttribute("transactions", newTransactions);
+			List keys = new ArrayList(transactions.keySet());
+			Collections.sort(keys);
+			request.setAttribute("stock_symbols_sorted", keys);
+		}
+		request.setAttribute("portfolioId", portfolioId);
+		System.out.println("complete");
+		return "account/game";
 	}
 }

@@ -44,14 +44,45 @@ function fnLoadEmails(){
 }
 
 function fnBuyStock(theAction){
+	debugger;
 	f = document.forms['update_game_form'];
 	f.action.value = theAction;
-	f.ticker_symbol.value = $('#symbol').html();
 	f.quantity.value = f.qty_field.value;
-	var price = $('#price').html();
-	f.value_of_stock.value = f.qty_field.value * 100 * price;
+	var price = f.price.value;
+	f.valueOfStock.value = f.qty_field.value * 100 * price;
 	f.submit();
 }
 
+function fnLoadTransactions(arr, qty){
+	var htmlStr = "<table class=\"stocks_table\">" +
+	"<tr class=\"table_row\">" +
+	"<td class=\"stock_header\">Symbol</td>" +
+	"<td class=\"stock_header\">Name</td>" +
+	"<td class=\"stock_header\">Price</td>" +
+	"<td class=\"stock_header\">Open</td>" +
+	"<td class=\"stock_header\">Daily Hi</td>" +
+	"<td class=\"stock_header\">Daily Lo</td>" +
+	"<td class=\"stock_header\">+/-</td>" +
+	"<td class=\"stock_header\">Qty</td>" +
+	"<td class=\"stock_header\"></td>" +
+	"</tr>";
+	
+	for (x in arr){
+		htmlStr +="<tr class=\"table_row\">" +
+		"<td class=\"table_col\" id=\"symbol\">" + arr[x].symbol + "</td>" +
+		"<td class=\"table_col\" id=\"name\">" + arr[x].name + "</td>" +
+		"<td class=\"table_col\" id=\"price\">" + arr[x].price + "</td>" +
+		"<td class=\"table_col\" id=\"open\">" + arr[x].price_open + "</td>" +
+		"<td class=\"table_col\" id=\"daily_hi\">" + arr[x].day_high + "</td>" +
+		"<td class=\"table_col\" id=\"daily_lo\">" + arr[x].day_low + "</td>" +
+		"<td class=\"table_col\" id=\"plus_minus\">" + arr[x].day_change + "</td>" +
+		"<td class=\"table_col\" id=\"qty\">" + qty[x] + "</td>" +
+		"<td class=\"table_col\" id=\"buy_sell\"> buy | sell </td>" +
+		"</tr>";
+	}
+	htmlStr += "</table>";
+	console.log(htmlStr);
+	$('#transactions_div').html(htmlStr);
+}
 
 

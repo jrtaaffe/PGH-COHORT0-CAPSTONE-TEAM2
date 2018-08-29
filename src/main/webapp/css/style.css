@@ -229,3 +229,6 @@ add_stock_label{
 #qty_field{
 	width:40px !important;
 }
+.stocks_table{
+	width: 100%;
+}
