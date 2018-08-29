@@ -21,6 +21,8 @@ public class JDBCGameDAO implements GameDAO  {
 	
 	private static final long startingMoney = 10000000;
 	
+	private static String status = "active";
+	
 	@Autowired
 	public JDBCGameDAO(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -97,9 +99,9 @@ public class JDBCGameDAO implements GameDAO  {
 	@Override
 	public int createNewGame(String name, Date startDate, Date endDate, String admin) {
 		int gameId;
-		String sqlInsertGame = "insert into games (name, start_date, end_date, admin) "
-				+ "values (?, ?, ?, ?) returning game_id;";
-		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin);
+		String sqlInsertGame = "insert into games (name, start_date, end_date, admin, status) "
+				+ "values (?, ?, ?, ?, ?) returning game_id;";
+		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, status);
 		gameId = number.intValue();
 		return gameId;
 	}
@@ -175,7 +177,7 @@ public class JDBCGameDAO implements GameDAO  {
 	public int getPortfolioId(String email, int gameId) {
 		String sqlGetPortfolioId = "select portfolio_id from user_game where user_email = ? and game_id = ?;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolioId, email, gameId);
-		if (results.wasNull()) {
+		if (!results.wasNull()) {
 			int portfolioId = results.getInt("portfolio_id");
 			return portfolioId;
 		}
@@ -190,7 +192,7 @@ public class JDBCGameDAO implements GameDAO  {
 		String sqlGetWallet = "SELECT wallet_value FROM user_game WHERE portfolio_id = ?;";
 		SqlRowSet result = jdbcTemplate.queryForRowSet(sqlGetWallet, portfolioId);
 		
-		float currentWallet = result.getFloat("portfolio_id");
+		float currentWallet = result.getFloat("wallet_value");
 		return currentWallet;
 	}
 	

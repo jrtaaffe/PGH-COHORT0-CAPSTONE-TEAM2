@@ -141,7 +141,8 @@ public class UserController {
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
 		
-		request.setAttribute("walletValue", gameDAO.getWalletValueByPortfolio(portfolioId));
+		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
+		request.setAttribute("walletValue", walletValue);
 		
 		if (portfolioId != -1) {
 			Map<Stock, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
