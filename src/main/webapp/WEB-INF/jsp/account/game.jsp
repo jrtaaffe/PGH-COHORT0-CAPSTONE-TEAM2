@@ -4,7 +4,7 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("Game Details");</script>
-${transactions}
+
 <c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 
@@ -71,28 +71,9 @@ ${transactions}
 <div class="inner_main_container">
 <div id="stocks">
 <br>
-<table class="stocks_table">
-	<tr class="table_row">
-		<td class="stock_header">Symbol</td>
-		<td class="stock_header">Name</td>
-		<td class="stock_header">Price</td>
-		<td class="stock_header">Open</td>
-		<td class="stock_header">Daily Hi</td>
-		<td class="stock_header">Daily Lo</td>
-		<td class="stock_header">+/-</td>
-		<td class="stock_header"></td>		
-	</tr>
-	<tr class="table_row">
-		<td class="table_col" id="symbol"></td>
-		<td class="table_col" id="name"></td>
-		<td class="table_col" id="price"></td>
-		<td class="table_col" id="open"></td>
-		<td class="table_col" id="daily_hi"></td>
-		<td class="table_col" id="daily_lo"></td>
-		<td class="table_col" id="plus_minus"></td>
-		<td class="table_col" id="buy_sell"></td>
-	</tr>
-</table>
+
+
+<!-- ############### TRANSACTIONS TABLE HERE ############ -->
 
 </div>
 

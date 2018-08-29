@@ -2,7 +2,7 @@
 		</div>
 		<hr>
 		<footer>
-			Copyright 2018 Equity Elevator
+			&copy; Copyright 2018 Equity Elevator
 		</footer>
 		<br><br>&nbsp;
 	</body>

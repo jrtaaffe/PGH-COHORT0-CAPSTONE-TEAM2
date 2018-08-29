@@ -18,10 +18,7 @@
 	<c:set var = "isHomePage" value = "false"/>	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
 <c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
-	
 			<c:set var = "isHomePage" value = "true"/>
-			
-
 	</c:if>
 		
 		<script type="text/javascript">
@@ -34,6 +31,12 @@
 				
 				var pathname = window.location.pathname;
 				$("nav a[href='"+pathname+"']").parent().addClass("active");
+				
+//				var 
+				<c:forEach items="${transactions}" var="stockSymbol">
+				</c:forEach>	
+
+				//transactions_div
 				
 			});
 			
@@ -54,27 +57,11 @@
 				$('#daily_hi').html(arr.day_high);
 				$('#daily_lo').html(arr.day_low);
 				$('#plus_minus').html(arr.day_change);
-//				$('#yesterday').html(arr.close_yesterday);
-//				$('#last_trade').html(arr.last_trade_time);
 				if(  $("#symbolLookup").is(":visible") == false ) $('#symbolLookup').toggle();
 				f = document.forms['update_game_form'];
 				f.tickerSymbol.value = arr.symbol;
 				f.price.value = arr.price;
 			}
-//			var stocks = new Stocks('KAQIBLFMPA162371'); // Replace with your own
-			// Let's get the stock data of Tesla Inc for the last 10 minutes
-//			async function request (theSymbol) {
-//			  var result = await stocks.timeSeries({
-//			    symbol: theSymbol,
-//			    interval: 'monthly',
-//				start: new Date('2018-08-01'),
-//				end: new Date('2018-08-28')
-//			  });
-//				document.getElementById("test").innerHTML += JSON.stringify(result);
-//				document.getElementById("test").innerHTML += "<br><br>"+ JSON.stringify(result[0].open);
-//			}
-
-				
 		</script>
 		
 	</head>
@@ -122,7 +109,5 @@
 			</c:if>
 		</tr></table>		
 		</div>
-
-				
 
 		<div class="inner_main_container">

@@ -52,5 +52,32 @@ function fnBuyStock(theAction){
 	f.submit();
 }
 
+function fnLoadTransactions(arr){
+	var htmlStr = "<table class=\"stocks_table\">" +
+	"<tr class=\"table_row\">" +
+	"<td class=\"stock_header\">Symbol</td>" +
+	"<td class=\"stock_header\">Name</td>" +
+	"<td class=\"stock_header\">Price</td>" +
+	"<td class=\"stock_header\">Open</td>" +
+	"<td class=\"stock_header\">Daily Hi</td>" +
+	"<td class=\"stock_header\">Daily Lo</td>" +
+	"<td class=\"stock_header\">+/-</td>" +
+	"<td class=\"stock_header\"></td>" +
+	"</tr>";
+	
+	for (x in arr){
+		htmlStr +="<tr class=\"table_row\">" +
+		"<td class=\"table_col\" id=\"symbol\"></td>" +
+		"<td class=\"table_col\" id=\"name\"></td>" +
+		"<td class=\"table_col\" id=\"price\"></td>" +
+		"<td class=\"table_col\" id=\"open\"></td>" +
+		"<td class=\"table_col\" id=\"daily_hi\"></td>" +
+		"<td class=\"table_col\" id=\"daily_lo\"></td>" +
+		"<td class=\"table_col\" id=\"plus_minus\"></td>" +
+		"<td class=\"table_col\" id=\"buy_sell\"></td>" +
+		"</tr>";
+	}
+	htmlStr += "</table>";
+}
 
 
