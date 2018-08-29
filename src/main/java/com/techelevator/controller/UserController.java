@@ -134,12 +134,13 @@ public class UserController {
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
 		String gameId = request.getParameter("gameId");
+		System.out.println(gameId);
 		UserGame currGame = gameDAO.getGameById(Integer.parseInt(gameId));
 		request.setAttribute("currGame", currGame);
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, Integer.parseInt(gameId));
-System.out.println("get p id");
+
 		System.out.println(portfolioId);
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", walletValue);
@@ -167,9 +168,6 @@ System.out.println("get p id");
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
 		System.out.println(4);
-		System.out.println(portfolioId);
-		System.out.println(transactions);
-
 		
 		if(action.equals("B")) {		// if they want to buy
 			System.out.println(5);	
