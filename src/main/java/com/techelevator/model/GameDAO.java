@@ -20,15 +20,17 @@ public interface GameDAO {
 	
 	public List<TempGame> getInvitedGamesByPlayer(String email);
 	
-	public void buyInitialStock(int portfolioId, String tickerSymbol, String company, int quantity);
+	public void buyInitialStock(int portfolioId, String tickerSymbol, int quantity);
 	
 	public void buyOrSellStock(String tickerSymbol, int quantity, int portfolioId);
 	
-	public void deleteStock(String tickerSymbol);
+	public void deleteStock(String tickerSymbol, int portfolioId);
 	
 	public void updateWalletValue(float walletValue, int portfolioId);
 
 	public int getPortfolioId(String email, int gameId);
 
 	public UserGame getGameById(int gameId);
+	
+	public float getWalletValueByPortfolio(int portfolioId);
 }
