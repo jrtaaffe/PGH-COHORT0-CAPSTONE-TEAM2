@@ -32,8 +32,6 @@ public class LoginFilter implements Filter {
         	System.out.println(4);
         	 request.getRequestDispatcher("/login").forward(request, response); // No logged-in user found, so redirect to login page.
         } else {
-        	 System.out.println(5);
-
             chain.doFilter(req, res); // Logged-in user found, so just continue request.
         }
     }
