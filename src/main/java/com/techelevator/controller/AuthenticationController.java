@@ -32,8 +32,8 @@ public class AuthenticationController {
 
 
 	@RequestMapping(path= {"/login","/"}, method=RequestMethod.GET)
-	public String displayLoginForm() {
-
+	public String displayLoginForm(HttpSession session) {
+		session.setAttribute("modalMessage", "");
 		return "login";
 	}
 

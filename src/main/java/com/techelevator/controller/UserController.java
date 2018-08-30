@@ -78,7 +78,6 @@ public class UserController {
 			}
 			gameDAO.deleteInvitedPlayers(user.getEmail());
 		}				
-		System.out.println(4);
 		session.setAttribute("modalMessage", "new_registration"); // This will trigger a confirmation message for the user
 		return "redirect:/login";
 	}

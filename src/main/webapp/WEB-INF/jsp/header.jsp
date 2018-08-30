@@ -94,11 +94,12 @@
 			}
 			function fnShowStandings(){
 				var leaderboard = "";
+				var leaderboardHTML = "";
 				for (x in names){
-					var leaderboardHTML = "<td class=\"table_header\">"+names[x]+"</td>";
-					leaderboardHTML += "<td class=\"table_header\">"+cash[x]+"</td>";
-					leaderboardHTML += "<td class=\"table_header\">"+worth[x]+"</td>";
-					leaderboardHTML += "<td class=\"table_header\">"+standing[x]+"</td>";
+					leaderboardHTML += "<tr><td class=\"table_col\">"+names[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_col\">"+cash[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_col\">"+worth[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_col\">"+standing[x]+"</td></tr>";
 				}
 				$('#current_game tr:last').after(leaderboardHTML);
 			}

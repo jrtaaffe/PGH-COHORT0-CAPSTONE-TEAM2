@@ -3,6 +3,16 @@
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("New Game");</script>
 <c:url var="formAction" value="/account/createGame" />
+<script type="text/javascript">
+	$(document).ready(function () {
+		$("form").validate({
+			onfocus: false,
+			onkeyup: false,
+			onclick: false,
+			onchange: false,
+		});
+	});
+</script>
 <form method="POST" action="${formAction}" name="new_game_form" id="new_game_form">
 
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
@@ -34,7 +44,7 @@
 				<table border="0" class="players">
 				<tr>
 					<td class="add_label">Email Address:</td>
-					<td class="add_input"><input type="email"  id="invitee_email" name="email" placeHolder="example@email.com" class="add_user form-control"/></td>
+					<td class="add_input"><input type="email"  id="invitee_email" onchange="void()" name="email" placeHolder="example@email.com" class="add_user form-control"/></td>
 					<td>&nbsp;<button onclick="fnAddEmail()" type="button" class="add_button">Add</button></td>
 				</tr>
 				</table>

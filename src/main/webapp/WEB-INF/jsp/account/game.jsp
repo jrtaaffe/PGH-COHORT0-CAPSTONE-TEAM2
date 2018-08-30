@@ -62,12 +62,8 @@
 
 </div>
 
-
-
 </div><!-- end of inner container div -->
 </div><!-- end of outter container div -->
-
-
 
 
 <div class="outter_main_container">
@@ -77,8 +73,6 @@
 <br>
 <div id="transactions_div"></div><div id="no_transactions"></div>
 <!-- ############### TRANSACTIONS TABLE HERE ############ -->
-
-
 
 
 </div>
@@ -107,10 +101,6 @@
         <br>&nbsp;
 </div> 
 
-
-
-
-
 <script>
 var names = []; 
 var cash = []; 
@@ -121,22 +111,9 @@ var standing = [];
 	names[${count}] = "${userGame.username} (${userGame.lastName}, ${userGame.firstName})";
 	cash[${count}] = "${userGame.wallet}";
 	worth[${count}] = "${userGame.netWorth}";
-	standing[${count}] = "${count}";
+	standing[${count}] = "${count + 1}";
 	<c:set var="count" value="${count + 1}"/>
 </c:forEach>	
 </script>	
-
-
-
-
-
-				
-				<c:forEach items="${stock_symbols_sorted}" var="stockSymbol">
-					symbols[${index}] = "${stockSymbol}";
-					qtys[${index}] = "${transactions.get(stockSymbol)}";
-					
-				</c:forEach>	
-
-
 <c:import url="/WEB-INF/jsp/footer.jsp" />
 
