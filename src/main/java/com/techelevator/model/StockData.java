@@ -5,33 +5,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StockData {
 	
-	private String symbol;
-	private float price;
+	private int symbols_requested;
+	private Data[] data;
 	
 	public StockData() {
 		
 	}
 
-	public String getSymbol() {
-		return symbol;
+	public int getSymbols_requested() {
+		return symbols_requested;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
+	public Data[] getData() {
+		return data;
 	}
 
-	public float getPrice() {
-		return price;
+	public void setData(Data[] data) {
+		this.data = data;
 	}
 
-	public void setPrice(float price) {
-		this.price = price;
+	public void setSymbols_requested(int symbols_requested) {
+		this.symbols_requested = symbols_requested;
 	}
 
 	@Override
 	public String toString() {
-		return "StockData [symbol=" + symbol + ", price=" + price + "]";
+		return "StockData [symbols_requested=" + symbols_requested + ", data=" + data + "]";
 	}
+
 	
 	
 }

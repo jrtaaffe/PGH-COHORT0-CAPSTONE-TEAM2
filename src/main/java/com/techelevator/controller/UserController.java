@@ -175,15 +175,15 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
 	public String transactionPost(HttpServletRequest request, HttpSession session) {
-		System.out.println(1);
-		System.out.println(request.getParameter("portfolioId"));
+	
 		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
-		System.out.println(2);
 		String action = request.getParameter("action");		// buy or sell
 		String tickerSymbol = request.getParameter("tickerSymbol");	
-		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
-		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
-		System.out.println(3);
+		int quantity = Integer.parseInt(request.getParameter("quantity"));	//quantity to buy or sell
+		RestTemplate restTemplate = new RestTemplate();
+		StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + tickerSymbol + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
+		float valueOfStock = stockData.getData()[0].getPrice() * quantity;	//value of the stocks to buy or sell in pennies
+		
 		
 		int gameId = Integer.parseInt(request.getParameter("gameId"));
 		
@@ -286,10 +286,11 @@ public class UserController {
 		RestTemplate restTemplate = new RestTemplate();
 		for(LeaderboardUser user : leaderboard) {
 			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(user.getPortfolioId());
-			float netWorth = gameDAO.getWalletValueByPortfolio(user.getPortfolioId());
+			float netWorth = gameDAO.getWalletValueByPortfolio(user.getPortfolioId()) / 100;
 			for(Entry<String, Integer> entry : transactions.entrySet()) {
 				StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + entry.getKey() + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
-				float value = stockData.getPrice() * entry.getValue();
+				System.out.println(stockData.getData()[0].getPrice() + stockData.getData()[0].getSymbol() + stockData.getSymbols_requested());
+				float value = stockData.getData()[0].getPrice() * entry.getValue();
 				netWorth = netWorth + value;
 			}
 			user.setNetWorth(netWorth);
