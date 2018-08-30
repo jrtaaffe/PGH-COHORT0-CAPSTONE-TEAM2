@@ -199,6 +199,12 @@ li {
 }
 .stock_row{
 }
+#transactions_div{
+	display:none !important;
+}
+#no_transactions{
+	
+}
 add_stock_label{
 	width: 15%;
 }
