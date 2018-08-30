@@ -9,21 +9,21 @@
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 <fmt:setLocale value="en_US"/>
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
+<span class="game_title">${currGame.name}</span><span class="game_dates"><fmt:formatDate type = "date" 
+         value = "${currGame.startDate}" /> - <fmt:formatDate type = "date" 
+         value = "${currGame.endDate}" /></span><span class="game_status"> (${currGame.status})</span>
 <table class="games_table">
 	<tr class="table_row">
-		<td class="table_header">Title</td>
-		<td class="table_header">Start Date</td>
-		<td class="table_header">End Date</td>
+		<td class="table_header">Name</td>
 		<td class="table_header">Available Cash</td>
+		<td class="table_header">Net Worth</td>
+		<td class="table_header">Game Standing</td>
 	</tr>
 	<tr class="table_row">
-		<td class="table_col">${currGame.name}</td>
-		<td class="table_col"><fmt:formatDate type = "date" 
-         value = "${currGame.startDate}" /></td>
-		<td class="table_col"><fmt:formatDate type = "date" 
-         value = "${currGame.endDate}" /></td>
-         <td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/>
-         </td>
+		<td class="table_col">${currentUser.userName}</td>
+		<td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/></td>
+		<td class="table_col"></td>
+         <td class="table_col"></td>
 	</tr>
 </table>
 <br>
@@ -96,8 +96,8 @@
 
 <!-- ####################  Buy Stock Dialog ############## -->
 <div id="purchase_successful" class="modal"> 
-        <span class="modal_message">Your stock purchase has been added to your portfolio!</span><br><br>
-        <p>${transactionDetails}</p>
+        <span class="modal_message">${transactionDetails} was successful!</span><br><br>
+        <p></p>
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
 </div>
  

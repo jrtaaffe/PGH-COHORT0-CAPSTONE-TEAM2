@@ -266,3 +266,16 @@ input[class^="sell_qty"]{
 	font: normal 12pt arial;
 	padding: 20px;
 }
+.game_title{
+	font: bold 16pt arial;
+	color: black;
+	margin: 20px;
+}
+.game_dates{
+	font: bold 12pt arial;
+	color: grey;
+}
+.game_status{
+	font: normal 11pt arial;
+	color: grey;
+}

@@ -45,7 +45,7 @@ public class JDBCGameDAO implements GameDAO  {
 	@Override
 	public UserGame getGameById(int gameId) {
 		UserGame myGame = new UserGame();
-		String sqlGame = "SELECT game_id, name, start_date, end_date "
+		String sqlGame = "SELECT game_id, name, start_date, end_date, status "
 				+ "FROM games "
 				+ "WHERE game_id = ?;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGame, gameId);
@@ -83,6 +83,7 @@ public class JDBCGameDAO implements GameDAO  {
 		game.setName(results.getString("name"));
 		game.setStartDate(results.getDate("start_date"));
 		game.setEndDate(results.getDate("end_date"));
+		game.setStatus(results.getString("status"));
 		return game;
 	}
 	
