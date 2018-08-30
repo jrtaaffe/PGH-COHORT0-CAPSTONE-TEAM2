@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import java.sql.Date;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -169,8 +170,19 @@ public class UserController {
 		int gameId = Integer.parseInt(request.getParameter("gameId"));
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+		
+		//load the confirmation message details into a session variable
+		//#############################################################
+		request.setAttribute("modalMessage", "purchase_successful"); // assume successful : failed transactions will override this message
+		String textAction;
+		if(action.equals("S")) textAction = "sale";
+		else textAction = "purchase";
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		String moneyString = formatter.format(valueOfStock);
+		request.setAttribute("transactionDetails","Your " + textAction + " of " + String.valueOf(quantity) + " shares of " + tickerSymbol + " for " + moneyString);			
+		//#############################################################
+
 		if(action.equals("B")) {		// if they want to buy
-			System.out.println(5);	
 			boolean exists = false;
 			int newQuantity = 0;
 			if (!transactions.isEmpty() && transactions != null) {
@@ -181,7 +193,7 @@ public class UserController {
 					}
 				}
 			}
-			request.setAttribute("modalMessage", "purchase_successful"); // assume successful : failed transactions will override this message
+			
 			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value

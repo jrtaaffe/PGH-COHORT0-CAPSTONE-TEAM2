@@ -56,7 +56,7 @@
 		<td class="table_col" id="daily_hi"></td>
 		<td class="table_col" id="daily_lo"></td>
 		<td class="table_col" id="plus_minus"></td>
-		<td class="table_col" id="qty"><input type="text" id="qty_field"><button class="buy_button" onclick="fnBuyStock('B',$(#symbol').html(), $(#qty_field').val(), $(#price').html());">BUY</button></td>
+		<td class="table_col" id="qty"><input type="text" id="qty_field"><button id="buy_button" class="buy_button" >BUY2</button></td>
 	</tr>
 </table>
 
@@ -95,8 +95,9 @@
 </form>
 
 <!-- ####################  Buy Stock Dialog ############## -->
-<div id="purchase_successful" style="display:none; cursor: default"> 
+<div id="purchase_successful" class="modal"> 
         <span class="modal_message">Your stock purchase has been added to your portfolio!</span><br><br>
+        <p>${transactionDetails}</p>
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
 </div>
  
@@ -105,15 +106,6 @@
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
         <br>&nbsp;
 </div> 
-
-
-
-
-
-
-
-
-
 
 
 <c:import url="/WEB-INF/jsp/footer.jsp" />

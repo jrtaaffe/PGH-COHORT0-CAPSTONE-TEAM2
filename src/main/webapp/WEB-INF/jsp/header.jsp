@@ -35,7 +35,10 @@
 				$("#logoutLink").click(function(event){
 					$("#logoutForm").submit();
 				});
-				
+				$('#buy_button').click(function (e) {
+					fnBuyStock('B',$('#symbol').html(), $('#qty_field').val(), $('#price').html());
+					return false;
+				});
 				var pathname = window.location.pathname;
 				$("nav a[href='"+pathname+"']").parent().addClass("active");
 				
