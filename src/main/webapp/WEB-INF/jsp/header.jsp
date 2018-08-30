@@ -58,7 +58,7 @@
 				if ("${modalMessage}" != ""){
 					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
 				}
-				if (currPage == "game") countDownTimer();
+				//if (currPage == "game") countDownTimer();
 			});
 			
 			function fnSetTitle(currTitle){

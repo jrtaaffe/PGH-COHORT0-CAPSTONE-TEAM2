@@ -101,6 +101,12 @@
         <br>&nbsp;
 </div> 
 
+<div id="not_enough_stock" class="modal"> 
+        <p class="modal_message">You do not have enough stock to make this sale.</p> 
+        <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
+        <br>&nbsp;
+</div> 
+
 <script>
 var names = []; 
 var cash = []; 
