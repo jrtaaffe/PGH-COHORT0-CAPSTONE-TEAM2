@@ -201,4 +201,23 @@ public class JDBCGameDAO implements GameDAO  {
 		}
 	}
 
+
+	@Override
+	public List<LeaderboardUser> getUserInfoForLeaderboard(int gameId) {
+		List<LeaderboardUser> leaderboard = new ArrayList<LeaderboardUser>();
+		String sqlGetUserInfo = "select user_game.portfolio_id, app_user.first_name, app_user.last_name, user_game.wallet_value, app_user.user_name from user_game " + 
+				"join app_user on user_game.user_email = app_user.email where user_game.game_id = ?;";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetUserInfo, gameId);
+		while(results.next()) {
+			LeaderboardUser user = new LeaderboardUser();
+			user.setFirstName(results.getString("first_name"));
+			user.setLastName(results.getString("last_name"));
+			user.setPortfolioId(results.getInt("portfolio_id"));
+			user.setUsername(results.getString("user_name"));
+			leaderboard.add(user);
+		}
+		
+		return leaderboard;
+	}
+
 }
