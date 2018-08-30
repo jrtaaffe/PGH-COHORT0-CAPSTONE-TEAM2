@@ -175,7 +175,8 @@ li {
   margin: 0 0 0 -20px;
 }
 .games_table{
-	padding: 5px;
+	padding: 5px !important;
+	margin: 20px 0px 0px 0px !important;
 	width: 100%;
 }
 .table_row{
@@ -269,7 +270,7 @@ input[class^="sell_qty"]{
 .game_title{
 	font: bold 16pt arial;
 	color: black;
-	margin: 20px;
+	margin: 20px 20px 20px 0;
 }
 .game_dates{
 	font: bold 12pt arial;
