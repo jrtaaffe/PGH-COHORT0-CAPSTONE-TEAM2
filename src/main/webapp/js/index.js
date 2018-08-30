@@ -87,6 +87,7 @@ function fnLoadTransactions(arr, qty){
 	}
 	htmlStr += "</table>";
 	$('#transactions_div').html(htmlStr);
+	if(  $("#transactions_div").is(":visible") == false ) $('#transactions_div').toggle();
 }
 
 function countDownTimer(){

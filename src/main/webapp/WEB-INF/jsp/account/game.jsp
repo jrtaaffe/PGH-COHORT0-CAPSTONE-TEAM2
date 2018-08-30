@@ -4,7 +4,6 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("Game Details");</script>
-${leaderboard[0].netWorth}
 <c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 <fmt:setLocale value="en_US"/>
@@ -22,7 +21,8 @@ ${leaderboard[0].netWorth}
 	<tr class="table_row">
 		<td class="table_col">${currentUser.userName}</td>
 		<td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/></td>
-		<td class="table_col"></td>
+		<td class="table_col"><fmt:formatNumber value="${leaderboard[0].netWorth}" type="currency"/>
+		</td>
          <td class="table_col"></td>
 	</tr>
 </table>
@@ -56,7 +56,7 @@ ${leaderboard[0].netWorth}
 		<td class="table_col" id="daily_hi"></td>
 		<td class="table_col" id="daily_lo"></td>
 		<td class="table_col" id="plus_minus"></td>
-		<td class="table_col" id="qty"><input type="text" id="qty_field"><button id="buy_button" class="buy_button" >BUY2</button></td>
+		<td class="table_col" id="qty"><input type="text" id="qty_field"><button id="buy_button" class="buy_button" >BUY</button></td>
 	</tr>
 </table>
 
@@ -75,7 +75,7 @@ ${leaderboard[0].netWorth}
 <div id="stocks">
 <div id="count_down_timer"></div>
 <br>
-<div id="transactions_div"></div>
+<div id="transactions_div"></div><div id="no_transactions"></div>
 <!-- ############### TRANSACTIONS TABLE HERE ############ -->
 
 
