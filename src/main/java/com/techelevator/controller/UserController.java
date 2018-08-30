@@ -218,12 +218,12 @@ public class UserController {
 				}
 			}
 
-			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
+			if(exists && walletValue >= (valueOfStock * 100)) {		//if they already own the stock, and have enough money to buy
 				System.out.println(8);
 
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
 				gameDAO.updateWalletValue((walletValue - (valueOfStock * 100)), portfolioId);	//update wallet value
-			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
+			} else if(walletValue >= (valueOfStock * 100)) {			//if they don't own the stock, and have enough money to buy
 				System.out.println(9);
 
 				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
@@ -231,7 +231,7 @@ public class UserController {
 			} else {
 				System.out.println(10);
 
-				request.setAttribute("failure", "You don't have enough money"); // transaction failed, you don't have enough money
+				request.setAttribute("modalMessage", "no_money"); // transaction failed, you don't have enough money
 			}
 		} else if(action.equals("S")) {		//if they want to sell
 			boolean exists = false;		//do you own this stock?
@@ -251,9 +251,9 @@ public class UserController {
 				gameDAO.deleteStock(tickerSymbol, portfolioId);
 				gameDAO.updateWalletValue((walletValue + (valueOfStock * 100)), portfolioId);
 			} else if(exists && newQuantity < 0) {		// if they do not own enough of the stock they want to sell
-				request.setAttribute("failure", "You do not own enough of that Stock");
+				request.setAttribute("modalMessage", "not_enough_stock");
 			} else {		//if they do not own the stock at all
-				request.setAttribute("failure", "You do not own that Stock");
+				request.setAttribute("modalMessage", "You do not own that Stock");
 			}
 		}
 		
