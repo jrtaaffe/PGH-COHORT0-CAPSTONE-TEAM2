@@ -25,6 +25,20 @@
 	});
 </script>
 
+<script>
+      function onSignIn(googleUser) {
+    	  
+        var profile = googleUser.getBasicProfile();
+        console.log("ID: " + profile.getId()); // Don't send directly to server
+        console.log('Name: ' + profile.getName());
+        console.log("Email: " + profile.getEmail());
+
+        // Send the ID token to backend:
+        var id_token = googleUser.getAuthResponse().id_token;
+        console.log("ID Token: " + id_token);
+      };
+    </script>
+
 <div class="row">
 	<div class="col-sm-4"></div>
 	<div class="col-sm-4">
@@ -41,6 +55,10 @@
 				<input type="password" id="password" name="password" placeHolder="Password" class="form-control" />
 			</div>
 			<button type="submit" class="btn btn-default">Login</button>
+			
+			
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			
 		</form>
 	</div>
 	<div class="col-sm-4"></div>

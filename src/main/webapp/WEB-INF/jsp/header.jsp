@@ -13,8 +13,15 @@
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	    <script src="/capstone/js/index.js"></script>
+	    <script src="/capstone/js/jquery.blockUI.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
+		
+	<meta name="google-signin-scope" content="patrick.mcgrath992@gmail.com">   <%--sign-in api--%>
+    <meta name="google-signin-client_id" content="477833877206-3t9nj45ls1obq0fke2rkpi4nmfhcg0iu.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+		
+		
 	<c:set var = "isHomePage" value = "false"/>	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
 <c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
@@ -41,6 +48,10 @@
 					<c:set var="index" value="${index + 1}"/>
 				</c:forEach>	
 				myStocksLookup(symbols, qtys);
+				if ("${modalMessage}" != ""){
+					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
+				}
+				countDownTimer();
 			});
 			
 			function fnSetTitle(currTitle){

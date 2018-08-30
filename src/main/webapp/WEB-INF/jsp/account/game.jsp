@@ -7,22 +7,23 @@
 
 <c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
-
+<fmt:setLocale value="en_US"/>
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 <table class="games_table">
 	<tr class="table_row">
 		<td class="table_header">Title</td>
 		<td class="table_header">Start Date</td>
-		<td class="table_header">End Date2</td>
+		<td class="table_header">End Date</td>
+		<td class="table_header">Available Cash</td>
 	</tr>
 	<tr class="table_row">
-		<td class="table_col1">${currGame.name}</td>
-
-
-		<td class="table_col2"><fmt:formatDate type = "date" 
+		<td class="table_col">${currGame.name}</td>
+		<td class="table_col"><fmt:formatDate type = "date" 
          value = "${currGame.startDate}" /></td>
-		<td class="table_col3"><fmt:formatDate type = "date" 
+		<td class="table_col"><fmt:formatDate type = "date" 
          value = "${currGame.endDate}" /></td>
+         <td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/>
+         </td>
 	</tr>
 </table>
 <br>
@@ -55,11 +56,12 @@
 		<td class="table_col" id="daily_hi"></td>
 		<td class="table_col" id="daily_lo"></td>
 		<td class="table_col" id="plus_minus"></td>
-		<td class="table_col" id="qty"><input type="text" id="qty_field"><button onclick="fnBuyStock('B')">BUY</button></td>
+		<td class="table_col" id="qty"><input type="text" id="qty_field"><button class="buy_button" onclick="fnBuyStock('B',$(#symbol').html(), $(#qty_field').val(), $(#price').html());">BUY</button></td>
 	</tr>
 </table>
 
 </div>
+
 
 
 </div><!-- end of inner container div -->
@@ -67,8 +69,10 @@
 
 
 
+
 <div class="outter_main_container">
 <div class="inner_main_container">
+<div id="count_down_timer">test</div>
 <div id="stocks">
 <br>
 <div id="transactions_div"></div>
@@ -90,7 +94,27 @@
 
 </form>
 
-<!-- portfolio_id, action, ticker_symbol, quantity, value_of_stock (qty * price * 100) -->
+<!-- ####################  Buy Stock Dialog ############## -->
+<div id="purchase_successful" style="display:none; cursor: default"> 
+        <span class="modal_message">Your stock purchase has been added to your portfolio!</span><br><br>
+        <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
+</div>
+ 
+<div id="no_money" class="modal"> 
+        <p class="modal_message">You do not have enough money to make this purchase.</p> 
+        <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
+        <br>&nbsp;
+</div> 
+
+
+
+
+
+
+
+
+
+
 
 <c:import url="/WEB-INF/jsp/footer.jsp" />
 

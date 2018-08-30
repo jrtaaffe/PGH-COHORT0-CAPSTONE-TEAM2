@@ -135,22 +135,16 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		System.out.println(request.getAttribute("gameId"));
-		System.out.println(request.getParameter("gameId"));
+		request.setAttribute("modalMessage","");
 		if(request.getParameter("gameId") != null) {
 			request.setAttribute("gameId", request.getParameter("gameId"));
 		}
 		int gameId = Integer.parseInt((String)request.getAttribute("gameId"));
-		System.out.println("game id");
-		System.out.println(gameId);
-		
 		UserGame currGame = gameDAO.getGameById(gameId);
 		request.setAttribute("currGame", currGame);
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, gameId);
-
-		System.out.println(portfolioId);
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", walletValue);
 
@@ -162,58 +156,40 @@ public class UserController {
 			request.setAttribute("stock_symbols_sorted", keys);
 		}
 		request.setAttribute("portfolioId", portfolioId);
-		System.out.println("complete");
 		return "account/game";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
 	public String transactionPost(HttpServletRequest request, HttpSession session) {
-		System.out.println(1);
-		System.out.println(request.getParameter("portfolioId"));
 		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
-		System.out.println(2);
 		String action = request.getParameter("action");		// buy or sell
 		String tickerSymbol = request.getParameter("tickerSymbol");	
 		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
 		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
-		System.out.println(3);
-		
 		int gameId = Integer.parseInt(request.getParameter("gameId"));
-		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
-		System.out.println(4);
-		
 		if(action.equals("B")) {		// if they want to buy
 			System.out.println(5);	
 			boolean exists = false;
 			int newQuantity = 0;
 			if (!transactions.isEmpty() && transactions != null) {
 				for(Entry<String, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
-					System.out.println(6);
-
 					if(tickerSymbol.equals(entry.getKey())) {	//if the stock they want to buy matches a stock they own
-						System.out.println(7);
-
 						exists = true;
 						newQuantity = entry.getValue() + quantity;
 					}
 				}
 			}
+			request.setAttribute("modalMessage", "purchase_successful"); // assume successful : failed transactions will override this message
 			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
-				System.out.println(8);
-
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value
 			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
-				System.out.println(9);
-
 				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId); //update wallet value
 			} else {
-				System.out.println(10);
-
-				request.setAttribute("failure", "You don't have enough money"); // transaction failed, you don't have enough money
+				request.setAttribute("modalMessage", "no_money"); // transaction failed, you don't have enough money
 			}
 		} else if(action.equals("S")) {		//if they want to sell
 			boolean exists = false;		//do you own this stock?
