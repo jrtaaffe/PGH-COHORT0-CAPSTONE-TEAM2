@@ -108,5 +108,35 @@
 </div> 
 
 
+
+
+
+<script>
+var names = []; 
+var cash = []; 
+var worth = []; 
+var standing = []; 
+<c:set var = "count" value ="0" />
+<c:forEach items="${leaderboard}" var="userGame">
+	names[${count}] = "${userGame.username} (${userGame.lastName}, ${userGame.firstName})";
+	cash[${count}] = "${userGame.wallet}";
+	worth[${count}] = "${userGame.netWorth}";
+	standing[${count}] = "${count}";
+	<c:set var="count" value="${count + 1}"/>
+</c:forEach>	
+</script>	
+
+
+
+
+
+				
+				<c:forEach items="${stock_symbols_sorted}" var="stockSymbol">
+					symbols[${index}] = "${stockSymbol}";
+					qtys[${index}] = "${transactions.get(stockSymbol)}";
+					
+				</c:forEach>	
+
+
 <c:import url="/WEB-INF/jsp/footer.jsp" />
 

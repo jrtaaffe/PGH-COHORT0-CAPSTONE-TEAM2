@@ -23,6 +23,9 @@
 		
 		
 	<c:set var = "isHomePage" value = "false"/>	
+	<c:set var = "leaderboard" value = "${leaderboard}"/>	
+
+	
 	<c:set var = "string1" value = "${pageContext.request.requestURL}"/>
 <c:if test="${fn:substring(string1, string1.length() - 8, string1.length()).equals('home.jsp')}">
 			<c:set var = "isHomePage" value = "true"/>
@@ -55,7 +58,7 @@
 				if ("${modalMessage}" != ""){
 					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
 				}
-				countDownTimer();
+				if (currPage == "game") countDownTimer();
 			});
 			
 			function fnSetTitle(currTitle){
@@ -90,11 +93,13 @@
 				f.price.value = arr.price;
 			}
 			function fnShowStandings(){
-				var leaderboard = ${leaderboard};
-				var leaderboardHTML = "<td class=\"table_header\">Name</td>";
-				leaderboardHTML += "<td class=\"table_header\">Available Cash</td>";
-				leaderboardHTML += "<td class=\"table_header\">Net Worth</td>";
-				leaderboardHTML += "<td class=\"table_header\">Game Standing</td>";
+				var leaderboard = "";
+				for (x in names){
+					var leaderboardHTML = "<td class=\"table_header\">"+names[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_header\">"+cash[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_header\">"+worth[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_header\">"+standing[x]+"</td>";
+				}
 				$('#current_game tr:last').after(leaderboardHTML);
 			}
 		</script>
