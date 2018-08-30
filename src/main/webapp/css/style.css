@@ -175,7 +175,8 @@ li {
   margin: 0 0 0 -20px;
 }
 .games_table{
-	padding: 5px;
+	padding: 5px !important;
+	margin: 20px 0px 0px 0px !important;
 	width: 100%;
 }
 .table_row{
@@ -197,6 +198,12 @@ li {
 	width: 700px;;
 }
 .stock_row{
+}
+#transactions_div{
+	display:none !important;
+}
+#no_transactions{
+	
 }
 add_stock_label{
 	width: 15%;
@@ -265,4 +272,17 @@ input[class^="sell_qty"]{
 .modal_message{
 	font: normal 12pt arial;
 	padding: 20px;
+}
+.game_title{
+	font: bold 16pt arial;
+	color: black;
+	margin: 20px 20px 20px 0;
+}
+.game_dates{
+	font: bold 12pt arial;
+	color: grey;
+}
+.game_status{
+	font: normal 11pt arial;
+	color: grey;
 }

@@ -36,4 +36,5 @@ public interface GameDAO {
 	
 	public List<UserGame> getAllActiveGames();
 
+	public List<LeaderboardUser> getUserInfoForLeaderboard(int gameId);
 }

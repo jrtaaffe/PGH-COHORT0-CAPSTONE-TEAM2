@@ -1,6 +1,7 @@
 package com.techelevator.controller;
 
 import java.util.Date;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -24,12 +25,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.techelevator.model.Email;
 import com.techelevator.model.Game;
 import com.techelevator.model.GameDAO;
+import com.techelevator.model.LeaderboardUser;
 import com.techelevator.model.Stock;
+import com.techelevator.model.StockData;
 import com.techelevator.model.TempGame;
 import com.techelevator.model.User;
 import com.techelevator.model.UserDAO;
@@ -139,18 +143,27 @@ public class UserController {
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.GET)
 	public String gamePage(HttpSession session, HttpServletRequest request) {
-		request.setAttribute("modalMessage","");
+		System.out.println(request.getAttribute("gameId"));
+		System.out.println(request.getParameter("gameId"));
 		if(request.getParameter("gameId") != null) {
 			request.setAttribute("gameId", request.getParameter("gameId"));
 		}
 		int gameId = Integer.parseInt((String)request.getAttribute("gameId"));
+		System.out.println("game id");
+		System.out.println(gameId);
+		
 		UserGame currGame = gameDAO.getGameById(gameId);
 		request.setAttribute("currGame", currGame);
 		User user = (User) session.getAttribute("currentUser");
 		String email = user.getEmail();
 		int portfolioId = gameDAO.getPortfolioId(email, gameId);
+
+		System.out.println(portfolioId);
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", walletValue);
+		
+		List<LeaderboardUser> leaderboard = calculateNetWorthList(gameId);
+		request.setAttribute("leaderboard", leaderboard);
 
 		if (portfolioId != -1) {
 			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
@@ -160,40 +173,69 @@ public class UserController {
 			request.setAttribute("stock_symbols_sorted", keys);
 		}
 		request.setAttribute("portfolioId", portfolioId);
+		System.out.println("complete");
 		return "account/game";
 	}
 	
 	@RequestMapping(path="/account/game", method=RequestMethod.POST)
 	public String transactionPost(HttpServletRequest request, HttpSession session) {
+	
 		int portfolioId = Integer.parseInt(request.getParameter("portfolioId"));   
 		String action = request.getParameter("action");		// buy or sell
 		String tickerSymbol = request.getParameter("tickerSymbol");	
-		int quantity = Integer.parseInt(request.getParameter("quantity"));		//quantity to buy or sell
-		float valueOfStock = Float.parseFloat(request.getParameter("valueOfStock"));		//value of the stocks to buy or sell in pennies
+		int quantity = Integer.parseInt(request.getParameter("quantity"));	//quantity to buy or sell
+		RestTemplate restTemplate = new RestTemplate();
+		StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + tickerSymbol + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
+		float valueOfStock = stockData.getData()[0].getPrice() * quantity;	//value of the stocks to buy or sell in pennies
+		
+		
 		int gameId = Integer.parseInt(request.getParameter("gameId"));
+		
 		float walletValue = gameDAO.getWalletValueByPortfolio(portfolioId);		// current amount of cash
 		Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);	// stocks and quantities currently owned
+
+		//load the confirmation message details into a session variable
+		//#############################################################
+		request.setAttribute("modalMessage", "purchase_successful"); // assume successful : failed transactions will override this message
+		String textAction;
+		if(action.equals("S")) textAction = "sale";
+		else textAction = "purchase";
+		NumberFormat formatter = NumberFormat.getCurrencyInstance();
+		String moneyString = formatter.format(valueOfStock);
+		request.setAttribute("transactionDetails","Your " + textAction + " of " + String.valueOf(quantity) + " shares of " + tickerSymbol + " for " + moneyString);			
+		//#############################################################
+
+
 		if(action.equals("B")) {		// if they want to buy
-			System.out.println(5);	
 			boolean exists = false;
 			int newQuantity = 0;
 			if (!transactions.isEmpty() && transactions != null) {
 				for(Entry<String, Integer> entry : transactions.entrySet()) {		//loop over the stocks they already own
+					System.out.println(6);
+
 					if(tickerSymbol.equals(entry.getKey())) {	//if the stock they want to buy matches a stock they own
+						System.out.println(7);
+
 						exists = true;
 						newQuantity = entry.getValue() + quantity;
 					}
 				}
 			}
-			request.setAttribute("modalMessage", "purchase_successful"); // assume successful : failed transactions will override this message
+
 			if(exists && walletValue >= valueOfStock) {		//if they already own the stock, and have enough money to buy
+				System.out.println(8);
+
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value
 			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
+				System.out.println(9);
+
 				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
 				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId); //update wallet value
 			} else {
-				request.setAttribute("modalMessage", "no_money"); // transaction failed, you don't have enough money
+				System.out.println(10);
+
+				request.setAttribute("failure", "You don't have enough money"); // transaction failed, you don't have enough money
 			}
 		} else if(action.equals("S")) {		//if they want to sell
 			boolean exists = false;		//do you own this stock?
@@ -227,6 +269,9 @@ public class UserController {
 		System.out.println(portfolioId);
 		float newWalletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", newWalletValue);
+		
+		List<LeaderboardUser> leaderboard = calculateNetWorthList(gameId);
+		request.setAttribute("leaderboard", leaderboard);
 
 		if (portfolioId != -1) {
 			Map<String, Integer> newTransactions = gameDAO.getTransactionsByUserGame(portfolioId);
@@ -239,4 +284,22 @@ public class UserController {
 		System.out.println("complete");
 		return "account/game";
 	}
+	
+	private List<LeaderboardUser> calculateNetWorthList(int gameId) {
+		List<LeaderboardUser> leaderboard = gameDAO.getUserInfoForLeaderboard(gameId);
+		RestTemplate restTemplate = new RestTemplate();
+		for(LeaderboardUser user : leaderboard) {
+			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(user.getPortfolioId());
+			float netWorth = gameDAO.getWalletValueByPortfolio(user.getPortfolioId()) / 100;
+			for(Entry<String, Integer> entry : transactions.entrySet()) {
+				StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + entry.getKey() + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
+				System.out.println(stockData.getData()[0].getPrice() + stockData.getData()[0].getSymbol() + stockData.getSymbols_requested());
+				float value = stockData.getData()[0].getPrice() * entry.getValue();
+				netWorth = netWorth + value;
+			}
+			user.setNetWorth(netWorth);
+		}
+		return leaderboard;
+	}
+	
 }
