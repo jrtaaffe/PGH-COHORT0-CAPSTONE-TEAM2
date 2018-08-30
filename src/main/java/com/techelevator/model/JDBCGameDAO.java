@@ -21,7 +21,11 @@ public class JDBCGameDAO implements GameDAO  {
 	
 	private static final long startingMoney = 10000000;
 	
-	private static String status = "active";
+	private static String PENDING = "pending";
+	
+	private static String ACTIVE = "active";
+	
+	private static String COMPLETED = "completed";
 	
 	@Autowired
 	public JDBCGameDAO(DataSource dataSource) {
@@ -40,6 +44,19 @@ public class JDBCGameDAO implements GameDAO  {
 			myGames.add(mapRowToUserGame(results));
 		}
 		return myGames;
+	}
+	
+	@Override
+	public List<UserGame> getAllActiveGames() {
+		List<UserGame> allActiveGames = new ArrayList<UserGame>();
+		String activeGame = "SELECT * FROM games";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(activeGame);
+		while(results.next()) {
+			allActiveGames.add(mapRowToGame(results));
+		}
+		
+		return allActiveGames;
+		
 	}
 	
 	@Override
@@ -87,6 +104,7 @@ public class JDBCGameDAO implements GameDAO  {
 		return game;
 	}
 	
+	
 	private Stock mapRowToStock(SqlRowSet results) {
 		Stock myStock = new Stock();
 		myStock.setTickerSymbol(results.getString("ticker_symbol"));
@@ -99,7 +117,8 @@ public class JDBCGameDAO implements GameDAO  {
 		int gameId;
 		String sqlInsertGame = "insert into games (name, start_date, end_date, admin, status) "
 				+ "values (?, ?, ?, ?, ?) returning game_id;";
-		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, status);
+		
+		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, ACTIVE);
 		gameId = number.intValue();
 		return gameId;
 	}
@@ -155,8 +174,6 @@ public class JDBCGameDAO implements GameDAO  {
 		String buyOrSell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portfolio_id = ?;";		
 		jdbcTemplate.update(buyOrSell, quantity, tickerSymbol, portfolioId);
 	}
-
-	
 	
 	
 	@Override		//to prevent stock with 0 quantity from showing up on User's portfolio. Run when stock is sold.

@@ -1,12 +1,15 @@
 package com.techelevator.controller;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +29,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.techelevator.model.Email;
+import com.techelevator.model.Game;
 import com.techelevator.model.GameDAO;
 import com.techelevator.model.LeaderboardUser;
 import com.techelevator.model.Stock;
@@ -263,7 +267,7 @@ public class UserController {
 		request.setAttribute("currGame", currGame);
 		
 		
-
+		
 		System.out.println(portfolioId);
 		float newWalletValue = gameDAO.getWalletValueByPortfolio(portfolioId);
 		request.setAttribute("walletValue", newWalletValue);
