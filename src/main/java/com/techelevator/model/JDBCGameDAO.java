@@ -1,11 +1,14 @@
 package com.techelevator.model;
 
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.sql.DataSource;
 
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class JDBCGameDAO implements GameDAO  {
@@ -44,19 +48,6 @@ public class JDBCGameDAO implements GameDAO  {
 			myGames.add(mapRowToUserGame(results));
 		}
 		return myGames;
-	}
-	
-	@Override
-	public List<UserGame> getAllActiveGames() {
-		List<UserGame> allActiveGames = new ArrayList<UserGame>();
-		String activeGame = "SELECT * FROM games";
-		SqlRowSet results = jdbcTemplate.queryForRowSet(activeGame);
-		while(results.next()) {
-			allActiveGames.add(mapRowToGame(results));
-		}
-		
-		return allActiveGames;
-		
 	}
 	
 	@Override
@@ -115,10 +106,10 @@ public class JDBCGameDAO implements GameDAO  {
 	@Override
 	public int createNewGame(String name, Date startDate, Date endDate, String admin) {
 		int gameId;
-		String sqlInsertGame = "insert into games (name, start_date, end_date, admin, status) "
-				+ "values (?, ?, ?, ?, ?) returning game_id;";
+		String sqlInsertGame = "insert into games (name, start_date, end_date, admin) "
+				+ "values (?, ?, ?, ?) returning game_id;";
 		
-		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, ACTIVE);
+		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin);
 		gameId = number.intValue();
 		return gameId;
 	}
@@ -237,5 +228,74 @@ public class JDBCGameDAO implements GameDAO  {
 		
 		return leaderboard;
 	}
+
+
+	@Override
+	public void updateStatusOfAllGames() {
+		List<UserGame> allGames = getAllGames();
+		Date date = new Date();
+		for(UserGame game : allGames) {
+			if(game.getStartDate().after(date)) {
+				String SqlStatusPending = "update games set status = ? where game_id = ?";
+				jdbcTemplate.update(SqlStatusPending, PENDING, game.getGameId());
+			} else if(game.getEndDate().before(date)) {
+				String SqlStatusPending = "update games set status = ? where game_id = ?";
+				jdbcTemplate.update(SqlStatusPending, COMPLETED, game.getGameId());
+			} else {
+				String SqlStatusPending = "update games set status = ? where game_id = ?";
+				jdbcTemplate.update(SqlStatusPending, ACTIVE, game.getGameId());
+			}
+		}
+	}
+	
+	@Override
+	public List<UserGame> getAllGames() {
+		List<UserGame> allGames = new ArrayList<UserGame>();
+		String activeGame = "SELECT * FROM games";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(activeGame);
+		while(results.next()) {
+			allGames.add(mapRowToGame(results));
+		}
+		return allGames;
+	}
+
+
+	@Override
+	public void endGame(List<UserGame> games) {
+		for(UserGame game : games) {
+			if(game.getStatus().equals(COMPLETED)) {
+				List<Integer> portfolios = getAllPortfoliosByGame(game.getGameId());
+				for(Integer id : portfolios) {
+					RestTemplate restTemplate = new RestTemplate();
+					float walletValue = getWalletValueByPortfolio(id);
+					Map<String, Integer> transactions = getTransactionsByUserGame(id);
+					for(Entry<String, Integer> entry : transactions.entrySet()) {
+						StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + entry.getKey() + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
+						float value = stockData.getData()[0].getPrice() * entry.getValue();
+						walletValue = walletValue + value;
+						updateWalletValue(walletValue, id);
+						sellout(id);
+					}
+				}
+			}
+		}
+		
+	}
+	
+	private List<Integer> getAllPortfoliosByGame(int gameId) {
+		List<Integer> ids = new ArrayList<Integer>();
+		String sqlGetPortfolios = "select portfolio_id from user_game where game_id = ?";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlGetPortfolios, gameId);
+		while(results.next()) {
+			ids.add(results.getInt("portfolio_id"));
+		}
+		return ids;
+	}
+	
+	private void sellout(int portfolioId) {
+		String delete = "DELETE FROM transactions WHERE portfolio_id = ?;";
+		jdbcTemplate.update(delete, portfolioId);
+	}
+	
 
 }

@@ -33,8 +33,12 @@ public interface GameDAO {
 	public UserGame getGameById(int gameId);
 	
 	public float getWalletValueByPortfolio(int portfolioId);
-	
-	public List<UserGame> getAllActiveGames();
 
 	public List<LeaderboardUser> getUserInfoForLeaderboard(int gameId);
+	
+	public void updateStatusOfAllGames();
+	
+	public List<UserGame> getAllGames();
+	
+	public void endGame(List<UserGame> games);
 }

@@ -25,7 +25,7 @@ CREATE TABLE games (
 	start_date date NOT NULL,
 	end_date date NOT NULL,
 	admin varchar(64) NOT NULL,
-	status varchar(32) NOT NULL,
+	status varchar(32),
 	
 	constraint pk_games primary key (game_id),
 	constraint fk_admin foreign key (admin) references app_user (email)

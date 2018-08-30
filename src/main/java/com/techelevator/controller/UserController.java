@@ -285,6 +285,14 @@ public class UserController {
 		return "account/game";
 	}
 	
+	@RequestMapping(path="account/gameEnd", method=RequestMethod.GET)
+	public String gameEnd() {
+		List<UserGame> games = gameDAO.getAllGames();
+		gameDAO.updateStatusOfAllGames();
+		gameDAO.endGame(games);
+		return "account/gameEnd";
+	}
+	
 	private List<LeaderboardUser> calculateNetWorthList(int gameId) {
 		List<LeaderboardUser> leaderboard = gameDAO.getUserInfoForLeaderboard(gameId);
 		RestTemplate restTemplate = new RestTemplate();
