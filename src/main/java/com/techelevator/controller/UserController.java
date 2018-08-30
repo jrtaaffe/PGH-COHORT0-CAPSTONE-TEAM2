@@ -286,12 +286,15 @@ public class UserController {
 		RestTemplate restTemplate = new RestTemplate();
 		for(LeaderboardUser user : leaderboard) {
 			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(user.getPortfolioId());
+			float netWorth = gameDAO.getWalletValueByPortfolio(user.getPortfolioId());
 			for(Entry<String, Integer> entry : transactions.entrySet()) {
 				StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + entry.getKey() + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
 				float value = stockData.getPrice() * entry.getValue();
-				user.setNetWorth(value);
+				netWorth = netWorth + value;
 			}
+			user.setNetWorth(netWorth);
 		}
 		return leaderboard;
 	}
+	
 }
