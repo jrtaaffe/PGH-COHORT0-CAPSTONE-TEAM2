@@ -43,6 +43,19 @@ public class JDBCGameDAO implements GameDAO  {
 	}
 	
 	@Override
+	public List<UserGame> getAllActiveGames() {
+		List<UserGame> allActiveGames = new ArrayList<UserGame>();
+		String activeGame = "SELECT * FROM games";
+		SqlRowSet results = jdbcTemplate.queryForRowSet(activeGame);
+		while(results.next()) {
+			allActiveGames.add(mapRowToGame(results));
+		}
+		
+		return allActiveGames;
+		
+	}
+	
+	@Override
 	public UserGame getGameById(int gameId) {
 		UserGame myGame = new UserGame();
 		String sqlGame = "SELECT game_id, name, start_date, end_date "
@@ -85,6 +98,7 @@ public class JDBCGameDAO implements GameDAO  {
 		game.setEndDate(results.getDate("end_date"));
 		return game;
 	}
+	
 	
 	private Stock mapRowToStock(SqlRowSet results) {
 		Stock myStock = new Stock();
@@ -154,8 +168,6 @@ public class JDBCGameDAO implements GameDAO  {
 		String buyOrSell = "UPDATE transactions SET quantity = ? WHERE ticker_symbol = ? AND portfolio_id = ?;";		
 		jdbcTemplate.update(buyOrSell, quantity, tickerSymbol, portfolioId);
 	}
-
-	
 	
 	
 	@Override		//to prevent stock with 0 quantity from showing up on User's portfolio. Run when stock is sold.
