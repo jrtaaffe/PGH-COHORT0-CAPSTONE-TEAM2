@@ -1,22 +1,19 @@
 package com.techelevator.controller;
 
-import java.util.Date;
+
+import java.sql.Date;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -24,15 +21,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.techelevator.model.Email;
-import com.techelevator.model.Game;
 import com.techelevator.model.GameDAO;
 import com.techelevator.model.LeaderboardUser;
-import com.techelevator.model.Stock;
 import com.techelevator.model.StockData;
 import com.techelevator.model.TempGame;
 import com.techelevator.model.User;
@@ -115,6 +109,7 @@ public class UserController {
 			HttpSession session) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
+		System.out.println("hey im working");
 		
 		User user = (User) session.getAttribute("currentUser");
 		String player = user.getFirstName() + " " + user.getLastName();
@@ -228,12 +223,12 @@ public class UserController {
 				System.out.println(8);
 
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);	//update the entry in the table to represent new quantity owned
-				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId);	//update wallet value
+				gameDAO.updateWalletValue((walletValue - (valueOfStock * 100)), portfolioId);	//update wallet value
 			} else if(walletValue >= valueOfStock) {			//if they don't own the stock, and have enough money to buy
 				System.out.println(9);
 
 				gameDAO.buyInitialStock(portfolioId, tickerSymbol, quantity);		//insert new entry in the table for that stock and quantity
-				gameDAO.updateWalletValue((walletValue - valueOfStock), portfolioId); //update wallet value
+				gameDAO.updateWalletValue((walletValue - (valueOfStock * 100)), portfolioId); //update wallet value
 			} else {
 				System.out.println(10);
 
@@ -252,10 +247,10 @@ public class UserController {
 			}
 			if(exists && newQuantity > 0) {	//if they own the stock and they will still own shares after the sale
 				gameDAO.buyOrSellStock(tickerSymbol, newQuantity, portfolioId);
-				gameDAO.updateWalletValue((walletValue + valueOfStock), portfolioId);
+				gameDAO.updateWalletValue((walletValue + (valueOfStock * 100)), portfolioId);
 			} else if(exists && newQuantity == 0) {		//if they own the stock, but will have none after the sale
 				gameDAO.deleteStock(tickerSymbol, portfolioId);
-				gameDAO.updateWalletValue((walletValue + valueOfStock), portfolioId);
+				gameDAO.updateWalletValue((walletValue + (valueOfStock * 100)), portfolioId);
 			} else if(exists && newQuantity < 0) {		// if they do not own enough of the stock they want to sell
 				request.setAttribute("failure", "You do not own enough of that Stock");
 			} else {		//if they do not own the stock at all
