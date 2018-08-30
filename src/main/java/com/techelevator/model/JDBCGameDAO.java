@@ -21,7 +21,11 @@ public class JDBCGameDAO implements GameDAO  {
 	
 	private static final long startingMoney = 10000000;
 	
-	private static String status = "active";
+	private static String PENDING = "pending";
+	
+	private static String ACTIVE = "active";
+	
+	private static String COMPLETED = "completed";
 	
 	@Autowired
 	public JDBCGameDAO(DataSource dataSource) {
@@ -99,7 +103,8 @@ public class JDBCGameDAO implements GameDAO  {
 		int gameId;
 		String sqlInsertGame = "insert into games (name, start_date, end_date, admin, status) "
 				+ "values (?, ?, ?, ?, ?) returning game_id;";
-		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, status);
+		
+		Integer number = jdbcTemplate.queryForObject(sqlInsertGame, Integer.class, name, startDate, endDate, admin, ACTIVE);
 		gameId = number.intValue();
 		return gameId;
 	}
