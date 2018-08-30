@@ -19,10 +19,9 @@
 		<td class="table_header">Game Standing <span class="view_all_link"><a href="javascript:fnShowStandings()">(view all)</a></span></td>
 	</tr>
 	<tr class="table_row">
-		<td class="table_col">${currentUser.userName}</td>
-		<td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/></td>
-		<td class="table_col"><fmt:formatNumber value="${leaderboard[0].netWorth}" type="currency"/>
-		</td>
+		<td class="table_col" style="text-align:left;">${currentUser.userName}</td>
+		<td class="table_col" style="text-align:left;"><fmt:formatNumber value="${walletValue/100}" type="currency"/></td>
+		<td class="table_col" style="text-align:left;"><fmt:formatNumber value="${leaderboard[0].netWorth}" type="currency"/></td>
          <td class="table_col"></td>
 	</tr>
 </table>

@@ -71,14 +71,14 @@ function fnLoadTransactions(arr, qty){
 	
 	for (x in arr){
 		htmlStr +="<tr class=\"table_row\">" +
-		"<td class=\"table_col\" id=\"symbol\">" + arr[x].symbol + "</td>" +
-		"<td class=\"table_col\" id=\"name\">" + arr[x].name + "</td>" +
-		"<td class=\"table_col\" id=\"price\">" + arr[x].price + "</td>" +
-		"<td class=\"table_col\" id=\"open\">" + arr[x].price_open + "</td>" +
-		"<td class=\"table_col\" id=\"daily_hi\">" + arr[x].day_high + "</td>" +
-		"<td class=\"table_col\" id=\"daily_lo\">" + arr[x].day_low + "</td>" +
-		"<td class=\"table_col\" id=\"plus_minus\">" + arr[x].day_change + "</td>" +
-		"<td class=\"table_col\" id=\"qty\">" + qty[x] + "</td>" +
+		"<td class=\"table_col\" id=\"symbol\" style=\"text-align:left;\">" + arr[x].symbol + "</td>" +
+		"<td class=\"table_col\" id=\"name\" style=\"text-align:left;\">"+arr[x].name + "</td>" +
+		"<td class=\"table_col\" id=\"price\">$"+Number(arr[x].price).format(2) + "</td>" +
+		"<td class=\"table_col\" id=\"open\">$" +Number(arr[x].price_open).format(2) + "</td>" +
+		"<td class=\"table_col\" id=\"daily_hi\">$"+Number(arr[x].day_high).format(2) + "</td>" +
+		"<td class=\"table_col\" id=\"daily_lo\">$"+Number(arr[x].day_low).format(2) + "</td>" +
+		"<td class=\"table_col\" id=\"plus_minus\">$"+Number(arr[x].day_change).format(2) + "</td>" +
+		"<td class=\"table_col\" id=\"qty\" align=\"right\">" + qty[x] + "</td>" +
 		"<td class=\"table_col\" id=\"buy_sell\">" +
 		"<input type=\"text\"  id=\"sell_qty_" + arr[x].symbol + "\" \" name=\"sell_qty_" + 
 		arr[x].symbol + "\" class=\"sell_qty td_align_center\"/></td><td>" +
@@ -121,3 +121,8 @@ function countDownTimer(){
 	  }
 	}, 1000);
 }
+
+Number.prototype.format = function(n, x) {
+    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+};

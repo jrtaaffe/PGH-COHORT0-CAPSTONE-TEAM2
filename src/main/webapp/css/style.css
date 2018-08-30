@@ -185,6 +185,7 @@ li {
 }
 .table_col{
 	padding: 5px;
+	text-align: right;
 }
 .table_header{
 	font: bold 12pt arial;
@@ -227,6 +228,7 @@ add_stock_label{
 .stock_header{
 	font: bold 10pt arial;
 	color: brown;
+	text-align: center;
 }
 #qty_field{
 	width:40px !important;

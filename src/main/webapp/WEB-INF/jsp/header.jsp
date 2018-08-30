@@ -82,11 +82,11 @@
 				x = document.getElementById("symbolLookup");
 				$('#symbol').html(arr.symbol);
 				$('#name').html(arr.name);
-				$('#price').html(arr.price);
-				$('#open').html(arr.price_open);
-				$('#daily_hi').html(arr.day_high);
-				$('#daily_lo').html(arr.day_low);
-				$('#plus_minus').html(arr.day_change);
+				$('#price').html('$'+Number(arr.price).format(2));
+				$('#open').html('$'+Number(arr.price_open).format(2));
+				$('#daily_hi').html('$'+Number(arr.day_high).format(2));
+				$('#daily_lo').html('$'+Number(arr.day_low).format(2));
+				$('#plus_minus').html('$'+Number(arr.day_change).format(2));
 				if(  $("#symbolLookup").is(":visible") == false ) $('#symbolLookup').toggle();
 				f = document.forms['update_game_form'];
 				f.tickerSymbol.value = arr.symbol;
@@ -97,8 +97,8 @@
 				var leaderboardHTML = "";
 				for (x in names){
 					leaderboardHTML += "<tr><td class=\"table_col\">"+names[x]+"</td>";
-					leaderboardHTML += "<td class=\"table_col\">"+cash[x]+"</td>";
-					leaderboardHTML += "<td class=\"table_col\">"+worth[x]+"</td>";
+					leaderboardHTML += "<td class=\"table_col\">$"+Number(cash[x]).format(2)+"</td>";
+					leaderboardHTML += "<td class=\"table_col\">$"+Number(worth[x]).format(2)+"</td>";
 					leaderboardHTML += "<td class=\"table_col\">"+standing[x]+"</td></tr>";
 				}
 				$('#current_game tr:last').after(leaderboardHTML);
