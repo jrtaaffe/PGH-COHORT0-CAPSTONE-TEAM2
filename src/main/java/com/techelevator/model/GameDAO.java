@@ -34,5 +34,7 @@ public interface GameDAO {
 	
 	public float getWalletValueByPortfolio(int portfolioId);
 	
+	public List<UserGame> getAllActiveGames();
+
 	public List<LeaderboardUser> getUserInfoForLeaderboard(int gameId);
 }
