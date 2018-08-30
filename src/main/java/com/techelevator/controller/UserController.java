@@ -157,7 +157,7 @@ public class UserController {
 		if (portfolioId != -1) {
 			Map<String, Integer> transactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", transactions);
-			List keys = new ArrayList(transactions.keySet());
+			List<String> keys = new ArrayList<String>(transactions.keySet());
 			Collections.sort(keys);
 			request.setAttribute("stock_symbols_sorted", keys);
 		}
@@ -232,7 +232,7 @@ public class UserController {
 			} else if(exists && newQuantity == 0) {		//if they own the stock, but will have none after the sale
 				gameDAO.deleteStock(tickerSymbol, portfolioId);
 				gameDAO.updateWalletValue((walletValue + valueOfStock), portfolioId);
-			} else if(newQuantity < 0) {		// if they do not own enough of the stock they want to sell
+			} else if(exists && newQuantity < 0) {		// if they do not own enough of the stock they want to sell
 				request.setAttribute("failure", "You do not own enough of that Stock");
 			} else {		//if they do not own the stock at all
 				request.setAttribute("failure", "You do not own that Stock");
@@ -251,7 +251,7 @@ public class UserController {
 		if (portfolioId != -1) {
 			Map<String, Integer> newTransactions = gameDAO.getTransactionsByUserGame(portfolioId);
 			request.setAttribute("transactions", newTransactions);
-			List keys = new ArrayList(transactions.keySet());
+			List<String> keys = new ArrayList<String>(newTransactions.keySet());
 			Collections.sort(keys);
 			request.setAttribute("stock_symbols_sorted", keys);
 		}
