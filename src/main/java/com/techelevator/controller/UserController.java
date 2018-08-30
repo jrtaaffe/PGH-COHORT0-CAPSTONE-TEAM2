@@ -58,13 +58,12 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/users", method=RequestMethod.POST)
-	public String createUser(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes flash) {
+	public String createUser(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes flash, HttpSession session) {
 		if(result.hasErrors()) {
 			flash.addFlashAttribute("user", user);
 			flash.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "user", result);
 			return "redirect:/users/new";
 		}
-		
 		
 		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
 		
@@ -74,9 +73,12 @@ public class UserController {
 				gameDAO.addPlayers(game.getGameId(), game.getEmail());
 			}
 			gameDAO.deleteInvitedPlayers(user.getEmail());
-		}
+		}				
+		System.out.println(4);
+		session.setAttribute("modalMessage", "new_registration"); // This will trigger a confirmation message for the user
 		return "redirect:/login";
 	}
+	
 	
 	@RequestMapping(path={"/account/home"}, method=RequestMethod.GET)
 	public String accoutHomePage(HttpServletRequest request, HttpSession session) {

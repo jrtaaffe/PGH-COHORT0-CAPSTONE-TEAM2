@@ -200,10 +200,10 @@ li {
 .stock_row{
 }
 #transactions_div{
-	display:none !important;
+	display:none;
 }
 #no_transactions{
-	
+	display:visible;
 }
 add_stock_label{
 	width: 15%;
@@ -285,4 +285,21 @@ input[class^="sell_qty"]{
 .game_status{
 	font: normal 11pt arial;
 	color: grey;
+}
+#new_registration{
+	width: 600px;
+}
+#my_games{
+	display: none;	
+	width:100%;
+}
+#no_games{
+	width: 100%;
+	text-align: center;
+	border-width:0 !important;
+	padding:10px;
+}
+.view_all_link{
+	font: normal 10pt arial;
+	color: blue;
 }

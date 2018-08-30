@@ -273,14 +273,14 @@
 			// it when we unblock
 			if (msg && typeof msg != 'string' && (msg.parentNode || msg.jquery)) {
 				var node = msg.jquery ? msg[0] : msg;
-				var data = {};
-				$(el).data('blockUI.history', data);
-				data.el = node;
-				data.parent = node.parentNode;
-				data.display = node.style.display;
-				data.position = node.style.position;
-				if (data.parent)
-					data.parent.removeChild(node);
+					var data = {};
+					$(el).data('blockUI.history', data);
+					data.el = node;
+					data.parent = node.parentNode;
+					data.display = node.style.display;
+					data.position = node.style.position;
+					if (data.parent)
+						data.parent.removeChild(node);
 			}
 
 			$(el).data('blockUI.onUnblock', opts.onUnblock);

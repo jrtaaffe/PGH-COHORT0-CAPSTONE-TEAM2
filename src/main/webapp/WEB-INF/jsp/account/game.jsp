@@ -3,7 +3,7 @@
 
 
 <c:import url="/WEB-INF/jsp/header.jsp" />
-<script>fnSetTitle("Game Details");</script>
+<script>fnSetTitle("Game Details");fnSetCurrPage("game");</script>
 <c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 <fmt:setLocale value="en_US"/>
@@ -11,12 +11,12 @@
 <span class="game_title">${currGame.name}</span><span class="game_dates"><fmt:formatDate type = "date" 
          value = "${currGame.startDate}" /> - <fmt:formatDate type = "date" 
          value = "${currGame.endDate}" /></span><span class="game_status"> (${currGame.status})</span>
-<table class="games_table">
+<table class="games_table" id="current_game">
 	<tr class="table_row">
 		<td class="table_header">Name</td>
 		<td class="table_header">Available Cash</td>
 		<td class="table_header">Net Worth</td>
-		<td class="table_header">Game Standing</td>
+		<td class="table_header">Game Standing <span class="view_all_link"><a href="javascript:fnShowStandings()">(view all)</a></span></td>
 	</tr>
 	<tr class="table_row">
 		<td class="table_col">${currentUser.userName}</td>
@@ -94,7 +94,7 @@
 
 </form>
 
-<!-- ####################  Buy Stock Dialog ############## -->
+<!-- ####################  Message Dialogs ############## -->
 <div id="purchase_successful" class="modal"> 
         <span class="modal_message">${transactionDetails} was successful!</span><br><br>
         <p></p>
