@@ -303,11 +303,11 @@ public class UserController {
 			float netWorth = gameDAO.getWalletValueByPortfolio(user.getPortfolioId()) / 100;
 			for(Entry<String, Integer> entry : transactions.entrySet()) {
 				StockData stockData = restTemplate.getForObject("https://www.worldtradingdata.com/api/v1/stock?symbol=" + entry.getKey() + "&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS", StockData.class);
-				System.out.println(stockData.getData()[0].getPrice() + stockData.getData()[0].getSymbol() + stockData.getSymbols_requested());
 				float value = stockData.getData()[0].getPrice() * entry.getValue();
 				netWorth = netWorth + value;
 			}
 			user.setNetWorth(netWorth);
+			user.setWallet(gameDAO.getWalletValueByPortfolio(user.getPortfolioId()) / 100);
 		}
 		return leaderboard;
 	}

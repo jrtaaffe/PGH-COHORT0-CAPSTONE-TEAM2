@@ -7,7 +7,16 @@ public class LeaderboardUser {
 	private String lastName;
 	private String username;
 	private float netWorth;
+	private float wallet;
 	
+	
+	
+	public float getWallet() {
+		return wallet;
+	}
+	public void setWallet(float wallet) {
+		this.wallet = wallet;
+	}
 	public int getPortfolioId() {
 		return portfolioId;
 	}
