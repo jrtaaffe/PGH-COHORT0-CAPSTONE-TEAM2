@@ -55,7 +55,7 @@
 				if ("${modalMessage}" != ""){
 					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
 				}
-				countDownTimer();
+				if (currPage == "game") countDownTimer();
 			});
 			
 			function fnSetTitle(currTitle){
@@ -90,7 +90,7 @@
 				f.price.value = arr.price;
 			}
 			function fnShowStandings(){
-				var leaderboard = ${leaderboard};
+				var leaderboard = "";
 				var leaderboardHTML = "<td class=\"table_header\">Name</td>";
 				leaderboardHTML += "<td class=\"table_header\">Available Cash</td>";
 				leaderboardHTML += "<td class=\"table_header\">Net Worth</td>";
