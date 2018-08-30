@@ -9,21 +9,21 @@
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 <fmt:setLocale value="en_US"/>
 <input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
+<span class="game_title">${currGame.name}</span><span class="game_dates"><fmt:formatDate type = "date" 
+         value = "${currGame.startDate}" /> - <fmt:formatDate type = "date" 
+         value = "${currGame.endDate}" /></span><span class="game_status"> (${currGame.status})</span>
 <table class="games_table">
 	<tr class="table_row">
-		<td class="table_header">Title</td>
-		<td class="table_header">Start Date</td>
-		<td class="table_header">End Date</td>
+		<td class="table_header">Name</td>
 		<td class="table_header">Available Cash</td>
+		<td class="table_header">Net Worth</td>
+		<td class="table_header">Game Standing</td>
 	</tr>
 	<tr class="table_row">
-		<td class="table_col">${currGame.name}</td>
-		<td class="table_col"><fmt:formatDate type = "date" 
-         value = "${currGame.startDate}" /></td>
-		<td class="table_col"><fmt:formatDate type = "date" 
-         value = "${currGame.endDate}" /></td>
-         <td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/>
-         </td>
+		<td class="table_col">${currentUser.userName}</td>
+		<td class="table_col"><fmt:formatNumber value="${walletValue/100}" type="currency"/></td>
+		<td class="table_col"></td>
+         <td class="table_col"></td>
 	</tr>
 </table>
 <br>
@@ -56,7 +56,7 @@
 		<td class="table_col" id="daily_hi"></td>
 		<td class="table_col" id="daily_lo"></td>
 		<td class="table_col" id="plus_minus"></td>
-		<td class="table_col" id="qty"><input type="text" id="qty_field"><button class="buy_button" onclick="fnBuyStock('B',$(#symbol').html(), $(#qty_field').val(), $(#price').html());">BUY</button></td>
+		<td class="table_col" id="qty"><input type="text" id="qty_field"><button id="buy_button" class="buy_button" >BUY2</button></td>
 	</tr>
 </table>
 
@@ -95,8 +95,9 @@
 </form>
 
 <!-- ####################  Buy Stock Dialog ############## -->
-<div id="purchase_successful" style="display:none; cursor: default"> 
-        <span class="modal_message">Your stock purchase has been added to your portfolio!</span><br><br>
+<div id="purchase_successful" class="modal"> 
+        <span class="modal_message">${transactionDetails} was successful!</span><br><br>
+        <p></p>
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
 </div>
  
@@ -105,15 +106,6 @@
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
         <br>&nbsp;
 </div> 
-
-
-
-
-
-
-
-
-
 
 
 <c:import url="/WEB-INF/jsp/footer.jsp" />

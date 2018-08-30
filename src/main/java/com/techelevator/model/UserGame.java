@@ -9,12 +9,19 @@ public class UserGame {
 	private int gameId;
 	
 	private String name;
-	
+
+	private String status;
+
+
 	private Date startDate;
 	
 	private Date endDate;
 	
 	private float walletValue;
+
+	public String getStatus() {
+		return status;
+	}
 
 	public int getPortfolioId() {
 		return portfolioId;
@@ -62,6 +69,11 @@ public class UserGame {
 
 	public void setWalletValue(float walletValue) {
 		this.walletValue = walletValue;
+	}
+
+	public void setStatus(String status) {
+		// TODO Auto-generated method stub
+		this.status = status;
 	}
 	
 	
