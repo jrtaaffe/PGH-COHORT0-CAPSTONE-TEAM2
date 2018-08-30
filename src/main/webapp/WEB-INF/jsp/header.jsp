@@ -13,6 +13,7 @@
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	    <script src="/capstone/js/index.js"></script>
+	    <script src="/capstone/js/jquery.blockUI.js"></script>
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
 		
@@ -47,6 +48,10 @@
 					<c:set var="index" value="${index + 1}"/>
 				</c:forEach>	
 				myStocksLookup(symbols, qtys);
+				if ("${modalMessage}" != ""){
+					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
+				}
+				countDownTimer();
 			});
 			
 			function fnSetTitle(currTitle){
