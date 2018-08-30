@@ -4,7 +4,7 @@
 
 <c:import url="/WEB-INF/jsp/header.jsp" />
 <script>fnSetTitle("Game Details");</script>
-
+${leaderboard[0].netWorth}
 <c:url var="formAction" value="/account/game" />
 <form method="POST" action="${formAction}" name="new_game_form" id="update_game_form">
 <fmt:setLocale value="en_US"/>
@@ -72,8 +72,8 @@
 
 <div class="outter_main_container">
 <div class="inner_main_container">
-<div id="count_down_timer">test</div>
 <div id="stocks">
+<div id="count_down_timer"></div>
 <br>
 <div id="transactions_div"></div>
 <!-- ############### TRANSACTIONS TABLE HERE ############ -->
