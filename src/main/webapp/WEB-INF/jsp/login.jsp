@@ -63,4 +63,11 @@
 	</div>
 	<div class="col-sm-4"></div>
 </div>
+<div id="new_registration" class="modal"> 
+        <p class="modal_message">You have successfully registered with Equity Elevator!<br><br>Please sign in to begin using the system.</p> 
+        <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
+        <br>&nbsp;
+</div> 
+
+
 <c:import url="/WEB-INF/jsp/footer.jsp" />

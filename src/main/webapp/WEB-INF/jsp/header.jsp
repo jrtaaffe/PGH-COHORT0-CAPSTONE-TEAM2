@@ -29,6 +29,7 @@
 	</c:if>
 		
 		<script type="text/javascript">
+		var currPage = "";
 			$(document).ready(function() {
 				$("time.timeago").timeago();
 				
@@ -50,7 +51,7 @@
 					qtys[${index}] = "${transactions.get(stockSymbol)}";
 					<c:set var="index" value="${index + 1}"/>
 				</c:forEach>	
-				myStocksLookup(symbols, qtys);
+				if(currPage=='game') myStocksLookup(symbols, qtys);
 				if ("${modalMessage}" != ""){
 					$.blockUI({ message: $('#${modalMessage}'), css: { width: '275px' } });
 				}
@@ -59,6 +60,9 @@
 			
 			function fnSetTitle(currTitle){
 				document.getElementById("page_title").innerHTML = currTitle;
+			}
+			function fnSetCurrPage(page){
+				currPage = page;
 			}
 			async function myStocksLookup (theSymbols, qtys) {
 				var nameLookup = await $.getJSON('https://www.worldtradingdata.com/api/v1/stock?symbol=' + theSymbols + '&api_token=CinIFYZ2vNhYRyUY6yRRciEYKGFojmc7qWs9XZjKozOFqaT6VOyuyWXwqvAS', function(myData) {
@@ -84,6 +88,14 @@
 				f = document.forms['update_game_form'];
 				f.tickerSymbol.value = arr.symbol;
 				f.price.value = arr.price;
+			}
+			function fnShowStandings(){
+				var leaderboard = ${leaderboard};
+				var leaderboardHTML = "<td class=\"table_header\">Name</td>";
+				leaderboardHTML += "<td class=\"table_header\">Available Cash</td>";
+				leaderboardHTML += "<td class=\"table_header\">Net Worth</td>";
+				leaderboardHTML += "<td class=\"table_header\">Game Standing</td>";
+				$('#current_game tr:last').after(leaderboardHTML);
 			}
 		</script>
 		
