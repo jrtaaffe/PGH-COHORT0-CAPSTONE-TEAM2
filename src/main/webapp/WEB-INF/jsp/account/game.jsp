@@ -39,7 +39,6 @@
 	<td class="add_stock_label">Stock Symbol:</td>
 	<td class="add_stock_cell"><input type="text"  id="stock_symbol" name="stock_symbol" class="add_stock_input"/></td>
 	<td class="add_stock_button">&nbsp;<button onclick="stockLookup(document.forms['update_game_form'].stock_symbol.value)" type="button" class="add_button">Lookup</button>
-	<a href="javascript: fnResearch()">Research</a>
 	</td>
 </tr>
 </table>
@@ -115,8 +114,12 @@
 </div> 
 
 <div  id="research_stock" class="modal_research">
-<input type="button" class="modal_button" id="buy" value="Save This Stock" onclick="$('#stock_symbol').val($('.input-3lfOzLDc-:first').val());$.unblockUI();" /> 
-<input type="button" class="modal_button" id="cancel" value="Close" onclick="$.unblockUI();" /> 
+<table width="100%"><tr>
+<td class="td_align_left"><span class="game_title">Stock Research</span></td>
+<td class="td_align_right"><input type="button" class="modal_button" id="cancel" value="Close" onclick="$.unblockUI();" /> 
+</td></tr>
+<tr><td>&nbsp;</td><td></td></tr>
+</table>
 <!-- $('.input-3lfOzLDc-:first').val() -->
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
@@ -128,7 +131,7 @@
   {
   "width": 700,
   "height": 550,
-  "symbol": "NASDAQ:GOOGL",
+  "symbol": researchSymbol,
   "interval": "D",
   "timezone": "Etc/UTC",
   "theme": "Light",

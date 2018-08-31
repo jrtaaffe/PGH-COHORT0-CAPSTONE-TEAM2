@@ -132,7 +132,7 @@ public class UserController {
 		
 		Email email = new Email(invitees, player);
 		email.send();
-		
+		gameDAO.updateStatusOfAllGames();
 		return "redirect:home";
 		
 	}

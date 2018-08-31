@@ -34,4 +34,16 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/webapp/img/Login_Options.png</name>
+			<type>1</type>
+			<location>/Users/jonathantaaffe/Downloads/Login_Options.png</location>
+		</link>
+		<link>
+			<name>src/main/webapp/img/logins.png</name>
+			<type>1</type>
+			<location>/Users/jonathantaaffe/Downloads/logins.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>

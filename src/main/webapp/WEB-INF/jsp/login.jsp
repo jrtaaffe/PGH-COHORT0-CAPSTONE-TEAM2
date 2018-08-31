@@ -46,6 +46,11 @@
 		<form method="POST" action="${formAction}">
 		<input type="hidden" name="destination" value="${param.destination}"/>
 		<input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
+		<table class="login_table"><tr>
+			<td>
+			<a href="javascript: void();"><img src="/capstone/img/logins.png"></a>
+			</td>
+			<td class="login_fields">
 			<div class="form-group">
 				<label for="userName">User Name: </label>
 				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" />
@@ -55,9 +60,12 @@
 				<input type="password" id="password" name="password" placeHolder="Password" class="form-control" />
 			</div>
 			<button type="submit" class="btn btn-default">Login</button>
+			</td	>
+		</tr></table>
 			
 			
-			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			
+		<!--  	<div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 			
 		</form>
 	</div>

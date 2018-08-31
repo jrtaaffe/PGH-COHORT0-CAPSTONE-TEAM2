@@ -12,6 +12,7 @@
 		<td class="td_align_left table_header">Title</td>
 		<td class="td_align_left table_header">Start Date</td>
 		<td class="td_align_left table_header">End Date</td>
+		<td class="td_align_left table_header">Status</td>
 	</tr>
 	<c:forEach items="${games}" var="game">
 	<tr class="table_row">
@@ -21,6 +22,7 @@
          value = "${game.startDate}" /></td>
 		<td class="table_col3"><fmt:formatDate type = "date" 
          value = "${game.endDate}" /></td>
+		<td class="table_col4">${game.status}</td>
 	</tr>
 	</c:forEach>	
 </table>

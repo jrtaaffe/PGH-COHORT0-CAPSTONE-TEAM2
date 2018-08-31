@@ -14,6 +14,8 @@
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	    <script src="/capstone/js/index.js"></script>
 	    <script src="/capstone/js/jquery.blockUI.js"></script>
+		<script src="http://widgets.freestockcharts.com/script/WBIHorizontalTicker2.js?ver=12334" type="text/javascript"></script> 
+		<link href="http://widgets.freestockcharts.com/WidgetServer/WBITickerblue.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="/capstone/css/style.css">
 		<link rel="stylesheet" type="text/css" href="${cssHref}">
 		
@@ -61,7 +63,8 @@
 				//if (currPage == "game") countDownTimer();
 			});
 			
-			function fnResearch(){
+			function fnResearch(tickerSymbol){
+				researchSymbol = tickerSymbol;
 				$.blockUI({ message: $('#research_stock'), css: { width: '750px' } });
 			}
 			
@@ -118,6 +121,7 @@
 		
 	</head>
 	<body>
+	<iframe width="1600" noresize="noresize" scrolling="no" height="20" frameborder="0" src="https://widgets.tc2000.com/WidgetServer.ashx?id=115011"></iframe>
 		<header>
 			<c:url var="homePageHref" value="/" />
 			<c:url var="imgSrc" value="/img/logo.png" />
@@ -149,10 +153,9 @@
 						</c:otherwise>
 					</c:choose>
 			</div>
-		</div>
 
-	
-		<div class="outter_main_container">
+</div>
+<div class="outter_main_container">
 		<div class="subNavigation">
 		<table width="100%" border="0"><tr>
 			<td><div id="page_title"></div></td>

@@ -40,7 +40,7 @@ public class JDBCGameDAO implements GameDAO  {
 	@Override
 	public List<UserGame> getGamesByUser(String email) {
 		List<UserGame> myGames = new ArrayList<UserGame>();
-		String sqlUserGame = "SELECT games.game_id, games.name, games.start_date, games.end_date, user_game.wallet_value, user_game.portfolio_id "
+		String sqlUserGame = "SELECT games.game_id, games.name, games.start_date, games.end_date, user_game.wallet_value, user_game.portfolio_id, games.status "
 				+ "FROM games JOIN user_game ON user_game.game_id = games.game_id "
 				+ "WHERE user_game.user_email = ?;";
 		SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUserGame, email);
@@ -82,6 +82,7 @@ public class JDBCGameDAO implements GameDAO  {
 		game.setStartDate(results.getDate("start_date"));
 		game.setEndDate(results.getDate("end_date"));
 		game.setWalletValue(results.getFloat("wallet_value"));
+		game.setStatus(results.getString("status"));
 		return game;
 	}
 	

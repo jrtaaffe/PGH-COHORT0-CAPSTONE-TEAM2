@@ -1,3 +1,4 @@
+var researchSymbol = "FDX";
 function fnAddEmail(){
 	var myList = document.getElementById("invitees_div");
 	var myEmail = document.getElementById("invitee_email");
@@ -70,14 +71,18 @@ function fnLoadTransactions(arr, qty){
 	"</tr>";
 	
 	for (x in arr){
+		if(arr[x].day_change < 0) myClass="neg";
+		else myClass="pos";
+		console.log(arr[x].day_change + myClass);
 		htmlStr +="<tr class=\"table_row\">" +
-		"<td class=\"table_col\" id=\"symbol\" style=\"text-align:left;\">" + arr[x].symbol + "</td>" +
+		"<td class=\"table_col\" id=\"symbol\" style=\"text-align:left;\">" + 
+		"<a href=\"javascript: fnResearch('"+arr[x].symbol+"')\">" + arr[x].symbol + "</a></td>" +
 		"<td class=\"table_col\" id=\"name\" style=\"text-align:left;\">"+arr[x].name + "</td>" +
 		"<td class=\"table_col\" id=\"price\">$"+Number(arr[x].price).format(2) + "</td>" +
 		"<td class=\"table_col\" id=\"open\">$" +Number(arr[x].price_open).format(2) + "</td>" +
 		"<td class=\"table_col\" id=\"daily_hi\">$"+Number(arr[x].day_high).format(2) + "</td>" +
 		"<td class=\"table_col\" id=\"daily_lo\">$"+Number(arr[x].day_low).format(2) + "</td>" +
-		"<td class=\"table_col\" id=\"plus_minus\">$"+Number(arr[x].day_change).format(2) + "</td>" +
+		"<td class=\"table_col "+myClass+" \" id=\"plus_minus\">$"+Number(arr[x].day_change).format(2) + "</td>" +
 		"<td class=\"table_col\" id=\"qty\" align=\"right\">" + qty[x] + "</td>" +
 		"<td class=\"table_col\" id=\"buy_sell\">" +
 		"<input type=\"text\"  id=\"sell_qty_" + arr[x].symbol + "\" \" name=\"sell_qty_" + 
