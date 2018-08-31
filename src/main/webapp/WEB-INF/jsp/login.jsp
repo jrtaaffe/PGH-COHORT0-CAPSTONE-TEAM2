@@ -48,7 +48,7 @@
 		<input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 		<table class="login_table"><tr>
 			<td>
-			<a href="javascript: void();"><img src="/capstone/img/logins.png"></a>
+			<a href="javascript: void();"><img src="/img/logins.png"></a>
 			</td>
 			<td class="login_fields">
 			<div class="form-group">
