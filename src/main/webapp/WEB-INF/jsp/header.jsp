@@ -61,6 +61,10 @@
 				//if (currPage == "game") countDownTimer();
 			});
 			
+			function fnResearch(){
+				$.blockUI({ message: $('#research_stock'), css: { width: '750px' } });
+			}
+			
 			function fnSetTitle(currTitle){
 				document.getElementById("page_title").innerHTML = currTitle;
 			}
@@ -96,12 +100,19 @@
 				var leaderboard = "";
 				var leaderboardHTML = "";
 				for (x in names){
-					leaderboardHTML += "<tr><td class=\"table_col\">"+names[x]+"</td>";
+					leaderboardHTML += "<tr id=\"leaderboard_row\"><td class=\"td_align_left table_col\">"+names[x]+"</td>";
 					leaderboardHTML += "<td class=\"table_col\">$"+Number(cash[x]).format(2)+"</td>";
 					leaderboardHTML += "<td class=\"table_col\">$"+Number(worth[x]).format(2)+"</td>";
-					leaderboardHTML += "<td class=\"table_col\">"+standing[x]+"</td></tr>";
+					leaderboardHTML += "<td class=\"td_align_center table_col\">#"+standing[x]+"</td></tr>";
 				}
 				$('#current_game tr:last').after(leaderboardHTML);
+				$('.view_all_link').html("<a href=\"javascript:fnHideStandings()\">(hide all)</a>");
+			}
+			function fnHideStandings(){
+				$('.view_all_link').html("<a href=\"javascript:fnShowStandings()\">(view all)</a>");
+				$("#current_game tr:eq(0)").after($("#current_game tr:contains('${currentUser.userName}'):last"));
+				$("#current_game tr:gt(1)").remove();
+				$("#current_game tr:eq(1)").addClass('table_row');
 			}
 		</script>
 		

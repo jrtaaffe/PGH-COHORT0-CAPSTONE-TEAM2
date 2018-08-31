@@ -190,16 +190,20 @@ li {
 .table_header{
 	font: bold 12pt arial;
 	color: brown;
+	text-align: right;
 }
 .td_align_center{
 	align: center !important;
 	text-align: center !important;
 }
+.td_align_left{
+	align: left !important;
+	text-align: left !important;
+}
 .stock_table{
 	width: 700px;;
 }
-.stock_row{
-}
+
 #transactions_div{
 	display:none;
 }
@@ -230,6 +234,10 @@ add_stock_label{
 	color: brown;
 	text-align: center;
 }
+.stock_col{
+	text-align: center;
+	padding:5px 0;
+	}
 #qty_field{
 	width:40px !important;
 	display: relative;
@@ -261,6 +269,23 @@ input[class^="sell_qty"]{
 	padding: 25px;
 	
 }
+.modal_research {	
+	display:none; 
+	cursor: default;
+	width: 750px;
+	height: 600px;
+	border: thick solid black;
+	background-color: #fdf9e9;
+	margin: auto;
+	line-height: 12pt !important;
+	box-shadow: 0px 0px 8px #f8ebc0, 0 0 25px white, 0 0 5px #f8ebc0;
+	padding: 25px;
+	position: fixed;
+	top: 50%;
+  	left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
 .modal_button{
 	width: 75px !important;
 	border-radius: 5px;
@@ -279,6 +304,7 @@ input[class^="sell_qty"]{
 	font: bold 16pt arial;
 	color: black;
 	margin: 20px 20px 20px 0;
+	text-shadow: 0px 0px 2px white, 0px 0px 2px white, 0px 0px 2px white, 2px 2px 6px grey;
 }
 .game_dates{
 	font: bold 12pt arial;

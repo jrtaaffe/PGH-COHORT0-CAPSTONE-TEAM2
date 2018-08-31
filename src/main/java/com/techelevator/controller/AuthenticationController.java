@@ -29,8 +29,6 @@ public class AuthenticationController {
 		this.gameDAO = gameDAO;
 }
 
-
-
 	@RequestMapping(path= {"/login","/"}, method=RequestMethod.GET)
 	public String displayLoginForm(HttpSession session) {
 		session.setAttribute("modalMessage", "");

@@ -9,9 +9,9 @@
 
 <table id="my_games">
 	<tr class="table_row">
-		<td class="table_header">Title</td>
-		<td class="table_header">Start Date</td>
-		<td class="table_header">End Date</td>
+		<td class="td_align_left table_header">Title</td>
+		<td class="td_align_left table_header">Start Date</td>
+		<td class="td_align_left table_header">End Date</td>
 	</tr>
 	<c:forEach items="${games}" var="game">
 	<tr class="table_row">

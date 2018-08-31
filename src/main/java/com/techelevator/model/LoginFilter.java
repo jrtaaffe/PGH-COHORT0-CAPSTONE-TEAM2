@@ -29,7 +29,6 @@ public class LoginFilter implements Filter {
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("currentUser") == null) {
-        	System.out.println(4);
         	 request.getRequestDispatcher("/login").forward(request, response); // No logged-in user found, so redirect to login page.
         } else {
             chain.doFilter(req, res); // Logged-in user found, so just continue request.
