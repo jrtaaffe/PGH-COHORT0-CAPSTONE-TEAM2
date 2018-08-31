@@ -16,8 +16,7 @@
 	    <script src="/capstone/js/jquery.blockUI.js"></script>
 		<script src="http://widgets.freestockcharts.com/script/WBIHorizontalTicker2.js?ver=12334" type="text/javascript"></script> 
 		<link href="http://widgets.freestockcharts.com/WidgetServer/WBITickerblue.css" rel="stylesheet" type="text/css" />
-		<link rel="stylesheet" href="/capstone/css/style.css">
-		<link rel="stylesheet" type="text/css" href="${cssHref}">
+		<link rel="stylesheet" href="/css/style.css">
 		
 	<meta name="google-signin-scope" content="patrick.mcgrath992@gmail.com">   <%--sign-in api--%>
     <meta name="google-signin-client_id" content="477833877206-3t9nj45ls1obq0fke2rkpi4nmfhcg0iu.apps.googleusercontent.com">
