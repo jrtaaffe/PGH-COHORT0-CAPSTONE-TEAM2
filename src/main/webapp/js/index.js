@@ -1,4 +1,4 @@
-var researchSymbol = "FDX";
+ var researchSymbol = "FDX";
 function fnAddEmail(){
 	var myList = document.getElementById("invitees_div");
 	var myEmail = document.getElementById("invitee_email");
