@@ -12,8 +12,8 @@
 	    <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.js "></script>
 	    <script src="https://cdn.jsdelivr.net/jquery.timeago/1.4.1/jquery.timeago.min.js"></script>
 	    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	    <script src="/capstone/js/index.js"></script>
-	    <script src="/capstone/js/jquery.blockUI.js"></script>
+	    <script src="/js/index.js"></script>
+	    <script src="/js/jquery.blockUI.js"></script>
 		<script src="http://widgets.freestockcharts.com/script/WBIHorizontalTicker2.js?ver=12334" type="text/javascript"></script> 
 		<link href="http://widgets.freestockcharts.com/WidgetServer/WBITickerblue.css" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="/css/style.css">
@@ -128,12 +128,12 @@
 		</header>
 
 		<div class="header">
-			<img src="/capstone/img/header.png">
+			<img src="/img/header.png">
 			<div class="nav_row">
 					<c:url var="homePageHref" value="/account/home" />
 						<div class="nav_button_left"><a href="${homePageHref}">Home</a></div>
 					<c:if test="${not empty currentUser}">
-						<div class="nav_button_left"><a href="/capstone/account/research">Research Stocks</a></div>
+						<div class="nav_button_left"><a href="/account/research">Research Stocks</a></div>
 					</c:if>
 
 					<c:choose>
@@ -148,7 +148,7 @@
 							<form id="logoutForm" action="${logoutAction}" method="POST">
 							<input type="hidden" name="CSRF_TOKEN" value="${CSRF_TOKEN}"/>
 							</form>
-							<div class="nav_button_right"><a id="logoutLink" href="/capstone/logout">Log Out</a></div>
+							<div class="nav_button_right"><a id="logoutLink" href="/logout">Log Out</a></div>
 							<div class="nav_button_right"><p id="currentUser">LOGGED IN AS: ${currentUser.getFirstName()} ${currentUser.getLastName()}</p></div>
 						</c:otherwise>
 					</c:choose>
