@@ -58,6 +58,7 @@
 			<div class="form-group">
 				<label for="userName">User Name: </label>
 				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" onBlur="fnCheckDups(this)" required/>
+				<div id="userNameValidationMessage" class="warning"></div>
 			</div>
 			<div class="form-group">
 				<label for="password">Password: </label>
@@ -83,13 +84,15 @@ function fnCheckDups(theField){
 	  var data2 = JSON.stringify(data);
 	  var myResults = $.ajax({
 		  type: "POST",
-		  url: "/capstone/validateUsername",
+		  url: "/validateUsername",
 		  data: data2,
 		  dataType: 'json',
-		  contentType:'application/json'
+		  contentType:'application/json',
+          success: function(isValidUserName) {
+              if (isValidUserName){$("#userNameValidationMessage").html("")}
+			  else {$("#userNameValidationMessage").html("<strong>WARNING:</strong> A duplicate username was found. </br>Please select a different username.")}
+          }
 		});
-//	  debugger;
-
 }
 	</script>
 

@@ -367,3 +367,9 @@ input[class^="sell_qty"]{
 	position: absolute;
 	top:0px;
 }
+.warning {
+	width: 200% !important;
+	position: relative;
+	left: -50%;
+	max-width: 500px;	color:  red;
+}
