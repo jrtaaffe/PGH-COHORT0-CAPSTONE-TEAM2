@@ -95,12 +95,12 @@
 </form>
 
 <!-- ####################  Message Dialogs ############## -->
-<div id="purchase_successful" class="modal"> 
-        <span class="modal_message">${transactionDetails} was successful!</span><br><br>
-        <p></p>
-        <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 
+<div id="purchase_successful" class="modal">
+	<span class="modal_message">${transactionDetails} was successful!</span><br><br>
+	<p></p>
+	<input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" />
 </div>
- 
+
 <div id="no_money" class="modal"> 
         <p class="modal_message">You do not have enough money to make this purchase.</p> 
         <input type="button" class="modal_button" id="ok" value="OK" onclick="$.unblockUI();" /> 

@@ -45,13 +45,18 @@ public class ValidationController {
 		}
 		return valid;
 	}
-	
+
 	@RequestMapping(value = "/validateEmail", method = RequestMethod.POST, produces = "application/json")
-	public boolean checkForDuplicateEmail(@RequestBody String newEmail) { 
+	public boolean checkForDuplicateEmail(@RequestBody Email newEmail) {
+		System.out.println(222);
 		boolean validEmail = true;
 		List<String> emails = userDao.getAllEmails();
+		System.out.println(333);
+
 		for(String email : emails) {
-			if(newEmail == email) {
+			System.out.println(email + " - " + newEmail);
+			if(newEmail.equals(email)) {
+				System.out.println(999);
 				validEmail = false;
 			}
 		}

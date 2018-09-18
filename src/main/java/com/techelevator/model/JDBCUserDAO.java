@@ -81,7 +81,6 @@ public class JDBCUserDAO implements UserDAO {
 			thisUser.setLastName(user.getString("last_name"));
 			thisUser.setEmail(user.getString("email"));
 		}
-
 		return thisUser;
 	}
 	

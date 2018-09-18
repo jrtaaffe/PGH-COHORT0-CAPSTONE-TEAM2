@@ -61,8 +61,7 @@
 			</div>
 			<button type="submit" class="btn btn-default">Login</button>
 			</td	>
-		</tr></table>
-			
+		</tr></table>message text: ${modalMessage}
 			
 			
 		<!--  	<div class="g-signin2" data-onsuccess="onSignIn"></div> -->

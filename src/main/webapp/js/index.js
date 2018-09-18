@@ -1,4 +1,7 @@
- var researchSymbol = "FDX";
+
+.  026+
+
+                                                                                                                                                                                                                                                        var researchSymbol = "FDX";
 function fnAddEmail(){
 	var myList = document.getElementById("invitees_div");
 	var myEmail = document.getElementById("invitee_email");
@@ -16,13 +19,10 @@ function fnAddEmail(){
 			var tempArr = myPlayers.value.split(",");
 			tempArr = jQuery.unique(tempArr);
 			myPlayers.value = tempArr;
-			fnLoadEmails();
-			myEmail.value = "";
-		}
 	}
 }
 function fnRemove(selector){
-	var myPlayers = document.new_game_form.invited_players;	
+	var myPlayers = document.new_game_form.invited_players;	                                                                                                                                                                                                                                                                                      
 	var myArr = myPlayers.value.split(",");
 	var index = myArr.indexOf(selector);
 	if (index > -1) {

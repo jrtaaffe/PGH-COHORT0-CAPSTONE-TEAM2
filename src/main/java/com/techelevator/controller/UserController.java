@@ -56,23 +56,23 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/users", method=RequestMethod.POST)
-	public String createUser(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes flash, HttpSession session) {
+	public String createUser(@Valid @ModelAttribute User user, BindingResult result, RedirectAttributes flash, HttpServletRequest request) {
 		if(result.hasErrors()) {
 			flash.addFlashAttribute("user", user);
 			flash.addFlashAttribute(BindingResult.MODEL_KEY_PREFIX + "user", result);
 			return "redirect:/users/new";
 		}
-		
 		userDAO.saveUser(user.getFirstName(), user.getLastName(), user.getEmail(), user.getUserName(), user.getPassword());
-		
+
 		List<TempGame> tempGames = gameDAO.getInvitedGamesByPlayer(user.getEmail());
+
 		if(!tempGames.isEmpty()) {
 			for(TempGame game: tempGames) {
 				gameDAO.addPlayers(game.getGameId(), game.getEmail());
 			}
 			gameDAO.deleteInvitedPlayers(user.getEmail());
-		}				
-		session.setAttribute("modalMessage", "new_registration"); // This will trigger a confirmation message for the user
+		}
+		request.setAttribute("modalMessage", "new_registration"); // This will trigger a confirmation message for the user
 		return "redirect:/login";
 	}
 	
@@ -108,8 +108,7 @@ public class UserController {
 			HttpSession session) {
 		int gameId = gameDAO.createNewGame(game_title, start_date, end_date, admin);
 		gameDAO.addPlayers(gameId, admin);
-		System.out.println("hey im working");
-		
+
 		User user = (User) session.getAttribute("currentUser");
 		String player = user.getFirstName() + " " + user.getLastName();
 		

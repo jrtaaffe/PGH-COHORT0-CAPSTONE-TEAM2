@@ -53,11 +53,12 @@
 			</div>
 			<div class="form-group">
 				<label for="email">Email: </label>
-				<input type="email"  id="email" name="email" placeHolder="example@email.com" class="form-control" required/>
+				<input type="email"  id="email" name="email" placeHolder="example@email.com" class="form-control" onBlur="isUnique(this)" required/>
+				<div id="emailValidationMessage" class="warning"></div>
 			</div>
 			<div class="form-group">
 				<label for="userName">User Name: </label>
-				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" onBlur="fnCheckDups(this)" required/>
+				<input type="text" id="userName" name="userName" placeHolder="User Name" class="form-control" onBlur="isUnique(this)" required/>
 				<div id="userNameValidationMessage" class="warning"></div>
 			</div>
 			<div class="form-group">
@@ -74,26 +75,22 @@
 	</div>
 </form>
 	<script>
-
-function fnCheckDups(theField){
-	  var testdata = "{\"" + theField.name.toLowerCase() + "\":\"" + theField.value + "\"}";	
-	  var data= {
-		      username:$("#userName").val()
-		 	 };
-		  
-	  var data2 = JSON.stringify(data);
-	  var myResults = $.ajax({
-		  type: "POST",
-		  url: "/validateUsername",
-		  data: data2,
-		  dataType: 'json',
-		  contentType:'application/json',
-          success: function(isValidUserName) {
-              if (isValidUserName){$("#userNameValidationMessage").html("")}
-			  else {$("#userNameValidationMessage").html("<strong>WARNING:</strong> A duplicate username was found. </br>Please select a different username.")}
-          }
-		});
-}
+    function isUnique(theField){
+	    var data ="";
+	    debugger;
+        if (theField.name.toLowerCase()=="email"){
+            data = JSON.stringify({email:$("#email").val()});
+            $.ajax({type: "POST",url: "/validateEmail", data: data, dataType: 'json', contentType:'application/json', success: function(isUniqueEmail) {fnDisplayDupMessage(theField, isUniqueEmail);}});
+        }
+        else{
+            data = JSON.stringify({username:$("#userName").val()});
+            $.ajax({type: "POST",url: "/validateUsername", data: data, dataType: 'json', contentType:'application/json', success: function(isUniqueUsername) {fnDisplayDupMessage(theField, isUniqueUsername);}});
+		}
+    }
+	function fnDisplayDupMessage(theField, isUniqueValue){
+    	if (!isUniqueValue){$("#" + theField.name + "ValidationMessage").html("<strong>WARNING:</strong> A duplicate "+theField.name+" was found. </br>Please enter a different "+theField.name+".")}
+		else {$("#" + theField.name + "ValidationMessage").html("");}
+	}
 	</script>
 
 
